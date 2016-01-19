@@ -29,7 +29,7 @@ is.unique <- function(x = NULL) !(any(duplicated(x)))
 #' @export
 duplicated2 <- function(x, all = TRUE, ...)
 {
-    if (all) {duplicated(x, ...)| duplicated(x, fromLast = TRUE)}
+    if (all) {duplicated(x, ...)| duplicated(x, fromLast = TRUE, ...)}
     else {duplicated(x, ...)}
 }
 
