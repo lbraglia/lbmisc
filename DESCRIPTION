@@ -1,6 +1,6 @@
 Package: lbmisc
 Title: Miscellaneous Utilty Functions
-Version: 0.1
+Version: 0.2
 Authors@R: person('Luca', 'Braglia', email = 'lbraglia@mailbox.org', role = c('aut', 'cre'))
 Description: Miscellaneous utility functions.
 Depends: 
