@@ -4,15 +4,14 @@
 \alias{NA_remove}
 \title{remove NA and make a message with number of units deleted}
 \usage{
-NA_remove(x, verbose = TRUE)
+NA_remove(x, ...)
 }
 \arguments{
 \item{x}{something handled by \code{stats::na.omit}}
 
-\item{verbose}{logical: if \code{TRUE} raise a message if any row is
-deleted}
+\item{...}{other options passed to proper methods}
 }
 \description{
-remove NA and make a message with number of units deleted
+like na.omit but print a message
 }
 

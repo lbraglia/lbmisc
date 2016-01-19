@@ -4,12 +4,12 @@
 \alias{duplicated2}
 \title{Determine all duplicate elements}
 \usage{
-duplicated2(x, all_ = TRUE, ...)
+duplicated2(x, all = TRUE, ...)
 }
 \arguments{
 \item{x}{Numeric vector of centimeter.}
 
-\item{all_}{Logical: if TRUE considers duplicated each observation
+\item{all}{Logical: if TRUE considers duplicated each observation
 present more than one time in the object, otherwise implement
 base::duplicated algorithm (considers duplicated the second, third and so on
 duplicated observation).}
@@ -26,5 +26,9 @@ indicating which elements (rows) are duplicates.
 }
 \details{
 This wrapper allows to find all duplicated obs.
+}
+\examples{
+duplicated( c(1,0, 2, 0, 3, 2)) # from base R
+duplicated2(c(1,0, 2, 0, 3, 2)) # from lbmisc
 }
 

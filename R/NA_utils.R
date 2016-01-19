@@ -54,18 +54,20 @@ NA_report <- function(x, id_var = NULL)
 
 #' remove NA and make a message with number of units deleted
 #'
-#' remove NA and make a message with number of units deleted
+#' like na.omit but print a message
 #' @param x something handled by \code{stats::na.omit}
-#' @param verbose logical: if \code{TRUE} raise a message if any row is
-#'     deleted
+#' @param ... other options passed to proper methods
 #'@export
-NA_remove <- function(x, verbose = TRUE){
+NA_remove <- function(x, ...) UseMethod('NA_remove')
+
+NA_remove.default <- function(x, ...) stop('Not implemented')
+
+NA_remove.data.frame <- function(x, ...){
     y  <- stats::na.omit(x)
     nx <- nrow(x)
     ny <- nrow(y)
-    if (verbose)
-        if (nx != ny)
-            message('Rows were' , nx, ', now are ', ny, '. ',
-                    nx - ny, ' rows deleted due missingness.')
+    if (nx != ny)
+        message('Rows were' , nx, ', now are ', ny, '. ',
+                nx - ny, ' rows deleted due missingness.')
     return(y)
 }
