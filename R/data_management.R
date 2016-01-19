@@ -23,11 +23,14 @@ is.unique <- function(x = NULL) !(any(duplicated(x)))
 #' duplicated observation).
 #' @param ... Other arguments passed to base::duplicated.
 #' @return A logical vector with duplicated marked as TRUE.
+#' @examples
+#' duplicated( c(1,0, 2, 0, 3, 2)) # from base R
+#' duplicated2(c(1,0, 2, 0, 3, 2)) # from lbmisc
 #' @export
 duplicated2 <- function(x, all = TRUE, ...)
 {
-    if (all) {base::duplicated(x, ...)| base::duplicated(x, fromLast = TRUE)}
-    else {base::duplicated(x, ...)}
+    if (all) {duplicated(x, ...)| duplicated(x, fromLast = TRUE)}
+    else {duplicated(x, ...)}
 }
 
 #' Compare columns progressively
