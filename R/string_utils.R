@@ -1,0 +1,116 @@
+#' Remove accents from a character vector
+#'
+#' Remove accents from a character.
+#'
+#' @param string a character vector
+#' @export
+rm_accents <- function(string) {
+    
+    ## a
+    string <- gsub("[\U00E0|\U00E1|\U00E2|\U00E3|\U00E4|\U00E5]",
+                   "\U0061", string)
+    
+    ## e
+    string <- gsub("[\U00E8|\U00E9|\U00EA|\U00EB]",
+                   "\U0065", string)      
+    ## i
+    string <- gsub("[\U00EC|\U00ED|\U00EE|\U00EF]",
+                   "\U0069", string)
+    ## o
+    string <- gsub("[\U00F2|\U00F3|\U00F4|\U00F5|\U00F6]",
+                   "\u006F", string)     
+    ## u
+    string <- gsub("[\U00F9|\U00FA|\U00FB|\U00FC]",
+                   "\u0075", string)     
+    
+    return(string)
+    
+}
+
+#' Remove spaces from a character vector
+#'
+#' This function removes spaces (all leading and trailing ones,
+#' and unique in-between) from a character vector.
+#'
+#' @param string a character vector 
+#' @export
+#' @examples
+#' test <- c("  test ", "  mediterranean  sea  ")
+#' rm_spaces(test)
+rm_spaces <- function(string) {
+    ## Starting " "
+    string <- gsub("[[:space:]]*$","", string, perl=T)
+    ## Ending " "
+    string <- gsub("^[[:space:]]*","", string, perl=T)
+    ## 
+    gsub("[[:space:]]+"," ", string, perl=T)
+}
+
+#' Remove unprintable chars
+#'
+#' Remove unprintable chars
+#' @param string a character vector
+#' @export
+rm_unprintable_chars <- function(string) gsub("[\001-\037]","", string)
+
+#' Preprocess data.frame variable names
+#'
+#' Function to preprocess variable names useful for a data.frame.
+#' This function was created to make automatic variable name
+#' creation from Excel files obtained by other.
+#'
+#' @param varnames names of a data.frame (or the data.frame itself)
+#' @param trim character length of trimming. If \code{NULL}
+#' (default) trimming is disabled.
+#' @export
+preprocess_varnames <- function(varnames = NULL, trim = NULL) {
+
+    ## handling special cases
+    if (! (is.data.frame(varnames) || is.character(varnames)))
+        stop("varnames need to be a data.frame or character")
+    if (is.data.frame(varnames))
+        varnames <- names(varnames)
+    
+    ## tolower
+    varnames <- tolower(varnames)	
+    if (any(duplicated(varnames))) 
+        stop("lower case make them not unique; ",
+             "are they such, in the original source?") 
+    
+    ## rm parenthesis
+    varnames <- gsub('[\\(\\)]', '', varnames)
+
+    ## Multiple spaces (eg Excel-from) to unique underscore
+    varnames <- gsub(" +","_", varnames)
+
+    ## change some math operators to equivalent words ("-" excluded)
+    varnames <- gsub("-","_", varnames)
+    varnames <- gsub("\\/","_frac_", varnames)
+    varnames <- gsub("\\*","_per_", varnames)
+    varnames <- gsub("\\+","_plus_", varnames)
+    
+    ## dot to underscore
+    varnames <- gsub("\\.","_", varnames)
+
+    ## rm accents
+    varnames <- rm_accents(varnames)
+    
+    ## rm unprintable chars
+    varnames <- rm_unprintable_chars(varnames)
+    
+    ## rm other annoying chars
+    varnames <- gsub("'", "", varnames)
+    varnames <- gsub("\U00B0", "", varnames)
+
+    ## remove starting or ending '_'
+    varnames <- gsub("_+$", "", varnames)
+    varnames <- gsub("^_+", "", varnames)
+    ## unique remaining multiple/near '_'
+    varnames <- gsub("_+","_", varnames)
+    
+    ## Trim to length specified
+    if (!is.null(trim))
+        varnames <- strtrim(varnames, trim)
+    
+    return(varnames)	
+}	

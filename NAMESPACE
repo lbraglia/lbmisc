@@ -2,6 +2,10 @@
 
 export(add_cartesian_plane)
 export(add_grid)
+export(preprocess_varnames)
 export(pretty_pval)
 export(remove_NA)
+export(rm_accents)
+export(rm_spaces)
+export(rm_unprintable_chars)
 importFrom(stats,na.omit)
