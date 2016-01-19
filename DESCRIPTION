@@ -3,7 +3,7 @@ Title: Miscellaneous Utilty Functions
 Version: 0.1
 Authors@R: person('Luca', 'Braglia', email = 'lbraglia@mailbox.org', role = c('aut', 'cre'))
 Description: Miscellaneous utility functions.
-Depends:
+Depends: 
     R (>= 3.2.3)
 Imports: stats
 URL: http://github.com/lbraglia/lbmisc
@@ -11,3 +11,4 @@ BugReports: http://github.com/lbraglia/lbmisc/issues
 License: GPL-3
 LazyData: true
 RoxygenNote: 5.0.1
+Suggests: testthat
