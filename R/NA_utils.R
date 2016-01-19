@@ -60,8 +60,10 @@ NA_report <- function(x, id_var = NULL)
 #'@export
 NA_remove <- function(x, ...) UseMethod('NA_remove')
 
+#' @export
 NA_remove.default <- function(x, ...) stop('Not implemented')
 
+#' @export
 NA_remove.data.frame <- function(x, ...){
     y  <- stats::na.omit(x)
     nx <- nrow(x)
