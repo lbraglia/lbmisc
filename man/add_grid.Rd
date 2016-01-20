@@ -4,19 +4,21 @@
 \alias{add_grid}
 \title{Add grid to a plot}
 \usage{
-add_grid(at.x, at.y = at.x, col = "lightgray", lty = "dotted",
-  lwd = par("lwd"))
+add_grid(at_x = NULL, at_y = at_x, col = "lightgray", lty = "dotted",
+  lwd = 1, ...)
 }
 \arguments{
-\item{at.x}{x axis grid values}
+\item{at_x}{x axis grid values}
 
-\item{at.y}{y axis grid values}
+\item{at_y}{y axis grid values}
 
 \item{col}{grid color}
 
 \item{lty}{line type}
 
 \item{lwd}{line width}
+
+\item{...}{further parameter passed to abline}
 }
 \value{
 The function adds a grid to a plot using \code{\link{abline}}.

@@ -1,44 +1,50 @@
 #' Add grid to a plot
-#'
 #' 
 #' Add grid to a plot using \code{\link{abline}}.
-#'
-#' 
-#' @param at.x x axis grid values
-#' @param at.y y axis grid values
+#' @param at_x x axis grid values
+#' @param at_y y axis grid values
 #' @param col grid color
 #' @param lty line type
 #' @param lwd line width
+#' @param ... further parameter passed to abline
 #' @return The function adds a grid to a plot using \code{\link{abline}}.
 #' @export
-add_grid <- function(at.x, at.y = at.x,
-                     col = "lightgray", 
-                     lty = "dotted", 
-                     lwd = par("lwd")) {
-  abline(v = at.x, col = col, lty = lty, lwd = lwd)
-  abline(h = at.y, col = col, lty = lty, lwd = lwd)
+add_grid <- function(at_x = NULL,
+                     at_y = at_x,
+                     col  = 'lightgray',
+                     lty  = 'dotted',
+                     lwd  = 1,
+                     ...)
+{
+    if (is.null(at_x)) stop('at_x is mandatory')
+    if (is.null(at_y)) stop('at_y is mandatory')
+    abline(v = at_x, col = col, lty = lty, lwd = lwd, ...)
+    abline(h = at_y, col = col, lty = lty, lwd = lwd, ...)
 }
 
 #' Add cartesian system to a plot
 #'
-#' 
 #' Add a cartesian system to a plot using \code{\link{abline}}.
-#'
-#' 
-#' @param at.x x centre of the system
-#' @param at.y y centre of the system
+#' @param at_x x centre of the system
+#' @param at_y y centre of the system
 #' @param col grid color
 #' @param lty line type
 #' @param lwd line width
+#' @param ... further parameter passed to abline
 #' @return The function adds a cartesian plane to a plot using
 #' \code{\link{abline}}. 
 #' @export
-add_cartesian_plane <- function(at.y = 0, at.x = 0,
-                                col = "black", 
-                                lty = "solid", 
-                                lwd = par("lwd")) {
-    abline(v = at.x, col = col, lty = lty, lwd = lwd)
-    abline(h = at.y, col = col, lty = lty, lwd = lwd)
+add_cartesian_plane <- function(at_y = 0,
+                                at_x = 0,
+                                col = 'black',
+                                lty = 'solid',
+                                lwd = 1,
+                                ...)
+{
+    if (is.null(at_x)) stop('at_x is mandatory')
+    if (is.null(at_y)) stop('at_y is mandatory')
+    abline(v = at_x, col = col, lty = lty, lwd = lwd, ...)
+    abline(h = at_y, col = col, lty = lty, lwd = lwd, ...)
 }
 #' 
 #' Show R colors for graphics and grid package

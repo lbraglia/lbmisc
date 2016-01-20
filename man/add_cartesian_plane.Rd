@@ -4,19 +4,21 @@
 \alias{add_cartesian_plane}
 \title{Add cartesian system to a plot}
 \usage{
-add_cartesian_plane(at.y = 0, at.x = 0, col = "black", lty = "solid",
-  lwd = par("lwd"))
+add_cartesian_plane(at_y = 0, at_x = 0, col = "black", lty = "solid",
+  lwd = 1, ...)
 }
 \arguments{
-\item{at.y}{y centre of the system}
+\item{at_y}{y centre of the system}
 
-\item{at.x}{x centre of the system}
+\item{at_x}{x centre of the system}
 
 \item{col}{grid color}
 
 \item{lty}{line type}
 
 \item{lwd}{line width}
+
+\item{...}{further parameter passed to abline}
 }
 \value{
 The function adds a cartesian plane to a plot using
