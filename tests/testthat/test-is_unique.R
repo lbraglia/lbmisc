@@ -1,4 +1,4 @@
-context("Duplicated")
+context("is.unique")
 
 test_that("is.unique works correctly", {
 

@@ -1,4 +1,4 @@
-context("Duplicated")
+context("duplicated2")
 
 test_that("duplicated2 flag all the duplicates by default", {
 

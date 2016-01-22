@@ -1,8 +1,5 @@
-context("NA utils")
+context("NA_remove")
 
-## -----
-## %nin%
-## -----
 test_that("NA_remove send messages only if deletes rows in data.frame", {
 
     data1 <- data.frame(a = letters[1:3], b = c(1, 2, 3))
