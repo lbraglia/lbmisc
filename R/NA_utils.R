@@ -69,7 +69,9 @@ NA_remove.data.frame <- function(x, ...){
     nx <- nrow(x)
     ny <- nrow(y)
     if (nx != ny)
-        message('Rows were' , nx, ', now are ', ny, '. ',
-                nx - ny, ' rows deleted due missingness.')
+        message('Rows were ' , nx, ', now are ', ny, '. ',
+                nx - ny,
+                if (nx - ny > 1) ' rows ' else ' row ',
+                'deleted due missingness.')
     return(y)
 }
