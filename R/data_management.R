@@ -83,65 +83,55 @@ compare_columns <- function(db,
 #' 
 #' Yet another recode utility
 #' 
-#' 
 #' @param x Vector to be recoded.
-#' @param rec matrix containing 2 columns; first is "from", second is
-#' "to".
+#' @param from_to matrix containing 2 columns (first is "from", second
+#'     is "to") or a vector with even number of components where odds
+#'     index are taken as from, even are taken
 #' @return A vector with new codes (if/where modified).
+#' @examples
+#' test <- c(1:10, NA)
+#' recode.m <- matrix(c(1, 2, NA, 3, 4, 1), nrow = 3, ncol = 2)
+#' cbind(test, recode(test, recode.m))
+#' 
+#' test2 <- c(letters[1:10], NA)
+#' recode.m2 <- matrix(c(c(letters[1:3]),c(NA,LETTERS[2:3])),
+#'                     nrow = 3, ncol = 2) 
+#' cbind(test2, recode(test2, recode.m2))
+#'
+#' \dontrun{
+#' recode.m3 <- matrix(c(1, 2, 4,4,5:8),ncol=2)
+#' test3 <- c(1:10,NA)
+#' cbind(test3, recode(test3, recode.m3))
+#' }
 #' @export
-recode <- function(x = NULL, rec = NULL)
+recode <- function(x = NULL, from_to = NULL)
 {
     ## A few data input checks
     if( !is.vector(x) ) 
         stop("A vector to be recoded must be given.")
-    if( !is.matrix(rec)| ncol(rec)!=2 ) 
-        stop("I need a 2 column matrix with recoding directives: ",
-             "first column is 'from', second 'to'.")
+
+    if (is.vector(from_to)){
+        if (length(from_to) %% 2 != 0)
+            stop('from_to must be a even length vector')
+        from_to <- matrix(from_to, ncol = 2, byrow = TRUE)
+    } else if(is.matrix(from_to)) {
+        if (ncol(from_to) != 2)
+            stop("from_to must be a matrix with 2 columns; ",
+                 "first column is 'from', second 'to'.")
+    } else
+        stop("from_to must be a vector or a matrix")
 	
     ## Checking for recoding directives uniqueness
-    rec <- unique(rec)
-    if( any(duplicated(rec[,1])) )
+    from_to <- unique(from_to)
+    if(anyDuplicated(from_to[, 1]))
         stop("No univocal recoding directives")
 
-    to.be.recoded <- x %in% rec[,1]
-    
-    search.n.replace <- function(search.me, where, replace.me) {
-        my.res <- rep(NA, length(where))
-        my.res[ where  %in%  search.me] <- replace.me
-        my.res
-    }
-	
-    partial.results <- unname(apply(rec, 1,
-                                    function(x) search.n.replace(
-                                        search.me=x[1],
-                                        where=x,
-                                        replace.me=x[2]) )) 
-	
-    recoded.and.NA <- unlist(apply( partial.results, 1,
-                                   function(x) ifelse(
-                                       any(!is.na(x)) ,
-                                       x[!is.na(x)], NA ) ) ) 
-	
-    ## A value could be NA due to a recode; because of this
-    ## ...(is.na(recoded.and.NA) & to.be.recoded) 
-    ifelse( !is.na(recoded.and.NA) | (is.na(recoded.and.NA) & to.be.recoded),
-           recoded.and.NA, 
-           x)
-
-    ## Example
-    ## test <- c(1:10,NA)
-    ## recode.m <- matrix(c(1,2,NA,3,4,1), nrow=3,ncol=2)
-    ## cbind(test, recode( test, recode.m))
-    
-    ## test2 <- c(letters[1:10],NA)
-    ## recode.m2 <- matrix(c(c(letters[1:3]),c(NA,LETTERS[2:3])),
-    ## nrow=3,ncol=2) 
-    ## cbind(test2, recode(test2, recode.m2))
-
-    ## recode.m3 <- matrix(c(1,2,4,4,5:8),ncol=2)
-    ## test3 <- c(1:10,NA)
-    ## cbind(test3, recode(test3, recode.m3))
-
+    ## Apply directive to vector
+    unlist(lapply(x, function(y) {
+        recode_row <- from_to[, 1] %in% y
+        if (TRUE %in% recode_row) from_to[recode_row, 2]
+        else y
+    }))
 }
 
 #' Group progressive id creator

@@ -1,4 +1,4 @@
-context("Data management")
+context("Duplicated")
 
 test_that("duplicated2 flag all the duplicates by default", {
 
@@ -7,10 +7,3 @@ test_that("duplicated2 flag all the duplicates by default", {
 
 })
 
-
-test_that("is.unique works correctly", {
-
-    expect_true(is.unique(1:3))
-    expect_false(is.unique(c('a', 'a', 'b')))
-
-})

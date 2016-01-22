@@ -4,18 +4,35 @@
 \alias{recode}
 \title{Vector recode utility}
 \usage{
-recode(x = NULL, rec = NULL)
+recode(x = NULL, from_to = NULL)
 }
 \arguments{
 \item{x}{Vector to be recoded.}
 
-\item{rec}{matrix containing 2 columns; first is "from", second is
-"to".}
+\item{from_to}{matrix containing 2 columns (first is "from", second
+is "to") or a vector with even number of components where odds
+index are taken as from, even are taken}
 }
 \value{
 A vector with new codes (if/where modified).
 }
 \description{
 Yet another recode utility
+}
+\examples{
+test <- c(1:10, NA)
+recode.m <- matrix(c(1, 2, NA, 3, 4, 1), nrow = 3, ncol = 2)
+cbind(test, recode(test, recode.m))
+
+test2 <- c(letters[1:10], NA)
+recode.m2 <- matrix(c(c(letters[1:3]),c(NA,LETTERS[2:3])),
+                    nrow = 3, ncol = 2) 
+cbind(test2, recode(test2, recode.m2))
+
+\dontrun{
+recode.m3 <- matrix(c(1, 2, 4,4,5:8),ncol=2)
+test3 <- c(1:10,NA)
+cbind(test3, recode(test3, recode.m3))
+}
 }
 
