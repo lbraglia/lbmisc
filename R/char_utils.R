@@ -39,11 +39,11 @@ rm_accents <- function(string) {
 #' rm_spaces(test)
 rm_spaces <- function(string) {
     ## Starting " "
-    string <- gsub("[[:space:]]*$","", string, perl=T)
+    string <- gsub("[[:space:]]*$", "", string, perl = TRUE)
     ## Ending " "
-    string <- gsub("^[[:space:]]*","", string, perl=T)
+    string <- gsub("^[[:space:]]*", "", string, perl = TRUE)
     ## 
-    gsub("[[:space:]]+"," ", string, perl=T)
+    gsub("[[:space:]]+", " ", string, perl = TRUE)
 }
 
 #' Remove unprintable chars
@@ -51,7 +51,7 @@ rm_spaces <- function(string) {
 #' Remove unprintable chars
 #' @param string a character vector
 #' @export
-rm_unprintable_chars <- function(string) gsub("[\001-\037]","", string)
+rm_unprintable_chars <- function(string) gsub("[\001-\037]", "", string)
 
 #' Preprocess data.frame variable names
 #'
@@ -123,24 +123,23 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL) {
 #' @param x a numeric vector
 #' @param clen length of final character vector
 #' @examples
-#' to_00_char(c(1,20,3), 3)
-#' to_00_char(c(1,20,3), 2)
+#' to_00_char(as.integer(c(1,20,3)), 3)
+#' to_00_char(as.integer(c(1,20,3)), 2)
 #' \dontrun{
-#' to_00_char(c(1,20,3), 1)
+#' to_00_char(as.integer(c(1,20,3)), 1)
 #' }
 #' @export
 to_00_char <- function(x, clen = NULL){
-
-  ## if(!is.integer(x))
-  ##   stop("x must be integer")
-  x <- as.character(x)
-  xlen <- nchar(x)
-  zerolen <- clen - xlen
-  if(any(zerolen < 0))
-    stop("Some values have length > of clen")    
-  zeros <- unlist(lapply(zerolen, function(x) {
-    paste(rep(0, x), collapse = "")
-  }))
-  rval <- paste(zeros, x, sep = "")
-  rval
+    if(!is.integer(x))
+        warning('x should be an integer')
+    x <- as.character(x)
+    xlen <- nchar(x)
+    zerolen <- clen - xlen
+    if(any(zerolen < 0))
+        stop('Some values have length > of clen')
+    zeros <- unlist(lapply(zerolen, function(x) {
+        paste(rep(0, x), collapse = "")
+    }))
+    rval <- paste(zeros, x, sep = "")
+    rval
 }
