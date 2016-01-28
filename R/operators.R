@@ -39,5 +39,3 @@
 #' @export
 #' @rdname without
 "%without%" <-  function(x, y) x[!(x %in% y)]
-
-

@@ -5,5 +5,7 @@
 #' @name lbmisc
 #' @docType package
 #' @importFrom stats na.omit
+#' @importFrom utils news
+#' @importFrom utils page
 #' @useDynLib lbmisc
 NULL
