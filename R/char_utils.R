@@ -73,9 +73,14 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL) {
     
     ## tolower
     varnames <- tolower(varnames)	
-    if (any(duplicated(varnames))) 
-        stop("lower case make them not unique; ",
-             "are they such, in the original source?") 
+    if (any(duplicated(varnames))) {
+        message("lower case make them not unique; adding a progressive ",
+                "id to non-unique variable names")
+        dup_index <- duplicated2(varnames)
+        prog_id <- group_prog_id(varnames[dup_index])
+        varnames[dup_index] <- paste0(varnames[dup_index], '_',
+                                      to_00_char(prog_id))
+    }
     
     ## rm parenthesis
     varnames <- gsub('[\\(\\)]', '', varnames)
@@ -88,9 +93,15 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL) {
     varnames <- gsub("\\/","_frac_", varnames)
     varnames <- gsub("\\*","_per_", varnames)
     varnames <- gsub("\\+","_plus_", varnames)
+
+    ## other math related things
+    varnames <- gsub("\\%","_perc_", varnames)
     
     ## dot to underscore
     varnames <- gsub("\\.","_", varnames)
+
+    ## comma to underscore
+    varnames <- gsub(",","_", varnames)
 
     ## rm accents
     varnames <- rm_accents(varnames)
@@ -111,6 +122,10 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL) {
     ## Trim to length specified
     if (!is.null(trim))
         varnames <- strtrim(varnames, trim)
+
+    ## raise a warning if
+    if (anyDuplicated(varnames))
+        warning('Beware: there are some duplicated varnames')
     
     return(varnames)	
 }	
