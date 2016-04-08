@@ -64,11 +64,11 @@ NA_remove <- function(x, ...) UseMethod('NA_remove')
 NA_remove.default <- function(x, ...) stop('Not implemented')
 
 #' @export
-NA_remove.data.frame <- function(x, ...){
+NA_remove.data.frame <- function(x, quiet = FALSE, ...){
     y  <- stats::na.omit(x)
     nx <- nrow(x)
     ny <- nrow(y)
-    if (nx != ny)
+    if ((nx != ny) && !quiet)
         message('Rows were ' , nx, ', now are ', ny, '. ',
                 nx - ny,
                 if (nx - ny > 1) ' rows ' else ' row ',
