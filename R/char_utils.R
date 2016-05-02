@@ -96,7 +96,12 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL) {
     varnames <- gsub("\\/","_frac_", varnames)
     varnames <- gsub("\\*","_per_", varnames)
     varnames <- gsub("\\+","_plus_", varnames)
+    varnames <- gsub("<=","_leq_", varnames)
+    varnames <- gsub(">=","_geq_", varnames)
+    varnames <- gsub("<","_lt_", varnames)
+    varnames <- gsub(">","_gt_", varnames)
 
+    
     ## other math related things
     varnames <- gsub("\\%","_perc_", varnames)
     
