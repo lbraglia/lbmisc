@@ -82,6 +82,9 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL) {
                                       to_00_char(prog_id))
     }
     
+    ## rm smarty's |
+    varnames <- gsub('\\|', '_', varnames)
+    
     ## rm parenthesis
     varnames <- gsub('[\\(\\)]', '', varnames)
 
