@@ -18,8 +18,8 @@ add_grid <- function(at_x = NULL,
 {
     if (is.null(at_x)) stop('at_x is mandatory')
     if (is.null(at_y)) stop('at_y is mandatory')
-    abline(v = at_x, col = col, lty = lty, lwd = lwd, ...)
-    abline(h = at_y, col = col, lty = lty, lwd = lwd, ...)
+    graphics::abline(v = at_x, col = col, lty = lty, lwd = lwd, ...)
+    graphics::abline(h = at_y, col = col, lty = lty, lwd = lwd, ...)
 }
 
 #' Add cartesian system to a plot
@@ -43,8 +43,8 @@ add_cartesian_plane <- function(at_y = 0,
 {
     if (is.null(at_x)) stop('at_x is mandatory')
     if (is.null(at_y)) stop('at_y is mandatory')
-    abline(v = at_x, col = col, lty = lty, lwd = lwd, ...)
-    abline(h = at_y, col = col, lty = lty, lwd = lwd, ...)
+    graphics::abline(v = at_x, col = col, lty = lty, lwd = lwd, ...)
+    graphics::abline(h = at_y, col = col, lty = lty, lwd = lwd, ...)
 }
 #' 
 #' Show R colors for graphics and grid package
@@ -77,15 +77,16 @@ show_col <- function(package=c("graphics","grid"),
     package <- match.arg(package)
     
     showCols.graphics <- function(bg = NULL, cex = NULL, srt = NULL){
-        m <- ceiling(sqrt(n <- length(cl <- colors())))
+        m <- ceiling(sqrt(n <- length(cl <- grDevices::colors())))
         length(cl) <- m*m; cm <- matrix(cl, m)
-        op <- par(mar=rep(0,4), ann=FALSE, bg = bg); on.exit(par(op))
-        plot(1:m,1:m, type="n", axes=FALSE)
-        text(col(cm), rev(row(cm)), cm,  col = cl, cex=cex, srt=srt)
+        op <- graphics::par(mar=rep(0,4), ann=FALSE, bg = bg)
+        on.exit(graphics::par(op))
+        graphics::plot(1:m,1:m, type="n", axes=FALSE)
+        graphics::text(col(cm), rev(row(cm)), cm,  col = cl, cex=cex, srt=srt)
     }
 
     showCols.grid <- function(bg=NULL, cex = NULL, rot = NULL) {
-        m <- ceiling(sqrt(n <- length(cl <- colors())))
+        m <- ceiling(sqrt(n <- length(cl <- grDevices::colors())))
         length(cl) <- m*m; cm <- matrix(cl, m)
         grid::grid.newpage()
         vp <- grid::viewport(width = .92, height = .92)
@@ -138,18 +139,19 @@ show_pch <-  function(extras = c("*",".","0","+","#"),
     ry <- dd + range(iy <- 3 + (k-1)- ipch %% k)
     pch <- as.list(ipch) ## list with integers & strings
     if(nex > 0) pch[26+ 1:nex] <- as.list(extras)
-    plot(rx, ry, type = "n", axes  =  FALSE, 
+    graphics::plot(rx, ry, type = "n", axes  =  FALSE, 
          xlab = "", ylab = "", 
          main = "Pch symbols", 
          sub=sprintf("points (...,  pch = *, cex = '%s', col='%s', bg= '%s')",
              cex, col, bg) ) 
-    abline(v = ix, h = iy, col = "lightgray", lty = "dotted")
+    graphics::abline(v = ix, h = iy, col = "lightgray", lty = "dotted")
     for(i in 1:np) {
         pc <- pch[[i]]
         ## 'col' symbols with a 'bg'-colored interior (where available) :
-        points(ix[i], iy[i], pch = pc, col = col, bg = bg, cex = cex)
+        graphics::points(ix[i], iy[i], pch = pc, col = col, bg = bg, cex = cex)
         if(cextext > 0)
-            text(ix[i] - 0.3, iy[i], pc, col = "black", cex = cextext)
+            graphics::text(ix[i] - 0.3, iy[i], pc, col = "black",
+                           cex = cextext)
     }
     
     ## ShowPch()
