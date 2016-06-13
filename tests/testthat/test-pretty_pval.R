@@ -4,7 +4,7 @@ test_that("pretty_pval normal usage", {
 
     pval <- c(1e-01, 1e-02, 1e-03, 1e-04)
     right <- c("= 0.100", "= 0.010", "= 0.001", "< 0.001")
-    res <- pretty_pval(pval, space = TRUE)
+    res <- pretty_pval(pval, space = TRUE, equal = TRUE)
     expect_identical(res, right)
         
     

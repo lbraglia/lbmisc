@@ -3,9 +3,8 @@ Title: Miscellaneous Utilty Functions
 Version: 0.3.0
 Authors@R: person('Luca', 'Braglia', email = 'lbraglia@mailbox.org', role = c('aut', 'cre'))
 Description: Miscellaneous utility functions.
-Depends: 
-    R (>= 3.2.3)
-Imports: graphics, grid, grDevices, stats, utils
+Depends: R (>= 3.2.3)
+Imports: graphics, grid, grDevices, openxlsx, stats, utils, tools
 URL: http://github.com/lbraglia/lbmisc
 BugReports: http://github.com/lbraglia/lbmisc/issues
 License: GPL-3

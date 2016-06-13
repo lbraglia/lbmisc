@@ -14,10 +14,10 @@
 #' pretty_pval(pval1, space = TRUE)
 #' 
 #' @export
-pretty_pval <- function(pvalue, digits = 3L, space = FALSE, equal = TRUE) {
+pretty_pval <- function(pvalue, digits = 3L, space = FALSE, equal = FALSE) {
 
     old.scipen <- options('scipen')
-    on.exit(options('scipen' = old.scipen) )
+    on.exit(options('scipen' = old.scipen))
     options('scipen' = 999) 
     
     ## Pretty printing for p-value 

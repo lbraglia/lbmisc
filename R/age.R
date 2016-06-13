@@ -3,7 +3,6 @@
 #' Calculate age in years
 #' @param birth date of birth
 #' @param date date used to calculate the age
-#' @examples
 #' @export
 age <- function(birth, date){
     birth <- as.Date(birth)

@@ -37,3 +37,150 @@ date_plus <- function(x, years = 0, months = 0, days = 0){
     x$mon <- x$mon + months
     as.Date(x)
 }
+
+#' Extract numeric years from a Date, POSIXct or POSIXlt vector.
+#' 
+#' 
+#' Extract numeric years from a Date, POSIXct or POSIXlt vector.
+#' 
+#' 
+#' @param x Date, POSIXct or POSIXlt vector
+#' @return A numeric vector.
+#' @examples
+#' 
+#' Sys.Date()
+#' year(Sys.Date())
+#' year(as.POSIXct(Sys.Date()))
+#' year(as.POSIXlt(Sys.Date()))
+#' 
+#' 
+#' @export year
+year <- function(x) {
+
+  if ( !(class(x)[1] %in% c("Date","POSIXct","POSIXlt")) )
+    stop("Only Date, POSIXct and POSIXlt class dates")
+
+  UseMethod("year")
+ 
+}
+
+#' @export 
+year.Date <- function(x) {
+    as.numeric(format(x, "%Y"))
+}
+
+#' @export 
+year.POSIXct <- function(x) {
+    as.numeric(format(x, "%Y"))
+}
+
+#' @export 
+year.POSIXlt <- function(x) {
+    as.numeric(format(x, "%Y"))
+}
+
+#' Extract numeric months of the year from a Date, POSIXct or POSIXlt vector.
+#' 
+#' 
+#' Extract numeric months of the year from a Date, POSIXct or POSIXlt vector.
+#' 
+#' 
+#' @param x Date, POSIXct or POSIXlt vector
+#' @param string Logical, if TRUE months string is returned, otherwise numeric
+#' @param abbreviate logical. Should the months in string format be
+#' abbreviated?
+#' @return A vector with extracted months.
+#' @examples
+#' 
+#' Sys.Date()
+#' month(Sys.Date())
+#' month(Sys.Date(), string = FALSE)
+#' month(Sys.Date(), string = TRUE, abbreviate = TRUE)
+#' ## from base package
+#' month(Sys.Date())
+#' month(as.POSIXct(Sys.Date()))
+#' month(as.POSIXlt(Sys.Date()))
+#' 
+#' 
+#' @export month
+month <- function(x, string = TRUE, abbreviate = FALSE) {
+
+  if ( !(class(x)[1] %in% c("Date","POSIXct","POSIXlt")) )
+    stop("Only Date, POSIXct and POSIXlt class dates")
+
+  UseMethod("month")
+ 
+}
+
+#' @export 
+month.Date <- function( x, string = TRUE, abbreviate = FALSE ) {
+    if (!string) {
+        return(as.numeric(format(x=x, "%m")))
+    } else {
+        return(format(x=x, ifelse(abbreviate, "%b", "%B")))
+    }
+    
+}
+
+#' @export 
+month.POSIXct <- function( x, string = TRUE, abbreviate = FALSE ) {
+    if (!string) {
+        return(as.numeric(format(x=x, "%m")))
+    } else {
+        return(format(x=x, ifelse(abbreviate, "%b", "%B")))
+    }
+    
+}
+
+#' @export
+month.POSIXlt <- function( x, string = TRUE, abbreviate = FALSE ) {
+    if (!string) {
+        return(as.numeric(format(x=x, "%m")))
+    } else {
+        return(format(x=x, ifelse(abbreviate, "%b", "%B")))
+    }
+    
+}
+
+#' Extract numeric days of month from a \code{Date},
+#' \code{POSIXct} or \code{POSIXlt} vector.
+#' 
+#' Extract numeric days of month from a \code{Date},
+#' \code{\link{POSIXct}} or \code{\link{POSIXlt}} vector. 
+#' 
+#' @param x Date, \code{\link{POSIXct}} or \code{\link{POSIXlt}}
+#' vector
+#' @return A numeric vector.
+#' @examples
+#' 
+#' Sys.Date()
+#' day(Sys.Date())
+#' day(as.POSIXct(Sys.Date()))
+#' day(as.POSIXlt(Sys.Date()))
+#' 
+#' 
+#' @export day
+day <- function(x) {
+
+  if ( !(class(x)[1] %in% c("Date","POSIXct","POSIXlt")) )
+    stop("Only Date, POSIXct and POSIXlt class dates")
+
+  UseMethod("day")
+ 
+}
+
+
+#' @export
+day.Date <- function(x) {
+    as.numeric(format(x, "%d"))
+}
+
+#' @export 
+day.POSIXct <- function(x) {
+    as.numeric(format(x, "%d"))
+}
+
+#' @export 
+day.POSIXlt <- function(x) {
+    as.numeric(format(x, "%d"))
+}
