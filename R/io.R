@@ -11,3 +11,23 @@ wb_to_xls <- function(wb, destfile = NULL){
     lbmisc::unoconv(xlsx_file, format = 'xls')
     invisible(NULL)
 }
+
+
+#' Faster export with openxlsx
+#'
+#' This is a wrapper around addWorksheet and writeData to allow
+#' less typing. It export one object per sheet, the sheet will be
+#' created accordingly to the name given
+#'
+#' @param wb a Workbook object
+#' @param sheet name of the sheet to be created
+#' @param x object to be exported
+#' @param ... further arguments passed to writeData
+#' @export
+add_to_wb <- function(wb = NULL, sheet = NULL, x = NULL, ...) {
+    openxlsx::addWorksheet(wb = wb, sheetName = sheet)
+    openxlsx::writeData(wb = wb,
+                        sheet = sheet,
+                        x = x,
+                        ...)
+}
