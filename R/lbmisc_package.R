@@ -6,6 +6,8 @@
 #' @docType package
 #' @importFrom graphics abline
 #' @importFrom grDevices colors
+#' @importFrom grDevices col2rgb
+#' @importFrom grDevices rgb
 #' @importFrom graphics par
 #' @importFrom graphics plot
 #' @importFrom graphics points

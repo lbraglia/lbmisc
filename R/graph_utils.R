@@ -1,3 +1,17 @@
+#'
+#' Return an hex color
+#'
+#' @param col a color
+#' @param alpha alpha shading
+#' @export 
+col2hex <- function(col, alpha = FALSE){
+    grDevices::rgb(t(grDevices::col2rgb(col)),
+                   maxColorValue = 255,
+                   alpha = alpha * 255)
+}
+
+
+
 #' Add grid to a plot
 #' 
 #' Add grid to a plot using \code{\link{abline}}.

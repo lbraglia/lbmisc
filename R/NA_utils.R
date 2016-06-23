@@ -66,12 +66,17 @@ NA_remove.default <- function(x, ...) stop('Not implemented')
 #' @export
 NA_remove.data.frame <- function(x, quiet = FALSE, ...){
     y  <- stats::na.omit(x)
-    nx <- nrow(x)
-    ny <- nrow(y)
-    if ((nx != ny) && !quiet)
-        message('Rows were ' , nx, ', now are ', ny, '. ',
-                nx - ny,
-                if (nx - ny > 1) ' rows ' else ' row ',
-                'deleted due missingness.')
+    if (!quiet){
+        nx <- nrow(x)
+        ny <- nrow(y)
+        if (nx != ny){
+            message('Rows were ' , nx, ', now are ', ny, '. ',
+                    nx - ny,
+                    if (nx - ny > 1) ' rows ' else ' row ',
+                    'deleted due missingness:\n')
+            miss <- unlist(lapply(x, function(x) sum(is.na(x))))
+            print(miss[miss > 0])
+        }
+    }
     return(y)
 }
