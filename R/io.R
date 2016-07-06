@@ -31,3 +31,32 @@ add_to_wb <- function(wb = NULL, sheet = NULL, x = NULL, ...) {
                         x = x,
                         ...)
 }
+
+#' Create a .zip for SAS (data + sas file)
+#'
+#' Create a .zip for SAS (data + sas file)
+#'
+#' @param x a data.frame
+#' @param file path to the zip file to save, if missing a .zip
+#'     with the same name as the data.frame will be saved in the
+#'     current working directory
+#' @export
+write_sas <- function(x = NULL, file = NULL){
+
+    xname <- deparse(substitute(x))
+    if (!is.data.frame(x)) stop('x must be a data.frame.')
+
+    csv_file <- paste0(xname, '.csv')
+    sas_file <- paste0(xname, '.sas')
+
+    on.exit({ unlink(sas_file); unlink(csv_file) })
+
+    if (is.null(file)) file <- paste0(xname, '.zip')
+
+    foreign::write.foreign(df = x,
+                           datafile = csv_file,
+                           codefile = sas_file,
+                           package = 'SAS')
+
+    utils::zip(zipfile = file, files = c(csv_file, sas_file))
+}

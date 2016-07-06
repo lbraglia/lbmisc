@@ -4,6 +4,7 @@
 #'
 #' @name lbmisc
 #' @docType package
+#' @importFrom foreign write.foreign
 #' @importFrom graphics abline
 #' @importFrom grDevices colors
 #' @importFrom grDevices col2rgb
@@ -25,5 +26,6 @@
 #' @importFrom utils news
 #' @importFrom utils page
 #' @importFrom utils update.packages
+#' @importFrom utils zip
 #' @useDynLib lbmisc
 NULL
