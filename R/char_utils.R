@@ -73,14 +73,6 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL) {
     
     ## tolower
     varnames <- tolower(varnames)	
-    if (any(duplicated(varnames))) {
-        message("lower case make them not unique; adding a progressive ",
-                "id to non-unique variable names")
-        dup_index <- duplicated2(varnames)
-        prog_id <- group_prog_id(varnames[dup_index])
-        varnames[dup_index] <- paste0(varnames[dup_index], '_',
-                                      to_00_char(prog_id))
-    }
     
     ## rm smarty's |
     varnames <- gsub('\\|', '_', varnames)
@@ -131,9 +123,16 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL) {
     if (!is.null(trim))
         varnames <- strtrim(varnames, trim)
 
-    ## raise a warning if
-    if (anyDuplicated(varnames))
-        warning('Beware: there are some duplicated varnames')
+    ## Handle duplicate names adding a progressive id
+    if (anyDuplicated(varnames)) {
+        message("Several variables with the following names:\n")
+        cat(unique(varnames[duplicated(varnames)]), sep = '\n')
+        message("\n... adding a trailing progressive id")
+        dup_index <- duplicated2(varnames)
+        prog_id <- group_prog_id(varnames[dup_index])
+        varnames[dup_index] <- paste0(varnames[dup_index], '_',
+                                      to_00_char(prog_id))
+    }
     
     return(varnames)	
 }	
