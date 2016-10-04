@@ -25,6 +25,9 @@ wb_to_xls <- function(wb, destfile = NULL){
 #' @param ... further arguments passed to writeData
 #' @export
 add_to_wb <- function(wb = NULL, sheet = NULL, x = NULL, ...) {
+    if (!methods::is(wb, "Workbook")) stop("wb must be a Workbook")
+    if (!is.character(sheet)) stop("sheet must be a character")
+    if (is.null(x))  stop("x can't be NULL")
     openxlsx::addWorksheet(wb = wb, sheetName = sheet)
     openxlsx::writeData(wb = wb,
                         sheet = sheet,

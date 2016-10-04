@@ -5,10 +5,10 @@
 #' @name lbmisc
 #' @docType package
 #' @importFrom foreign write.foreign
-#' @importFrom graphics abline
-#' @importFrom grDevices colors
 #' @importFrom grDevices col2rgb
+#' @importFrom grDevices colors
 #' @importFrom grDevices rgb
+#' @importFrom graphics abline
 #' @importFrom graphics par
 #' @importFrom graphics plot
 #' @importFrom graphics points
@@ -18,10 +18,11 @@
 #' @importFrom grid grid.rect
 #' @importFrom grid grid.text
 #' @importFrom grid viewport
-#' @importFrom stats na.omit
+#' @importFrom methods is
 #' @importFrom openxlsx saveWorkbook
-#' @importFrom openxlsx addWorksheet
+#' @importFrom openxlsx saveWorkbook
 #' @importFrom openxlsx writeData
+#' @importFrom stats na.omit
 #' @importFrom tools file_path_sans_ext
 #' @importFrom utils news
 #' @importFrom utils page
