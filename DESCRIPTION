@@ -1,7 +1,7 @@
 Package: lbmisc
 Title: Miscellaneous Utilty Functions
 Version: 0.3.0
-Authors@R: person('Luca', 'Braglia', email = 'lbraglia@mailbox.org', role = c('aut', 'cre'))
+Authors@R: person('Luca', 'Braglia', email = 'lbraglia@gmail.com', role = c('aut', 'cre'))
 Description: Miscellaneous utility functions.
 Depends: R (>= 3.2.3)
 Imports: foreign, graphics, grid, grDevices, methods,
