@@ -17,3 +17,10 @@ update_packages <- function(ask = FALSE) {
 #' @param ... arguments passed to \code{\link{news}}
 #' @export
 rnews <- function(...) utils::page(utils::news(...), method = 'print')
+
+#' handy R version
+#'
+#' easier access to R version
+#' 
+#' @export
+r_version <- function() paste(R.version$major, R.version$minor, sep = '.')
