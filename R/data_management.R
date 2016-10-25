@@ -159,3 +159,39 @@ group_prog_id <- function(group) {
   res[is.na(group)] <- NA
   res
 }
+
+
+#' Comment several variables of a data.frame
+#'
+#' Comment several variables of a data.frame using a for loop of \code{comment}
+#' @param x a data.frame
+#' @param var_com variable name/comment pair
+#' @examples
+#' db <- data.frame(a = letters, b = LETTERS)
+#' db <- comment_df(x = db, c('a', 'lowercase letters',
+#'                            'b', 'uppercase letters'))
+#' @export
+comment_df <- function(x, var_com){
+    stopifnot(is.data.frame(x),
+              is.character(var_com),
+              length(var_com) %%2 == 0) 
+    ## usare recode in qualche modo?    
+    var_names <- var_com[seq(1, length(var_com), by = 2)]
+    var_comments <- var_com[seq(2, length(var_com), by = 2)]
+    ## handle missing variable names
+    missing_names <- var_names[var_names %nin% names(x)]
+    if (length(missing_names) > 0L){
+        missing_names <- paste(missing_names, collapse = ', ')
+        msg <- 'There are variables not found in x (%s); ignoring them..'
+        msg <- sprintf(msg, missing_names)
+        warning(msg)
+    }
+
+    for (i in var_names){
+        if (i %in% names(x)){
+            vc <- var_comments[var_names %in% i]
+            comment(x[, i]) <- vc
+        }
+    }
+    x
+}
