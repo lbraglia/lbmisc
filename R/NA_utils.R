@@ -57,7 +57,12 @@ NA_report <- function(x, id_var = NULL)
 #' like na.omit but print a message
 #' @param x something handled by \code{stats::na.omit}
 #' @param ... other options passed to proper methods
-#'@export
+#' @examples
+#' nona <- NA_remove(data.frame(a = 1:6,
+#'                              b = c(NA, 3, NA, 4, 5, 6),
+#'                              c = c(rep(NA, 4), 'a', 'b')))
+#' 
+#' @export
 NA_remove <- function(x, ...) UseMethod('NA_remove')
 
 #' @export
@@ -73,7 +78,8 @@ NA_remove.data.frame <- function(x, quiet = FALSE, ...){
             message('Rows were ' , nx, ', now are ', ny, '. ',
                     nx - ny,
                     if (nx - ny > 1) ' rows ' else ' row ',
-                    'deleted due missingness:\n')
+                    'deleted due missingness.\n',
+                    'Missing frequencies by variable:')
             miss <- unlist(lapply(x, function(x) sum(is.na(x))))
             print(miss[miss > 0])
         }

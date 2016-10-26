@@ -21,6 +21,7 @@ rnews <- function(...) utils::page(utils::news(...), method = 'print')
 #' handy R version
 #'
 #' easier access to R version
-#' 
+#' @examples
+#' r_version()
 #' @export
 r_version <- function() paste(R.version$major, R.version$minor, sep = '.')

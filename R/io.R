@@ -23,6 +23,12 @@ wb_to_xls <- function(wb, destfile = NULL){
 #' @param sheet name of the sheet to be created
 #' @param x object to be exported
 #' @param ... further arguments passed to writeData
+#'
+#' @examples
+#' wb = openxlsx::createWorkbook()
+#' add_to_wb(wb = wb, sheet = 'Indometh', x = Indometh)
+#' add_to_wb(wb = wb, sheet = 'Iris', x = iris)
+#' 
 #' @export
 add_to_wb <- function(wb = NULL, sheet = NULL, x = NULL, ...) {
     if (!methods::is(wb, "Workbook")) stop("wb must be a Workbook")

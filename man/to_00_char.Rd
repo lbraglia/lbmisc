@@ -17,10 +17,10 @@ Transform an integer vector to a character prefixed by an arbitrary
 number of 0 digits
 }
 \examples{
-to_00_char(as.integer(c(1,20,3)), 3)
-to_00_char(as.integer(c(1,20,3)), 2)
+to_00_char(c(1L, 3L, 20L), 3)
+to_00_char(c(1L, 3L, 20L), 2)
 \dontrun{
-to_00_char(as.integer(c(1,20,3)), 1)
+to_00_char(c(1L, 3L, 20L), 2)
 }
 }
 

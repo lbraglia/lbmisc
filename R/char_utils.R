@@ -57,7 +57,7 @@ rm_unprintable_chars <- function(string) gsub("[\001-\037]", "", string)
 #'
 #' Function to preprocess variable names useful for a data.frame.
 #' This function was created to make automatic variable name
-#' creation from Excel files obtained by other.
+#' creation from Excel files obtained by others.
 #'
 #' @param varnames names of a data.frame (or the data.frame itself)
 #' @param trim character length of trimming. If \code{NULL}
@@ -145,16 +145,16 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL) {
 #' @param x a numeric vector
 #' @param clen length of final character vector
 #' @examples
-#' to_00_char(as.integer(c(1,20,3)), 3)
-#' to_00_char(as.integer(c(1,20,3)), 2)
+#' to_00_char(c(1L, 3L, 20L), 3)
+#' to_00_char(c(1L, 3L, 20L), 2)
 #' \dontrun{
-#' to_00_char(as.integer(c(1,20,3)), 1)
+#' to_00_char(c(1L, 3L, 20L), 2)
 #' }
 #' @export
 to_00_char <- function(x, clen = NULL){
     if(!is.integer(x))
         warning('x should be an integer')
-    x <- as.character(x)
+    x <- as.character(as.integer(x))
     xlen <- nchar(x)
     zerolen <- clen - xlen
     if(any(zerolen < 0))

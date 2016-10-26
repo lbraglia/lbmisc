@@ -9,4 +9,7 @@ r_version()
 \description{
 easier access to R version
 }
+\examples{
+r_version()
+}
 

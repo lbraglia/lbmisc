@@ -4,14 +4,16 @@
 \alias{col2hex}
 \title{Return an hex color}
 \usage{
-col2hex(col, alpha = FALSE)
+col2hex(col, alpha = 0L)
 }
 \arguments{
 \item{col}{a color}
 
-\item{alpha}{alpha shading}
+\item{alpha}{alpha shading in [0, 1] interval (0 = no shading at
+    all, 1 = invisible)
+col2hex('blue', alpha = 0.5)}
 }
 \description{
-Return an hex color
+Return an hex color with optional alpha shading
 }
 

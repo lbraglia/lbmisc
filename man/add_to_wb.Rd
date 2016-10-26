@@ -20,4 +20,10 @@ This is a wrapper around addWorksheet and writeData to allow
 less typing. It export one object per sheet, the sheet will be
 created accordingly to the name given
 }
+\examples{
+wb = openxlsx::createWorkbook()
+add_to_wb(wb = wb, sheet = 'Indometh', x = Indometh)
+add_to_wb(wb = wb, sheet = 'Iris', x = iris)
+
+}
 

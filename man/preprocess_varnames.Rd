@@ -15,6 +15,6 @@ preprocess_varnames(varnames = NULL, trim = NULL)
 \description{
 Function to preprocess variable names useful for a data.frame.
 This function was created to make automatic variable name
-creation from Excel files obtained by other.
+creation from Excel files obtained by others.
 }
 

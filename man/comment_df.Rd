@@ -16,7 +16,7 @@ Comment several variables of a data.frame using a for loop of \code{comment}
 }
 \examples{
 db <- data.frame(a = letters, b = LETTERS)
-db <- comment_db(x = db, c('a', 'lowercase letters',
+db <- comment_df(x = db, c('a', 'lowercase letters',
                            'b', 'uppercase letters'))
 }
 

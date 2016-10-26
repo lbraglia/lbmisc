@@ -1,10 +1,15 @@
-#'
 #' Return an hex color
 #'
+#' Return an hex color with optional alpha shading
+#' 
 #' @param col a color
-#' @param alpha alpha shading
-#' @export 
-col2hex <- function(col, alpha = FALSE){
+#' @param alpha alpha shading in [0, 1] interval (0 = no shading at
+#'     all, 1 = invisible)
+#' col2hex('blue', alpha = 0.5)
+#' @export
+col2hex <- function(col, alpha = 0L){
+    stopifnot(alpha >= 0L,
+              alpha <= 1L)
     grDevices::rgb(t(grDevices::col2rgb(col)),
                    maxColorValue = 255,
                    alpha = alpha * 255)
@@ -167,9 +172,4 @@ show_pch <-  function(extras = c("*",".","0","+","#"),
             graphics::text(ix[i] - 0.3, iy[i], pc, col = "black",
                            cex = cextext)
     }
-    
-    ## ShowPch()
-    ## ShowPch(c("o","O","0"), cex = 2.5)
-    ## ShowPch(NULL, cex = 4, cextext = 0)
-
 }
