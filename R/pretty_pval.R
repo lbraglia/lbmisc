@@ -28,23 +28,28 @@ pretty_pval <- function(pvalue, digits = 3L, space = FALSE, equal = FALSE) {
     ## Digits should be at least 1L
     digits <- as.integer(digits)
     if (digits < 1L)
-      stop('Digits should be at least 1L')
+        stop('Digits should be at least 1L')
 
     worker <- function(x, space, equal) {
-      if (is.na(x)) {
-        return(NA_character_)
-      } else if (x < 10L^(-digits)) {
-        return(paste0('<', ifelse(space, ' ',''),
-                      as.character(10L^(-digits))))
-      } else if (x < 1) {
-        fmt <- sprintf('%%.%df', digits)
-        char <- sprintf(fmt, x)
-        return(paste0(ifelse(equal, '=', ''), ifelse(space, ' ', ''), char)) 
-      } else {
-        return(paste0(ifelse(equal, '=', ''), ifelse(space, ' ', ''), '1'))
-      }
+        if (is.na(x)) {
+            return(NA_character_)
+        } else if (x < 10L^(-digits)) {
+            return(paste0('<', if (space) ' ' else '',
+                          as.character(10L^(-digits))))
+        } else if (x < 1) {
+            fmt <- sprintf('%%.%df', digits)
+            char <- sprintf(fmt, x)
+            return(paste0(
+                if (equal) '=' else '',
+                if (space) ' ' else '',
+                char))
+        } else {
+            return(paste0(
+                if (equal) '=' else '',
+                if (space) ' ' else '',
+                '1'))
+        }
     }
-
-    unlist(lapply(pvalue, worker, space = space, equal = equal))
     
+    unlist(lapply(pvalue, worker, space = space, equal = equal))
 }

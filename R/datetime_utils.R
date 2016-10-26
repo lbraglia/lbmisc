@@ -1,8 +1,6 @@
 #' Create a \code{\link{Date}} from month, day and year.
 #' 
-#' 
 #' Create a \code{\link{Date}} from month, day and year.
-#' 
 #' 
 #' @param month Numeric vector of months
 #' @param day Numeric vector of days
@@ -15,7 +13,6 @@
 date_mdy <- function(month, day, year) {
     as.Date(sprintf("%s-%s-%s", year, month, day))
 }	
-
 
 #' Add a period of time to a Date object
 #'
@@ -117,7 +114,7 @@ month.Date <- function( x, string = TRUE, abbreviate = FALSE ) {
     if (!string) {
         return(as.numeric(format(x=x, "%m")))
     } else {
-        return(format(x=x, ifelse(abbreviate, "%b", "%B")))
+        return(format(x = x, if (abbreviate) "%b" else "%B"))
     }
     
 }
@@ -127,7 +124,7 @@ month.POSIXct <- function( x, string = TRUE, abbreviate = FALSE ) {
     if (!string) {
         return(as.numeric(format(x=x, "%m")))
     } else {
-        return(format(x=x, ifelse(abbreviate, "%b", "%B")))
+        return(format(x = x, if (abbreviate) "%b" else "%B"))
     }
     
 }
@@ -137,7 +134,7 @@ month.POSIXlt <- function( x, string = TRUE, abbreviate = FALSE ) {
     if (!string) {
         return(as.numeric(format(x=x, "%m")))
     } else {
-        return(format(x=x, ifelse(abbreviate, "%b", "%B")))
+        return(format(x = x, if (abbreviate) "%b" else "%B"))
     }
     
 }
