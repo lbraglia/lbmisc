@@ -1,18 +1,3 @@
-#' A function to save an openxlsx workbook in xls format quickly
-#'
-#' A function to export an openxlsx workbook oin xls format quickly
-#' @param wb openxlsx workbook
-#' @param destfile xls destination file
-#' @export
-wb_to_xls <- function(wb, destfile = NULL){
-    xlsx_file <- paste0(tools::file_path_sans_ext(destfile), '.xlsx')
-    on.exit(unlink(xlsx_file))
-    openxlsx::saveWorkbook(wb, file = xlsx_file, overwrite = TRUE)
-    lbmisc::unoconv(xlsx_file, format = 'xls')
-    invisible(NULL)
-}
-
-
 #' Faster export with openxlsx
 #'
 #' This is a wrapper around addWorksheet and writeData to allow
@@ -41,8 +26,30 @@ add_to_wb <- function(wb = NULL, sheet = NULL, x = NULL, ...) {
                         ...)
 }
 
-#' Create a .zip for SAS (data + sas file)
+#' Save an openxlsx workbook in an excel format quickly
 #'
+#' @param wb openxlsx workbook
+#' @param file xls destination file
+#' @examples
+#' wb = openxlsx::createWorkbook()
+#' add_to_wb(wb = wb, sheet = 'Indometh', x = Indometh)
+#' wb_to_xl(wb = wb, file = '/tmp/wb_to_xl.xls')
+#' wb_to_xl(wb = wb, file = '/tmp/wb_to_xl.xlsx')
+#' @export
+wb_to_xl <- function(wb, file = NULL){
+    if (!methods::is(wb, "Workbook")) stop("wb must be a Workbook")
+    extension <- tolower(tools::file_ext(file))
+    stopifnot(extension == 'xls' || extension == 'xlsx')
+    xlsx_file <- paste0(tools::file_path_sans_ext(file), '.xlsx')
+    openxlsx::saveWorkbook(wb, file = xlsx_file, overwrite = TRUE)
+    if ('xls' == extension){
+        on.exit(unlink(xlsx_file))
+        lbmisc::unoconv(xlsx_file, format = 'xls')
+    }
+    invisible(NULL)
+}
+
+
 #' Create a .zip for SAS (data + sas file)
 #'
 #' @param x a data.frame
