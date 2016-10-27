@@ -4,13 +4,18 @@
 \alias{preprocess_varnames}
 \title{Preprocess data.frame variable names}
 \usage{
-preprocess_varnames(varnames = NULL, trim = NULL)
+preprocess_varnames(varnames = NULL, trim = NULL, dump = TRUE)
 }
 \arguments{
 \item{varnames}{names of a data.frame (or the data.frame itself)}
 
-\item{trim}{character length of trimming. If \code{NULL}
-(default) trimming is disabled.}
+\item{trim}{character length of trimming. If \code{NULL} (default)
+trimming is disabled.}
+
+\item{dump}{print a matrix with the reverse renaming (to be used
+with \code{recode} (back to original names?) or
+\code{comment_df} (if original names are to be used as
+comments)}
 }
 \description{
 Function to preprocess variable names useful for a data.frame.

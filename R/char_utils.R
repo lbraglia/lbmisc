@@ -60,16 +60,25 @@ rm_unprintable_chars <- function(string) gsub("[\001-\037]", "", string)
 #' creation from Excel files obtained by others.
 #'
 #' @param varnames names of a data.frame (or the data.frame itself)
-#' @param trim character length of trimming. If \code{NULL}
-#' (default) trimming is disabled.
+#' @param trim character length of trimming. If \code{NULL} (default)
+#'     trimming is disabled.
+#' @param dump print a matrix with the reverse renaming (to be used
+#'     with \code{recode} (back to original names?) or
+#'     \code{comment_df} (if original names are to be used as
+#'     comments)
 #' @export
-preprocess_varnames <- function(varnames = NULL, trim = NULL) {
+preprocess_varnames <- function(varnames = NULL, trim = NULL,
+                                dump = TRUE
+                                ) {
+
 
     ## handling special cases
     if (! (is.data.frame(varnames) || is.character(varnames)))
         stop("varnames need to be a data.frame or character")
     if (is.data.frame(varnames))
         varnames <- names(varnames)
+
+    original_v <- varnames
     
     ## tolower
     varnames <- tolower(varnames)	
@@ -92,7 +101,6 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL) {
     varnames <- gsub(">=","_geq_", varnames)
     varnames <- gsub("<","_lt_", varnames)
     varnames <- gsub(">","_gt_", varnames)
-
     
     ## other math related things
     varnames <- gsub("\\%","_perc_", varnames)
@@ -132,6 +140,16 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL) {
         prog_id <- group_prog_id(varnames[dup_index])
         varnames[dup_index] <- paste0(varnames[dup_index], '_',
                                       to_00_char(prog_id))
+    }
+
+    if (dump){
+        cat('Reverse matrix is:\n\n')
+        ## alternate elements from varnames and original_v
+        rm_v <- Reduce(f = c, Map(c, as.list(varnames), as.list(original_v)))
+        cat('matrix(', deparse(rm_v), ",\n",
+            "byrow = TRUE, ncol = 2, dimnames = list(NULL, c('new', 'old')))",
+            '\n\n',
+            sep = '')
     }
     
     return(varnames)	
