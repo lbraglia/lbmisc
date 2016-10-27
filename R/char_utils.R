@@ -62,13 +62,13 @@ rm_unprintable_chars <- function(string) gsub("[\001-\037]", "", string)
 #' @param varnames names of a data.frame (or the data.frame itself)
 #' @param trim character length of trimming. If \code{NULL} (default)
 #'     trimming is disabled.
-#' @param dump print a matrix with the reverse renaming (to be used
+#' @param dump_rev print a matrix with the reverse renaming. It can be used
 #'     with \code{recode} (back to original names?) or
 #'     \code{comment_df} (if original names are to be used as
 #'     comments)
 #' @export
 preprocess_varnames <- function(varnames = NULL, trim = NULL,
-                                dump = TRUE
+                                dump_rev = FALSE
                                 ) {
 
 
@@ -142,13 +142,22 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL,
                                       to_00_char(prog_id))
     }
 
-    if (dump){
+    if (dump_rev){
         cat('Reverse matrix is:\n\n')
         ## alternate elements from varnames and original_v
         rm_v <- Reduce(f = c, Map(c, as.list(varnames), as.list(original_v)))
-        cat('matrix(', deparse(rm_v), ",\n",
-            "byrow = TRUE, ncol = 2, dimnames = list(NULL, c('new', 'old')))",
-            '\n\n',
+        ## c stlye is simple
+        cat('matrix(c(')
+        index <- 1
+        for (vn in rm_v){
+            cat(deparse(vn))
+            if (index != length(rm_v)) cat(',')
+            if (index %% 2 == 1L) cat(' ')
+            if (index %% 2 == 0L) cat('\n')
+            index <- index + 1
+        }
+        cat("),\n byrow = TRUE, ncol = 2,\n",
+            " dimnames = list(NULL, c('new', 'old')))\n\n",
             sep = '')
     }
     

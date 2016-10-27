@@ -4,7 +4,7 @@
 \alias{preprocess_varnames}
 \title{Preprocess data.frame variable names}
 \usage{
-preprocess_varnames(varnames = NULL, trim = NULL, dump = TRUE)
+preprocess_varnames(varnames = NULL, trim = NULL, dump_rev = FALSE)
 }
 \arguments{
 \item{varnames}{names of a data.frame (or the data.frame itself)}
@@ -12,7 +12,7 @@ preprocess_varnames(varnames = NULL, trim = NULL, dump = TRUE)
 \item{trim}{character length of trimming. If \code{NULL} (default)
 trimming is disabled.}
 
-\item{dump}{print a matrix with the reverse renaming (to be used
+\item{dump_rev}{print a matrix with the reverse renaming. It can be used
 with \code{recode} (back to original names?) or
 \code{comment_df} (if original names are to be used as
 comments)}
