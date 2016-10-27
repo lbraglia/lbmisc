@@ -2,18 +2,19 @@ context("is.vector2")
 
 test_that("is.vector2 basic cases", {
 
-    expect_that(is.vector2(logical()), is_true())
-    expect_that(is.vector2(integer()), is_true())
-    expect_that(is.vector2(numeric()), is_true())
-    expect_that(is.vector2(complex()), is_true())
-    expect_that(is.vector2(character()), is_true())
-    expect_that(is.vector2(raw()), is_true())
-    expect_that(is.vector2(NULL), is_false())
-    expect_that(is.vector2(matrix(1:10, 2)), is_false())
-    expect_that(is.vector2(list()), is_false())
-    expect_that(is.vector2(expression()), is_false())
-    expect_that(is.vector2(pairlist()), is_false())
-    expect_that(is.vector2(pairlist(1)), is_false())
+    expect_true(is.vector2(logical()))
+    expect_true(is.vector2(integer()))
+    expect_true(is.vector2(numeric()))
+    expect_true(is.vector2(complex()))
+    expect_true(is.vector2(character()))
+    expect_true(is.vector2(raw()))
+
+    expect_false(is.vector2(NULL))
+    expect_false(is.vector2(matrix(1:10, 2)))
+    expect_false(is.vector2(list()))
+    expect_false(is.vector2(expression()))
+    expect_false(is.vector2(pairlist()))
+    expect_false(is.vector2(pairlist(1)))
     
 })
 
