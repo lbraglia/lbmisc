@@ -1,5 +1,40 @@
-#' Determine all duplicate elements
+#' Group progressive id creator
+#'
+#' Starting from a vector of group id, this function creates a progressive
+#' id inside each group.  It uses C for efficiency
 #' 
+#' @param group a group vector
+#' @examples
+#' set.seed(1)
+#'
+#' ## One factor id
+#' x <- sample(c(rep("A",5), rep("C",3), rep("B",2), rep(NA,2)))
+#' data.frame(group = x, id = group_prog_id(x) )
+#'
+#' ## Two factors id
+#' y <- sample(gl(2,6, labels = c("C","D")))
+#' data.frame(group1 = x, group2 = y, id = group_prog_id(interaction(x,y)) )
+#'
+#' ## example of sorting
+#' db <- data.frame("group" = sample(gl(2,5)), "b" = Sys.Date() + 1:10)
+#' db <- db[order( - as.integer(db$group), db$b),]
+#' data.frame(db, id = group_prog_id(db$group))
+#' @export
+group_prog_id <- function(group) {
+
+  ## make NA as a valid level for low-level operations
+  group2 <- as.integer(factor(group, exclude = NULL))
+  res <- .Call("group_prog_id_slave",
+               group2,
+               max(group2, na.rm=TRUE),
+               package = "lbmisc")
+  ## handling NA
+  res[is.na(group)] <- NA
+  res
+}
+
+
+#' Determine all duplicate elements
 #' 
 #' base::duplicated determines which elements of a vector or data frame are
 #' duplicates of elements with smaller subscripts, and returns a logical vector
@@ -69,6 +104,8 @@ compare_columns <- function(db,
     return(list("results" = res, "report" = return(report[select])))
 }
 
+
+
 #' Vector recode utility
 #' 
 #' 
@@ -101,21 +138,23 @@ recode <- function(x = NULL, from_to = NULL)
     if( !is.vector(x) ) 
         stop("A vector to be recoded must be given.")
 
-    if (is.vector(from_to)){
-        if (length(from_to) %% 2 != 0)
-            stop('from_to must be a even length vector')
-        from_to <- matrix(from_to, ncol = 2, byrow = TRUE)
-    } else if(is.matrix(from_to)) {
-        if (ncol(from_to) != 2)
-            stop("from_to must be a matrix with 2 columns; ",
-                 "first column is 'from', second 'to'.")
-    } else
-        stop("from_to must be a vector or a matrix")
+    from_to <- validate_recode_directives(from_to)
+
+    ## if (is.vector(from_to)){
+    ##     if (length(from_to) %% 2 != 0)
+    ##         stop('from_to must be a even length vector')
+    ##     from_to <- matrix(from_to, ncol = 2, byrow = TRUE)
+    ## } else if(is.matrix(from_to)) {
+    ##     if (ncol(from_to) != 2)
+    ##         stop("from_to must be a matrix with 2 columns; ",
+    ##              "first column is 'from', second 'to'.")
+    ## } else
+    ##     stop("from_to must be a vector or a matrix")
 	
-    ## Checking for recoding directives uniqueness
-    from_to <- unique(from_to)
-    if(anyDuplicated(from_to[, 1]))
-        stop("No univocal recoding directives")
+    ## ## Checking for recoding directives uniqueness
+    ## from_to <- unique(from_to)
+    ## if(anyDuplicated(from_to[, 1]))
+    ##     stop("No univocal recoding directives")
 
     ## Apply directive to vector
     unlist(lapply(x, function(y) {
@@ -124,42 +163,6 @@ recode <- function(x = NULL, from_to = NULL)
         else y
     }))
 }
-
-#' Group progressive id creator
-#'
-#' Starting from a vector of group id, this function creates a progressive
-#' id inside each group.  It uses C for efficiency
-#' 
-#' @param group a group vector
-#' @examples
-#' set.seed(1)
-#'
-#' ## One factor id
-#' x <- sample(c(rep("A",5), rep("C",3), rep("B",2), rep(NA,2)))
-#' data.frame(group = x, id = group_prog_id(x) )
-#'
-#' ## Two factors id
-#' y <- sample(gl(2,6, labels = c("C","D")))
-#' data.frame(group1 = x, group2 = y, id = group_prog_id(interaction(x,y)) )
-#'
-#' ## example of sorting
-#' db <- data.frame("group" = sample(gl(2,5)), "b" = Sys.Date() + 1:10)
-#' db <- db[order( - as.integer(db$group), db$b),]
-#' data.frame(db, id = group_prog_id(db$group))
-#' @export
-group_prog_id <- function(group) {
-
-  ## make NA as a valid level for low-level operations
-  group2 <- as.integer(factor(group, exclude = NULL))
-  res <- .Call("group_prog_id_slave",
-               group2,
-               max(group2, na.rm=TRUE),
-               package = "lbmisc")
-  ## handling NA
-  res[is.na(group)] <- NA
-  res
-}
-
 
 #' Comment several variables of a data.frame
 #'
@@ -173,11 +176,12 @@ group_prog_id <- function(group) {
 #' @export
 comment_df <- function(x, var_com){
     stopifnot(is.data.frame(x),
-              is.character(var_com),
-              length(var_com) %%2 == 0) 
-    ## usare recode in qualche modo?    
-    var_names <- var_com[seq(1, length(var_com), by = 2)]
-    var_comments <- var_com[seq(2, length(var_com), by = 2)]
+              is.character(var_com))
+
+    var_com <- validate_recode_directives(var_com)
+    var_names <- var_com[,1]
+    var_comments <- var_com[,2]
+
     ## handle missing variable names
     missing_names <- var_names[var_names %nin% names(x)]
     if (length(missing_names) > 0L){
@@ -193,5 +197,31 @@ comment_df <- function(x, var_com){
             comment(x[, i]) <- vc
         }
     }
+    x
+}
+
+
+## helper function to uniform and validate from_to (a recode
+## parameter) and var_com (comment_df parameter)
+validate_recode_directives <- function(x){
+
+    stopifnot(is.atomic(x),
+              !is.null(x))
+
+    if (is.null(dim(x))){
+        ## x è un vettore
+        if (length(x) %% 2 != 0)
+            stop('x must be a even length vector')
+        x <- matrix(x, ncol = 2, byrow = TRUE)
+    } else if(is.matrix(x)) {
+        if (ncol(x) != 2)
+            stop("x must be a matrix with 2 columns.")
+    } else
+        stop("x must be a vector or a matrix")
+
+    ## Checking for recoding directives uniqueness
+    x <- unique(x)
+    if(anyDuplicated(x[, 1]))
+        stop("No univocal recoding directives")
     x
 }
