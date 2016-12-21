@@ -75,13 +75,19 @@ NA_remove.data.frame <- function(x, quiet = FALSE, ...){
         nx <- nrow(x)
         ny <- nrow(y)
         if (nx != ny){
+            miss <- unlist(lapply(x, function(x) sum(is.na(x))))
+            miss <- sort(miss[miss > 0], decreasing = TRUE)
+            miss_string <- paste(sprintf("%s = %d", names(miss), miss),
+                                 sep  = '', collapse = ' \n ')
             message('Rows were ' , nx, ', now are ', ny, '. ',
                     nx - ny,
                     if (nx - ny > 1) ' rows ' else ' row ',
                     'deleted due missingness.\n',
-                    'Missing frequencies by variable:')
-            miss <- unlist(lapply(x, function(x) sum(is.na(x))))
-            print(miss[miss > 0])
+                    'Missing frequencies by variable (decreasing order):\n\n',
+                    miss_string,
+                    '\n')
+
+
         }
     }
     return(y)
