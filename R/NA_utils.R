@@ -78,7 +78,7 @@ NA_remove.data.frame <- function(x, quiet = FALSE, ...){
             miss <- unlist(lapply(x, function(x) sum(is.na(x))))
             miss <- sort(miss[miss > 0], decreasing = TRUE)
             miss_string <- paste(sprintf("%s = %d", names(miss), miss),
-                                 sep  = '', collapse = ' \n ')
+                                 sep  = '', collapse = '\n')
             message('Rows were ' , nx, ', now are ', ny, '. ',
                     nx - ny,
                     if (nx - ny > 1) ' rows ' else ' row ',
