@@ -12,4 +12,3 @@ rm_unprintable_chars(string)
 \description{
 Remove unprintable chars
 }
-

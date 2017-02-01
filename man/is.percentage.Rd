@@ -12,4 +12,3 @@ is.percentage(x)
 \description{
 Test if a vector represents a percentage variable
 }
-

@@ -28,4 +28,3 @@ pval1 <- c(3, NA, 1e-01, 1e-02, 1e-03, 1e-04, 1e-05)
 pretty_pval(pval1, space = TRUE)
 
 }
-

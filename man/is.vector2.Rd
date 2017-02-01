@@ -29,4 +29,3 @@ elem_list <- list(logical = logical(),
                   pairlist1 = pairlist(1))
 lapply(elem_list, is.vector2)
 }
-

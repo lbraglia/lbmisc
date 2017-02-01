@@ -15,4 +15,3 @@ x \%nin\% y
 Complement of \code{\%in\%}. Returns the elements of \code{x}
 that are not in \code{y}.
 }
-

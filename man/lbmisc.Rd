@@ -8,4 +8,3 @@
 \description{
 An R package with maily personal, miscellaneous, functions.
 }
-

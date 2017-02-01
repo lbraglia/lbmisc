@@ -19,4 +19,3 @@ db <- data.frame(a = letters, b = LETTERS)
 db <- comment_df(x = db, c('a', 'lowercase letters',
                            'b', 'uppercase letters'))
 }
-

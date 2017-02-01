@@ -14,4 +14,3 @@ unoconv(..., format = stop("Format needed"))
 \description{
 Unoconv file converter from R
 }
-

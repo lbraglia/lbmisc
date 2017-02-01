@@ -31,4 +31,3 @@ This wrapper allows to find all duplicated obs.
 duplicated( c(1,0, 2, 0, 3, 2)) # from base R
 duplicated2(c(1,0, 2, 0, 3, 2)) # from lbmisc
 }
-

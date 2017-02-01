@@ -18,6 +18,7 @@
 #' @importFrom grid grid.rect
 #' @importFrom grid grid.text
 #' @importFrom grid viewport
+#' @importFrom lattice levelplot
 #' @importFrom methods is
 #' @importFrom openxlsx saveWorkbook
 #' @importFrom openxlsx saveWorkbook

@@ -19,4 +19,3 @@ knitr default pretty printer
 ## knit_hooks$set(inline = lbmisc::knitr_inline)
 
 }
-

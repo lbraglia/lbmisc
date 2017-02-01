@@ -24,4 +24,3 @@ This function split a variable containing Smarty's output for
 a multiple response question in a dummy data.frame, to be
 used with \code{\link{cbind}}.
 }
-

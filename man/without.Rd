@@ -14,4 +14,3 @@ x \%without\% y
 \description{
 Return a vector x without the commont elements to another vector y.
 }
-

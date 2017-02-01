@@ -30,4 +30,3 @@ NA_report(test, "name")
 test2
 NA_report(test2, c("name", "surname"))
 }
-

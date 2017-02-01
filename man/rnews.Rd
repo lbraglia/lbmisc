@@ -12,4 +12,3 @@ rnews(...)
 \description{
 read R news
 }
-

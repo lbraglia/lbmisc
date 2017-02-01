@@ -12,4 +12,3 @@ update_packages(ask = FALSE)
 \description{
 update package shortcut with my defaults
 }
-

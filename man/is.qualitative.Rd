@@ -12,4 +12,3 @@ is.qualitative(x)
 \description{
 Test if a vector represents a qualitative variable
 }
-

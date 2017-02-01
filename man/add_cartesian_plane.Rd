@@ -27,4 +27,3 @@ The function adds a cartesian plane to a plot using
 \description{
 Add a cartesian system to a plot using \code{\link{abline}}.
 }
-

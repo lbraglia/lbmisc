@@ -26,4 +26,3 @@ add_to_wb(wb = wb, sheet = 'Indometh', x = Indometh)
 add_to_wb(wb = wb, sheet = 'Iris', x = iris)
 
 }
-

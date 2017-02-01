@@ -20,4 +20,3 @@ nona <- NA_remove(data.frame(a = 1:6,
                              c = c(rep(NA, 4), 'a', 'b')))
 
 }
-

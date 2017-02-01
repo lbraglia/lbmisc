@@ -29,4 +29,3 @@ db <- data.frame("group" = sample(gl(2,5)), "b" = Sys.Date() + 1:10)
 db <- db[order( - as.integer(db$group), db$b),]
 data.frame(db, id = group_prog_id(db$group))
 }
-

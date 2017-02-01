@@ -16,4 +16,3 @@ col2hex('blue', alpha = 0.5)}
 \description{
 Return an hex color with optional alpha shading
 }
-

@@ -35,4 +35,3 @@ test3 <- c(1:10,NA)
 cbind(test3, recode(test3, recode.m3))
 }
 }
-

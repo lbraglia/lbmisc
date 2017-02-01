@@ -17,4 +17,3 @@ and unique in-between) from a character vector.
 test <- c("  test ", "  mediterranean  sea  ")
 rm_spaces(test)
 }
-

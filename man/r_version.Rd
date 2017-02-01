@@ -12,4 +12,3 @@ easier access to R version
 \examples{
 r_version()
 }
-

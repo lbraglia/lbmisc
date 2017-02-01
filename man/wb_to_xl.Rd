@@ -20,4 +20,3 @@ add_to_wb(wb = wb, sheet = 'Indometh', x = Indometh)
 wb_to_xl(wb = wb, file = '/tmp/wb_to_xl.xls')
 wb_to_xl(wb = wb, file = '/tmp/wb_to_xl.xlsx')
 }
-

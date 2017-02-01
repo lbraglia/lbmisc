@@ -28,4 +28,3 @@ from demo(colors).
 show_col()
 
 }
-
