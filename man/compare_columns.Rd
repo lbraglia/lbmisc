@@ -26,7 +26,8 @@ be increasing)
 }
 \examples{
 
-compare_columns(data.frame(a = c(1,2,3), b = c(0,1,4)),
-                row_id = letters[1:3])
+(data <- data.frame(id = letters[1:4],  x = c(1,2,3,4), y = c(0,1,4,NA), z = rep(0, 4)))
+compare_columns(data[, -1], operator= '<')
+compare_columns(data[, -1], operator= '<', row_id = data$id)
 
 }

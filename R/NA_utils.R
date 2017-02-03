@@ -92,3 +92,35 @@ NA_remove.data.frame <- function(x, quiet = FALSE, ...){
     }
     return(y)
 }
+
+
+#' plot patterns of missing values
+#'
+#' plot patterns of missing values
+#' @param x a data.frame or a matrix
+#' @param ... other options passed to proper methods
+#' @examples
+#' 
+#' ## NA_plot(airquality)
+#' ## NA_plot(. ~ Month, data = airquality)
+#' @export
+NA_plot <- function(x, ...) UseMethod('NA_plot')
+#' @export
+NA_plot.default <- function(x, ...) stop('Not implemented')
+#' @export
+NA_plot.data.frame <- function(x, ...) {
+    x <- as.matrix(x)
+    NA_plot.matrix(x)
+}
+
+#' @export
+NA_plot.matrix <- function(x, ...) {
+    x <- t(is.na(x))
+    lattice::levelplot(x = x,
+                       aspect = 'fill',
+                       col.regions = gray(c(0.9, 0.1)),
+                       ylab = 'row',
+                       xlab = 'Variable',
+                       main = 'Missing data patterns',
+                       colorkey = FALSE)
+}
