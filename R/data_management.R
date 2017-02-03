@@ -71,9 +71,10 @@ duplicated2 <- function(x, all = TRUE, ...)
 #' with all comparisons results (FALSE) 
 #' @return a list with raw results and a report
 #' @examples
-#' 
-#' compare_columns(data.frame(a = c(1,2,3), b = c(0,1,4)),
-#'                 row_id = letters[1:3])
+#'
+#' (data <- data.frame(id = letters[1:4],  x = c(1,2,3,4), y = c(0,1,4,NA), z = rep(0, 4)))
+#' compare_columns(data[, -1], operator= '<')
+#' compare_columns(data[, -1], operator= '<', row_id = data$id)
 #' 
 #' @export
 compare_columns <- function(db,
@@ -82,28 +83,41 @@ compare_columns <- function(db,
                             short = TRUE)
 {
 
-  ## data should be a data.frame with no characters
-  stopifnot( (is.data.frame(db)) & (!any(sapply(db, is.character))) )
-  first <- db[, -ncol(db), drop = FALSE]
-  second <- db[, -1, drop = FALSE]
+    ## data should be a data.frame with no characters
+    stopifnot(is.data.frame(db))
 
-  ## matrix results
-  res <- Reduce(operator, list(first, second ))
-  colnames(res) <- paste(names(first), names(second), sep = ".vs.")
-  if(!is.null(row_id))
-    rownames(res) <- row_id
+    if (any(unlist(lapply(db, is.character))))
+        warning('There are characters in db.')
 
-  ## A report with all test that doesn't respect the rule, but selecting
-  ## only useful records for print (those with at least 1 query/flag)
-  report <- apply(res, 1, function(x) names(x)[x %in% FALSE])
-  select <- unlist(lapply(report, function(x) length(x)>0))
+    db_names <- names(db)
+    
+    test_row <- function(x){
+        not_NA_vars <- !is.na(x)
+        if (sum(not_NA_vars) > 1L){
+            # select only not NA values 
+            not_NA_values <- x[not_NA_vars]
+            names(not_NA_values) <- db_names[not_NA_vars]
+            ## operands
+            first <- not_NA_values[- length(not_NA_values)]
+            second <- not_NA_values[- 1]
+            comparison <- Reduce(operator, list(first, second ))
+            names(comparison) <- sprintf("'%s' vs '%s'", names(first), names(second))
+            names(comparison)[comparison %in% FALSE]
+        } else character(0)
+    }
 
-  if (short)
-    return(report[select])
-  else
-    return(list("results" = res, "report" = return(report[select])))
+    check_list <- apply(db, 1, test_row)
+    names(check_list) <- if(!is.null(row_id)) row_id
+                         else as.character(seq_along(check_list))
+    check_df <- Map(function(data, rows_id) data.frame('record' = rows_id, 'issue' = data),
+                    check_list, names(check_list))
+    
+    check_df <- do.call(rbind, check_df)
+    rownames(check_df) <- NULL
+    names(check_df)[1] <- if (!is.null(row_id)) 'id' else 'record'
+    
+    check_df
 }
-
 
 
 #' Vector recode utility
