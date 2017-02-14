@@ -72,8 +72,9 @@ duplicated2 <- function(x, all = TRUE, ...)
 #' @return a list with raw results and a report
 #' @examples
 #'
-#' (data <- data.frame(id = letters[1:4],  x = c(1,2,3,4), y = c(0,1,4,NA), z = rep(0, 4)))
+#' (data <- data.frame(id = letters[1:4],  x = c(1,2,3,4), y = c(0,1,3,NA), z = rep(0, 4)))
 #' compare_columns(data[, -1], operator= '<')
+#' compare_columns(data[, -1], operator= '>')
 #' compare_columns(data[, -1], operator= '<', row_id = data$id)
 #' 
 #' @export
@@ -90,6 +91,8 @@ compare_columns <- function(db,
         warning('There are characters in db.')
 
     db_names <- names(db)
+    flag1 <- "AT MOST ONE NON-MISSING VALUE"
+    flag2 <- "ROW ORDER IS OK"
     
     test_row <- function(x){
         not_NA_vars <- !is.na(x)
@@ -102,21 +105,29 @@ compare_columns <- function(db,
             second <- not_NA_values[- 1]
             comparison <- Reduce(operator, list(first, second ))
             names(comparison) <- sprintf("'%s' vs '%s'", names(first), names(second))
-            names(comparison)[comparison %in% FALSE]
-        } else character(0)
+            wrong <- names(comparison)[comparison %in% FALSE]
+            if (length(wrong) >= 1) wrong else flag2
+        } else flag1
     }
 
-    check_list <- apply(db, 1, test_row)
-    names(check_list) <- if(!is.null(row_id)) row_id
-                         else as.character(seq_along(check_list))
-    check_df <- Map(function(data, rows_id) data.frame('record' = rows_id, 'issue' = data),
-                    check_list, names(check_list))
-    
-    check_df <- do.call(rbind, check_df)
-    rownames(check_df) <- NULL
-    names(check_df)[1] <- if (!is.null(row_id)) 'id' else 'record'
-    
-    check_df
+    ## list of checks
+    check_list <- as.list(apply(db, 1, test_row)) # as.list to be confident of having a list
+    names(check_list) <- if(!is.null(row_id)) row_id else as.character(seq_along(check_list))
+    useful <- unlist(lapply(check_list, function(x) x[1] %nin% c(flag1, flag2)))
+    check_list <- check_list[useful]
+
+    if (length(check_list) > 0){
+        ## return data.frame of checks
+        check_df <- Map(function(data, rows_id) data.frame('record' = rows_id, 'issue' = data),
+                        check_list, names(check_list))
+        check_df <- do.call(rbind, check_df)
+        rownames(check_df) <- NULL
+        names(check_df)[1] <- if (!is.null(row_id)) 'id' else 'record'
+        check_df
+    } else {
+        # return nothing
+        invisible(NULL)
+    }
 }
 
 

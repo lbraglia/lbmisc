@@ -30,5 +30,6 @@
 #' @importFrom utils page
 #' @importFrom utils update.packages
 #' @importFrom utils zip
+#' @importFrom knitr engine_output
 #' @useDynLib lbmisc
 NULL
