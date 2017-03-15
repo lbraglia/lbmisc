@@ -67,9 +67,7 @@ duplicated2 <- function(x, all = TRUE, ...)
 #' @param db a data.frame with ordered columns
 #' @param operator comparison operator
 #' @param row_id an optional row id
-#' @param short logical, whether to include only a report (TRUE) or a matrix
-#' with all comparisons results (FALSE) 
-#' @return a list with raw results and a report
+#' @return a data.frame with non-passed checks
 #' @examples
 #'
 #' (data <- data.frame(id = letters[1:4],  x = c(1,2,3,4), y = c(0,1,3,NA), z = rep(0, 4)))
@@ -80,8 +78,7 @@ duplicated2 <- function(x, all = TRUE, ...)
 #' @export
 compare_columns <- function(db,
                             operator = "<",
-                            row_id = NULL,
-                            short = TRUE)
+                            row_id = NULL)
 {
 
     ## data should be a data.frame with no characters

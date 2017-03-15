@@ -4,7 +4,7 @@
 \alias{compare_columns}
 \title{Compare columns progressively}
 \usage{
-compare_columns(db, operator = "<", row_id = NULL, short = TRUE)
+compare_columns(db, operator = "<", row_id = NULL)
 }
 \arguments{
 \item{db}{a data.frame with ordered columns}
@@ -12,12 +12,9 @@ compare_columns(db, operator = "<", row_id = NULL, short = TRUE)
 \item{operator}{comparison operator}
 
 \item{row_id}{an optional row id}
-
-\item{short}{logical, whether to include only a report (TRUE) or a matrix
-with all comparisons results (FALSE)}
 }
 \value{
-a list with raw results and a report
+a data.frame with non-passed checks
 }
 \description{
 Compare columns progressively in a dataset using a specified operator,
@@ -26,8 +23,9 @@ be increasing)
 }
 \examples{
 
-(data <- data.frame(id = letters[1:4],  x = c(1,2,3,4), y = c(0,1,4,NA), z = rep(0, 4)))
+(data <- data.frame(id = letters[1:4],  x = c(1,2,3,4), y = c(0,1,3,NA), z = rep(0, 4)))
 compare_columns(data[, -1], operator= '<')
+compare_columns(data[, -1], operator= '>')
 compare_columns(data[, -1], operator= '<', row_id = data$id)
 
 }
