@@ -157,26 +157,11 @@ compare_columns <- function(db,
 recode <- function(x = NULL, from_to = NULL)
 {
     ## A few data input checks
-    if( !is.vector(x) ) 
-        stop("A vector to be recoded must be given.")
-
+    if(! (mode(x) %in% c("numeric", "character")){
+       stop("x must be a numeric or character vector.")
+    }
+    
     from_to <- validate_recode_directives(from_to)
-
-    ## if (is.vector(from_to)){
-    ##     if (length(from_to) %% 2 != 0)
-    ##         stop('from_to must be a even length vector')
-    ##     from_to <- matrix(from_to, ncol = 2, byrow = TRUE)
-    ## } else if(is.matrix(from_to)) {
-    ##     if (ncol(from_to) != 2)
-    ##         stop("from_to must be a matrix with 2 columns; ",
-    ##              "first column is 'from', second 'to'.")
-    ## } else
-    ##     stop("from_to must be a vector or a matrix")
-	
-    ## ## Checking for recoding directives uniqueness
-    ## from_to <- unique(from_to)
-    ## if(anyDuplicated(from_to[, 1]))
-    ##     stop("No univocal recoding directives")
 
     ## Apply directive to vector
     unlist(lapply(x, function(y) {
