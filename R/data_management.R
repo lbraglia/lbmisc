@@ -157,9 +157,8 @@ compare_columns <- function(db,
 recode <- function(x = NULL, from_to = NULL)
 {
     ## A few data input checks
-    if(! (mode(x) %in% c("numeric", "character")){
-       stop("x must be a numeric or character vector.")
-    }
+    if(! (mode(x) %in% c("numeric", "character")))
+        stop("x must be a numeric or character vector.")
     
     from_to <- validate_recode_directives(from_to)
 

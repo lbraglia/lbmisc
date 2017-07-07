@@ -13,14 +13,22 @@
 #'     considered and/or they order; if \code{NULL} (default) all
 #'     categories given in x will be used (in alphabetic order)
 #' @export
-smarty_mr_splitter <- function(x, spl_char = "|",
+smarty_mr_splitter <- function(x,
+                               spl_char = "|",
                                categs = NULL,
                                add_count = TRUE)
 {
-    
+
+    if (is.data.frame(x)){
+        x_name <- names(x)
+        x <- x[[1]]
+    } else {
+        x_name <- deparse(substitute(x))
+        x_name <- sub('^.+\\$', '', x_name)
+    }
+
     spl <- strsplit(x = x, split = spl_char, fixed = TRUE)
-    x_name <- deparse(substitute(x))
-    x_name <- sub('^.+\\$', '', x_name)
+
     if (is.null(categs)){
         categs <- sort(unique(unlist(spl)))
         categs <- categs[!is.na(categs)]
@@ -38,3 +46,23 @@ smarty_mr_splitter <- function(x, spl_char = "|",
     res
 }
 
+
+#' Replace smarty multiple responses with proper dummies
+#'
+#' @param x data.frame of interest
+#' @param variables mr variables to be replaced
+#' @param drop remove original mr variable once dummies have been added?
+#' @export
+replace_mr_with_dummies <- function(x = NULL, variables = NULL, drop = FALSE){
+    stopifnot(is.data.frame(x), is.character(variables))
+    for (variable in variables){
+        if (variable %in% names(x)){
+            location <- which(names(x) %in% variable)
+            tmp <- smarty_mr_splitter(x = x[, variable, drop = FALSE],
+                                      add_count = FALSE)
+            x <- as.data.frame(append(x = x, values = tmp, after = location))
+            if (drop) x[, variable] <- NULL
+        }
+    }
+    x
+}
