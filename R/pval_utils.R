@@ -7,7 +7,7 @@
 #' @param space Logical specifying whether a space should be inserted between
 #' number and operator (= or <, default to FALSE).
 #' @param equal add = where needed?
-#' @return The function return a string with the pretty printed p-values.
+#' @return The function returns a string with the pretty printed p-values.
 #' @examples
 #'
 #' pval1 <- c(3, NA, 1e-01, 1e-02, 1e-03, 1e-04, 1e-05)
@@ -52,4 +52,25 @@ pretty_pval <- function(pvalue, digits = 3L, space = FALSE, equal = FALSE) {
     }
     
     unlist(lapply(pvalue, worker, space = space, equal = equal))
+}
+
+
+#' Pretty print for p-values
+#' 
+#' Pretty print for p-values.
+#' 
+#' @param p A numeric vector of p-values.
+#' @return The function returns a character vector with stars related
+#'         to p-value.
+#' @examples
+#'
+#' pval1 <- c(3, NA, 0.005, 0.025, 0.05, 0.07, 0.5)
+#' pval_stars(pval1)
+#' 
+#' @export
+pval_stars <- function(p = NULL){
+    res <- cut(p, 
+               breaks = c(0, 0.01, 0.05, 0.1, 1),
+               labels = c('***', '**', '*', ''))
+    as.character(res)
 }
