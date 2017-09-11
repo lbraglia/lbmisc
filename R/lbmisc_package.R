@@ -9,6 +9,7 @@
 #' @importFrom grDevices colors
 #' @importFrom grDevices rgb
 #' @importFrom graphics abline
+#' @importFrom graphics lines
 #' @importFrom graphics par
 #' @importFrom graphics plot
 #' @importFrom graphics points

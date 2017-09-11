@@ -174,3 +174,31 @@ show_pch <-  function(extras = c("*",".","0","+","#"),
                            cex = cextext)
     }
 }
+
+#' 
+#' Plot a mathematical function
+#' 
+#' Plot a 2d mathematical function y = f(x)
+#' 
+#' @param domain a vector of 2 elements
+#' @param fun a function
+#' @param cartesian_plane wheter to add a cartesian plane
+#' @return Nothing. As a side effect the plot of \code{pch}.
+#' @examples
+#' 
+#' plot_fun()
+#' 
+#' @export
+
+plot_fun <- function(domain = c(0,5), 
+                     fun = function(x) x+1,
+                     cartesian_plane = TRUE
+                     ){
+    
+    x <- seq(domain[1], domain[2], length.out = 100)
+    y <- fun(x)
+    plot(x = x, y = y, pch = NA)
+    if (cartesian_plane) graphics::abline(v = 0, h = 0, col = 'red')
+    graphics::lines(x = x, y = y)
+    
+}
