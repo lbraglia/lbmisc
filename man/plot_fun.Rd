@@ -2,17 +2,30 @@
 % Please edit documentation in R/graph_utils.R
 \name{plot_fun}
 \alias{plot_fun}
-\title{Plot a mathematical function}
+\title{Plot a mathematical function (enhanced version of curve)}
 \usage{
-plot_fun(domain = c(0, 5), fun = function(x) x + 1,
-  cartesian_plane = TRUE)
+plot_fun(f = function(x) x + 1, from = 0, to = 5, f_col = "blue",
+  cartesian_plane = TRUE, cartesian_plane_col = "black", grid_at_x = NULL,
+  grid_at_y = NULL, ...)
 }
 \arguments{
-\item{domain}{a vector of 2 elements}
+\item{f}{a function}
 
-\item{fun}{a function}
+\item{from}{domain (plotting) starting point}
 
-\item{cartesian_plane}{wheter to add a cartesian plane}
+\item{to}{domain (plotting) ending point}
+
+\item{cartesian_plane}{wheter to add a cartesian plane ...}
+
+\item{cartesian_plane_col}{... and its color}
+
+\item{grid_at_x}{at_x param for add_grid}
+
+\item{grid_at_y}{at_y param for add_grid}
+
+\item{...}{other params given to plot}
+
+\item{f}{the function color}
 }
 \value{
 Nothing. As a side effect the plot of \code{pch}.

@@ -4,7 +4,7 @@
 \alias{add_grid}
 \title{Add grid to a plot}
 \usage{
-add_grid(at_x = NULL, at_y = at_x, col = "lightgray", lty = "dotted",
+add_grid(at_x = NULL, at_y = NULL, col = "lightgray", lty = "dotted",
   lwd = 1, ...)
 }
 \arguments{

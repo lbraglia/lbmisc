@@ -30,16 +30,19 @@ col2hex <- function(col, alpha = 1L){
 #' @return The function adds a grid to a plot using \code{\link{abline}}.
 #' @export
 add_grid <- function(at_x = NULL,
-                     at_y = at_x,
+                     at_y = NULL,
                      col  = 'lightgray',
                      lty  = 'dotted',
                      lwd  = 1,
                      ...)
 {
-    if (is.null(at_x)) stop('at_x is mandatory')
-    if (is.null(at_y)) stop('at_y is mandatory')
-    graphics::abline(v = at_x, col = col, lty = lty, lwd = lwd, ...)
-    graphics::abline(h = at_y, col = col, lty = lty, lwd = lwd, ...)
+    
+    if (is.null(at_x) && is.null(at_y))
+        stop('at least one between at_x and at_y is mandatory')
+    if(!is.null(at_x))
+        graphics::abline(v = at_x, col = col, lty = lty, lwd = lwd, ...)
+    if(!is.null(at_y))
+        graphics::abline(h = at_y, col = col, lty = lty, lwd = lwd, ...)
 }
 
 #' Add cartesian system to a plot
@@ -176,13 +179,19 @@ show_pch <-  function(extras = c("*",".","0","+","#"),
 }
 
 #' 
-#' Plot a mathematical function
+#' Plot a mathematical function (enhanced version of curve)
 #' 
 #' Plot a 2d mathematical function y = f(x)
 #' 
-#' @param domain a vector of 2 elements
-#' @param fun a function
-#' @param cartesian_plane wheter to add a cartesian plane
+#' @param f a function
+#' @param from domain (plotting) starting point
+#' @param to domain (plotting) ending point
+#' @param f the function color
+#' @param cartesian_plane wheter to add a cartesian plane ...
+#' @param cartesian_plane_col ... and its color
+#' @param grid_at_x at_x param for add_grid
+#' @param grid_at_y at_y param for add_grid
+#' @param ... other params given to plot
 #' @return Nothing. As a side effect the plot of \code{pch}.
 #' @examples
 #' 
@@ -190,15 +199,25 @@ show_pch <-  function(extras = c("*",".","0","+","#"),
 #' 
 #' @export
 
-plot_fun <- function(domain = c(0,5), 
-                     fun = function(x) x+1,
-                     cartesian_plane = TRUE
-                     ){
-    
-    x <- seq(domain[1], domain[2], length.out = 100)
-    y <- fun(x)
-    plot(x = x, y = y, pch = NA)
-    if (cartesian_plane) graphics::abline(v = 0, h = 0, col = 'red')
-    graphics::lines(x = x, y = y)
+plot_fun <- function(f = function(x) x + 1,
+                     from = 0,
+                     to = 5,
+                     f_col = 'blue',
+                     cartesian_plane = TRUE,
+                     cartesian_plane_col = 'black',
+                     grid_at_x = NULL,
+                     grid_at_y = NULL,
+                     ...)
+{
+    x <- seq(from = from, to = to, length.out = 100)
+    y <- f(x)
+    plot(x = x, y = y, pch = NA, ...)
+    if (! (is.null(grid_at_x) && is.null(grid_at_y)))
+        add_grid(at_x = grid_at_x, at_y = grid_at_y)
+    if (cartesian_plane)
+        graphics::abline(v = 0,
+                         h = 0,
+                         col = cartesian_plane_col)
+    graphics::lines(x = x, y = y, col = f_col)
     
 }
