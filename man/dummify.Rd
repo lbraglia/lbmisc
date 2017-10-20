@@ -20,6 +20,6 @@ Generate a data.frame of dummy variables given a vector
 \examples{
 
 rep(1:3, 4)
-dummy(rep(1:3, 4))
+dummify(rep(1:3, 4))
 
 }

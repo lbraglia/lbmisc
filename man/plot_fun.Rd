@@ -15,6 +15,8 @@ plot_fun(f = function(x) x + 1, from = 0, to = 5, f_col = "blue",
 
 \item{to}{domain (plotting) ending point}
 
+\item{f_col}{the function color}
+
 \item{cartesian_plane}{wheter to add a cartesian plane ...}
 
 \item{cartesian_plane_col}{... and its color}
@@ -24,8 +26,6 @@ plot_fun(f = function(x) x + 1, from = 0, to = 5, f_col = "blue",
 \item{grid_at_y}{at_y param for add_grid}
 
 \item{...}{other params given to plot}
-
-\item{f}{the function color}
 }
 \value{
 Nothing. As a side effect the plot of \code{pch}.

@@ -22,7 +22,7 @@ dummify <- function(x, prefix = ""){
         x <- factor(x)
     
     xlevels <- gsub(" ", "_", levels(x))
-    res <- as.data.frame(model.matrix(~ x - 1))
+    res <- as.data.frame(stats::model.matrix(~ x - 1))
     names(res) <- paste0(prefix, xlevels)
     res
 }

@@ -186,7 +186,7 @@ show_pch <-  function(extras = c("*",".","0","+","#"),
 #' @param f a function
 #' @param from domain (plotting) starting point
 #' @param to domain (plotting) ending point
-#' @param f the function color
+#' @param f_col the function color
 #' @param cartesian_plane wheter to add a cartesian plane ...
 #' @param cartesian_plane_col ... and its color
 #' @param grid_at_x at_x param for add_grid
