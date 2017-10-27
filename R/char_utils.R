@@ -71,7 +71,6 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL,
                                 dump_rev = FALSE
                                 ) {
 
-
     ## handling special cases
     if (! (is.data.frame(varnames) || is.character(varnames)))
         stop("varnames need to be a data.frame or character")
@@ -104,7 +103,10 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL,
     
     ## other math related things
     varnames <- gsub("\\%","_perc_", varnames)
-    
+
+    ## R language specificities
+    varnames <- gsub(":", "_", varnames)
+        
     ## dot to underscore
     varnames <- gsub("\\.","_", varnames)
 
