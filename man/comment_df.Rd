@@ -4,12 +4,14 @@
 \alias{comment_df}
 \title{Comment several variables of a data.frame}
 \usage{
-comment_df(x, var_com)
+comment_df(x, var_com, quiet = FALSE)
 }
 \arguments{
 \item{x}{a data.frame}
 
 \item{var_com}{variable name/comment pair}
+
+\item{quiet}{warning if some variable are not found in x (FALSE by default)}
 }
 \description{
 Comment several variables of a data.frame using a for loop of \code{comment}

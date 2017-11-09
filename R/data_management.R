@@ -175,30 +175,43 @@ recode <- function(x = NULL, from_to = NULL)
 #' Comment several variables of a data.frame using a for loop of \code{comment}
 #' @param x a data.frame
 #' @param var_com variable name/comment pair
+#' @param quiet warning if some variable are not found in x (FALSE by default)
 #' @examples
 #' db <- data.frame(a = letters, b = LETTERS)
 #' db <- comment_df(x = db, c('a', 'lowercase letters',
 #'                            'b', 'uppercase letters'))
 #' @export
-comment_df <- function(x, var_com){
+comment_df <- function(x, var_com, quiet = FALSE){
     stopifnot(is.data.frame(x),
               is.character(var_com))
 
     var_com <- validate_recode_directives(var_com)
     var_names <- var_com[,1]
     var_comments <- var_com[,2]
-
+    xnames <- names(x)
+    
     ## handle missing variable names
-    missing_names <- var_names[var_names %nin% names(x)]
-    if (length(missing_names) > 0L){
+    missing_names <- var_names[var_names %nin% xnames]
+    if (length(missing_names) > 0L && (!quiet)){
         missing_names <- paste(missing_names, collapse = ', ')
-        msg <- 'There are variables not found in x (%s); ignoring them..'
+        msg <- 'There are variables not found in x (%s); ignoring them ...'
         msg <- sprintf(msg, missing_names)
         warning(msg)
     }
 
+    ## x names that have no comment in var_com
+    missing_names2 <- xnames[xnames %nin% var_names]
+    if (length(missing_names2) > 0L && (!quiet)){
+        missing_names2 <- paste(missing_names2, collapse = ', ')
+        msg <- 'Some x variables have no comment in var_com (%s); bypassing ..'
+        msg <- sprintf(msg, missing_names2)
+        warning(msg)
+    }
+
+
+    
     for (i in var_names){
-        if (i %in% names(x)){
+        if (i %in% xnames){
             vc <- var_comments[var_names %in% i]
             comment(x[, i]) <- vc
         }
