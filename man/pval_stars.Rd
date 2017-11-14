@@ -4,10 +4,12 @@
 \alias{pval_stars}
 \title{Pretty print for p-values}
 \usage{
-pval_stars(p = NULL)
+pval_stars(p = NULL, less_05 = TRUE)
 }
 \arguments{
 \item{p}{A numeric vector of p-values.}
+
+\item{less_05}{if TRUE (default) return stars only for p < 0.05}
 }
 \value{
 The function returns a character vector with stars related
@@ -18,7 +20,7 @@ Pretty print for p-values.
 }
 \examples{
 
-pval1 <- c(3, NA, 0.005, 0.025, 0.05, 0.07, 0.5)
-pval_stars(pval1)
+pval1 <- c(NA, 0, 0.005, 0.01, 0.025, 0.05, 0.07, 0.5, 1, 3)
+cbind(pval1, pval_stars(pval1))
 
 }
