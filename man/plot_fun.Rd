@@ -23,6 +23,8 @@ plot_fun(f = function(x) x + 1, from = 0, to = 5, col = "black",
 
 \item{grid_at_y}{at_y param for add_grid}
 
+\item{add}{if TRUE the function is added within an existing graph}
+
 \item{...}{other params given to plot}
 
 \item{f_col}{the function color}
