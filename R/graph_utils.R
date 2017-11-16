@@ -191,6 +191,7 @@ show_pch <-  function(extras = c("*",".","0","+","#"),
 #' @param cartesian_plane_col ... and its color
 #' @param grid_at_x at_x param for add_grid
 #' @param grid_at_y at_y param for add_grid
+#' @param add if TRUE the function is added within an existing graph
 #' @param ... other params given to plot
 #' @return Nothing. As a side effect the plot of \code{pch}.
 #' @examples
@@ -198,26 +199,25 @@ show_pch <-  function(extras = c("*",".","0","+","#"),
 #' plot_fun()
 #' 
 #' @export
-
 plot_fun <- function(f = function(x) x + 1,
                      from = 0,
                      to = 5,
-                     f_col = 'blue',
+                     col = 'black',
                      cartesian_plane = TRUE,
                      cartesian_plane_col = 'black',
                      grid_at_x = NULL,
                      grid_at_y = NULL,
+                     add = FALSE,
                      ...)
 {
     x <- seq(from = from, to = to, length.out = 100)
     y <- f(x)
-    plot(x = x, y = y, pch = NA, ...)
+    if (!add) plot(x = x, y = y, pch = NA, ...)
     if (! (is.null(grid_at_x) && is.null(grid_at_y)))
         add_grid(at_x = grid_at_x, at_y = grid_at_y)
     if (cartesian_plane)
         graphics::abline(v = 0,
                          h = 0,
                          col = cartesian_plane_col)
-    graphics::lines(x = x, y = y, col = f_col)
-    
+    graphics::lines(x = x, y = y, col = col)
 }

@@ -4,9 +4,9 @@
 \alias{plot_fun}
 \title{Plot a mathematical function (enhanced version of curve)}
 \usage{
-plot_fun(f = function(x) x + 1, from = 0, to = 5, f_col = "blue",
+plot_fun(f = function(x) x + 1, from = 0, to = 5, col = "black",
   cartesian_plane = TRUE, cartesian_plane_col = "black", grid_at_x = NULL,
-  grid_at_y = NULL, ...)
+  grid_at_y = NULL, add = FALSE, ...)
 }
 \arguments{
 \item{f}{a function}
@@ -14,8 +14,6 @@ plot_fun(f = function(x) x + 1, from = 0, to = 5, f_col = "blue",
 \item{from}{domain (plotting) starting point}
 
 \item{to}{domain (plotting) ending point}
-
-\item{f_col}{the function color}
 
 \item{cartesian_plane}{wheter to add a cartesian plane ...}
 
@@ -26,6 +24,8 @@ plot_fun(f = function(x) x + 1, from = 0, to = 5, f_col = "blue",
 \item{grid_at_y}{at_y param for add_grid}
 
 \item{...}{other params given to plot}
+
+\item{f_col}{the function color}
 }
 \value{
 Nothing. As a side effect the plot of \code{pch}.
