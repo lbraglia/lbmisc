@@ -16,7 +16,7 @@
 smarty_mr_splitter <- function(x,
                                spl_char = "|",
                                categs = NULL,
-                               add_count = TRUE)
+                               add_count = FALSE)
 {
 
     if (is.data.frame(x)){
