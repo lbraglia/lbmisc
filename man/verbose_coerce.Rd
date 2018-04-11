@@ -4,7 +4,7 @@
 \alias{verbose_coerce}
 \title{Coerce/convert data verbosely if NA is introduced by coercion}
 \usage{
-verbose_coerce(x, coercer)
+verbose_coerce(x, coercer, xname = NULL, varname_msg = TRUE)
 }
 \arguments{
 \item{x}{data to}

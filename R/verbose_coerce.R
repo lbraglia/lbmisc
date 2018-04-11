@@ -9,7 +9,13 @@
 #' @examples \dontrun{verbose_coerce(c("a", 2L, 3L), as.integer)}
 #' 
 #' @export
-verbose_coerce <- function(x, coercer){
+verbose_coerce <- function(x, coercer,
+                           xname = NULL,
+                           varname_msg = TRUE
+                           ){
+    if (is.null(xname)) xname <- gsub('^.+\\$', '', deparse(substitute(x)))
+    if (varname_msg) cat(sprintf("Processing %s\n", xname))
+
     xc <- tryCatch(coercer(x),
                    ## verbose message handling
                    warning = function(warn) {
@@ -20,7 +26,8 @@ verbose_coerce <- function(x, coercer){
                            cat('Unique differences: \n\n')
                            df <- data.frame('original' = x, 
                                             'coerced'  = xcoerced)
-                           print(unique(df[rows, ]), row.names = FALSE)
+                           print(unique(df[rows, , drop = FALSE]),
+                                 row.names = FALSE)
                            cat("\n")
                        }
                        ## return value
