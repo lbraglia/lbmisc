@@ -12,7 +12,8 @@
 #' @param ... argument passed to mr_fun
 #' @examples
 #' data_char <- function(d) as.Date(d, format = '%d/%m/%Y')
-#' noyes <- function(x) factor(x, levels = c('NO', 'SI'), labels = noYes())
+#' noyes <- function(x) factor(x, levels = c('NO', 'SI'),
+#'                             labels = c('No', 'Yes'))
 #' test_df <- data.frame('a_date'    = c('2017-01-01', '2015-01-01'),
 #'                       'gender'    = c('m', 'f'),
 #'                       'female'    = c('NO', 'SI'),

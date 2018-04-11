@@ -4,10 +4,13 @@
 #' warning is raised and a difference in NA cardinality is 
 #' present a report of NA produced by coercion is printed
 #' 
-#' @param x data to
+#' @param x vector to be converted
 #' @param coercer a function (tipically as.*)
+#' @param xname string used for progress (varname) printing
+#' @param varname_msg logical: print progress (varname)?
+#'
 #' @examples \dontrun{verbose_coerce(c("a", 2L, 3L), as.integer)}
-#' 
+#'
 #' @export
 verbose_coerce <- function(x, coercer,
                            xname = NULL,
