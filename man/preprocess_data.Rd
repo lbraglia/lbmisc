@@ -33,7 +33,8 @@ test_df <- data.frame('a_date'    = c('2017-01-01', '2015-01-01'),
                       'educ_lev'  = c('diploma', 'degree'),
                       'birth'     = c("11/08/1927", "24/05/1935"),
                       'interests' = c('reading|travel|science',
-                                      'reading|science|cinema|tv'))
+                                      'reading|science|cinema|tv'),
+                      stringsAsFactors = FALSE)
 types <- list("as.Date" = 'a_date',
               "factor" = c("gender", "educ_lev"),
               "data_char" = 'birth',
