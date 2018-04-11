@@ -7,9 +7,13 @@
 verbose_coerce(x, coercer, xname = NULL, varname_msg = TRUE)
 }
 \arguments{
-\item{x}{data to}
+\item{x}{vector to be converted}
 
 \item{coercer}{a function (tipically as.*)}
+
+\item{xname}{string used for progress (varname) printing}
+
+\item{varname_msg}{logical: print progress (varname)?}
 }
 \description{
 Coerce/convert a given x using the coercer function; if a
