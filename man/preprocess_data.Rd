@@ -4,15 +4,16 @@
 \alias{preprocess_data}
 \title{preprocess data}
 \usage{
-preprocess_data(x, types, mr_name = "mr", mr_fun = smarty_mr_splitter, ...)
+preprocess_data(x, preprocessors, mr_name = "mr",
+  mr_fun = smarty_mr_splitter, ...)
 }
 \arguments{
 \item{x}{the data.frame}
 
-\item{types}{a named list: names = function names to be applied, 
+\item{preprocessors}{a named list: names = function names to be applied, 
 content is variable to be treated with the function}
 
-\item{mr_name}{name of types associated used for multiple response}
+\item{mr_name}{name of preprocessors associated used for multiple response}
 
 \item{mr_fun}{function used for multiple response which creates a data.frame
 of dummies given a single vector of multiple responses (eg 
@@ -35,12 +36,12 @@ test_df <- data.frame('a_date'    = c('2017-01-01', '2015-01-01'),
                       'interests' = c('reading|travel|science',
                                       'reading|science|cinema|tv'),
                       stringsAsFactors = FALSE)
-types <- list("as.Date" = 'a_date',
+preprocessors <- list("as.Date" = 'a_date',
               "factor" = c("gender", "educ_lev"),
               "data_char" = 'birth',
               "noyes" = 'female',
               "mr" = "interests")
 str(test_df)
-preproc <- preprocess_data(test_df, types)
+preproc <- preprocess_data(test_df, preprocessors)
 str(preproc)
 }

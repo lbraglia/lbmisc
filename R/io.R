@@ -76,3 +76,27 @@ write_sas <- function(x = NULL, file = NULL){
 
     utils::zip(zipfile = file, files = c(csv_file, sas_file))
 }
+
+#' Read all sheets from an xlsx
+#'
+#' Read all sheets from an xlsx; return them as a list or assign in the
+#' calling environment
+#'
+#' @param f xlsx file
+#' @param ret either list or assign
+#' @param ... other options passed to openxlsx::read.xlsx
+#'
+#' @export
+read.xlsx_alls  <- function(f = NULL, ret = c('list', 'assign'), ...){
+    ret <- match.arg(ret)
+    wb <- openxlsx::loadWorkbook(file = f)
+    sheets <- names(wb)
+    names(sheets) <- sheets
+    res <- lapply(sheets, function(s) openxlsx::read.xlsx(f, sheet = s, ...))
+    if (ret == 'list') {
+        res
+    } else if (ret == 'assign') {
+        list2env(res, envir = parent.frame(n = 2))
+        invisible(NULL)
+    } else stop("Only list or assign return")
+}
