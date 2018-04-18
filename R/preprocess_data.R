@@ -36,6 +36,9 @@ preprocess_data <- function(x, preprocessors,
                             mr_fun = smarty_mr_splitter,
                             ...)
 {
+
+    if (anyDuplicated(names(x))) stop("duplicated names in x, fix it")
+    
     ## -------------------
     ## validate preprocessors list
     ## -------------------
@@ -94,48 +97,15 @@ preprocess_data <- function(x, preprocessors,
                 df
             }
             mrs <- Map(renamer, mrs, mr_vars)
-            ## split the original dataframe by columns dictated by mr_pos
-            ## then add to the list the mrs 
-            ## then cbind everything
-            split_df_by_col_pos <- function(x, pos){
-                if (any(pos > ncol(x))) stop('index out of range')
-                ## unique is needed to handle the case where
-                ## the first or the last column is a mr
-                start <- unique(c(0, pos) + 1)
-                ## do not go outside if last is a mr
-                start <- start[start <= ncol(x)]
-                stop <- unique(c(pos, ncol(x)))
-                if (length(start) != length(stop)) 
-                    stop("start and stop should have the same length")
-                Map(function(df, from, to){
-                    df[, seq(from = from, to = to), drop = FALSE]
-                }, list(x), start, stop)
+            ## append
+            x <- as.list(x)
+            for (i in seq_along(mr_vars)){
+                varname <- mr_vars[i]
+                var_pos <- which(names(x) %in% varname)
+                val <- mrs[[i]]
+                x <- append(x = x, values = val, after = var_pos)
             }
-            x_spl <- split_df_by_col_pos(x, mr_pos)
-            ## append the original and multiple response lists
-            ## and put the elements in the proper order for a direct cbind
-            orig_len <- length(x_spl)
-            mr_len <- length(mrs)
-            ## in mr_index aggiungo un NA strumentale (per potere sfruttare
-            ## il trucco di togliere la dimensione alla matrice)
-            ## se l'ultima colonna non è una risposta 
-            ## multipla (come dovrebbe avvenire nella maggioranza dei casi)
-            orig_index <- seq_len(orig_len)
-            mr_index <- if (orig_len == mr_len){
-                            orig_len + seq_len(mr_len)
-                        } else if (orig_len == mr_len + 1){
-                            c(orig_len + seq_len(mr_len), NA)
-                        } else {
-                            stop('unhandled situation')
-                        }
-            ## ora sfrutto il trucco di togliere la dimensione
-            ## alla matrice per avere gli indici alternati e tolgo
-            ## il NA strumentale per la robustezza dell'algoritmo
-            index_order <- c(rbind(orig_index, mr_index))
-            index_order <- index_order[!is.na(index_order)]
-            ## finish him!
-            full_list <- c(x_spl, mrs)[index_order]
-            x <- do.call(cbind, full_list)
+            x <- as.data.frame(x)
         }
     }
     x
