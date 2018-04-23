@@ -2,13 +2,14 @@
 % Please edit documentation in R/cicero.R
 \name{cicero}
 \alias{cicero}
-\title{cicero: some similarities with moustache's idea but designed to
-be LaTeX friendly and tiny}
+\title{Cicero: some similarities with moustache's idea but designed to be
+LaTeX friendly, tiny and to allow mixing a bit of R code with templates
+(if x is a function)}
 \usage{
-cicero(tmpl = NULL, strict = FALSE, ...)
+cicero(x = NULL, strict = FALSE, ...)
 }
 \arguments{
-\item{tmpl}{template with \code{<<>>} as delimiters}
+\item{x}{template with \code{<<>>} as delimiters, or a function}
 
 \item{strict}{data provided must have all the same length
 (otherwise recycling will act)}
@@ -18,26 +19,58 @@ to be filled in tmpl. If missing lookup is made in the calling
 environment}
 }
 \description{
-cicero: some similarities with moustache's idea but designed to
-be LaTeX friendly and tiny
+Cicero: some similarities with moustache's idea but designed to be
+LaTeX friendly, tiny and to allow mixing a bit of R code with templates
+(if x is a function)
 }
 \examples{
 
-tmp <- "Hi my name's  <<nome>> \\textbf{<<cognome>>}.
-Born on <<dat_nas>>. Heigth <<heigth>>, weight <<weight>>."
-cicero(tmpl = tmp,
-       nome = "mario",
-       heigth = 1.78,
-       cognome = "rossi",
-       dat_nas = '2013-10-10',
-       weight = 80)
+## Example with character template
+tmp <- "Hi my name's  <<name>> \\textbf{<<surname>>}.
+Born on <<birthdate>>. Heigth <<heigth>>, weight <<weight>>."
+cicero(x = tmp,
+        name = "mario",
+        heigth = 1.78,
+        surname = "rossi",
+        birthdate = '2013-10-10',
+        weight = 80)
 
-nome <- "mario"
-cognome <- c("rossi", "bianchi")
+name <- "mario"
+surname <- c("rossi", "bianchi")
 heigth <- 1.78
-dat_nas <- '2013-10-10'
+birthdate <- '2013-10-10'
 weight <- 80
 cicero(tmp, strict = FALSE)
 \dontrun{cicero(tmp, strict = TRUE)}
+
+## Example with function as x
+## a possible application for function argument: choose the
+## template in runtime and fill it with proper data.
+select <- function(name, surname, height, weight)
+{
+    tmpl1 <- "Hi, I'm  <<name>> <<surname>>. My bmi is ok: <<bmi>>."
+    tmpl2 <- "Hi, I'm  <<name>> <<surname>>. My bmi is not ok: <<bmi>>."
+    bmi <- weight/(height^2)
+    if (bmi < 25) cicero(x = tmpl1, name = name, surname = surname, bmi = bmi)
+    else cicero(x = tmpl2, name = name, surname = surname, bmi = bmi)
+}
+    
+cicero(x = select,
+        name = "mario", surname = "rossi",
+        height = 1.78, weight = 82)
+
+cicero(x = select,
+        name = "mario", surname = "rossi",
+        height = 1.78, weight = 75)
+
+## cicero handles functions with argument ... as well
+f_with_dots <- function(namefirst, ...){
+    arglist <- list(...)
+    res1 <- do.call(paste, arglist)
+    res2 <- do.call(paste, rev(arglist))
+    if (namefirst) res1 else res2
+}
+cicero(x = f_with_dots, namefirst = TRUE, name = "mario", surname = "rossi")
+cicero(x = f_with_dots, namefirst = FALSE, name = "mario", surname = "rossi")
 
 }
