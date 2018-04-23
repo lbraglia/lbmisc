@@ -19,14 +19,13 @@
 #'         surname = "rossi",
 #'         birthdate = '2013-10-10',
 #'         weight = 80)
-#' 
-#' name <- "mario"
-#' surname <- c("rossi", "bianchi")
-#' heigth <- 1.78
-#' birthdate <- '2013-10-10'
-#' weight <- 80
-#' cicero(tmp, strict = FALSE)
-#' \dontrun{cicero(tmp, strict = TRUE)}
+#' cicero(x = tmp,
+#'        strict = TRUE
+#'         name = "mario",
+#'         heigth = c(1.78, 1.79),
+#'         surname = "rossi",
+#'         birthdate = '2013-10-10',
+#'         weight = 80)
 #'
 #' ## Example with function as x
 #' ## a possible application for function argument: choose the
@@ -64,11 +63,15 @@ cicero <- function (x = NULL, strict = FALSE, ...){
     xchar <- is.character(x)
     xfun  <- is.function(x)
     if (! (xchar || xfun)) stop('x must be a character or a function')
+
     ## data/parameters handling: if no data were specified on the
     ## command line take from the parent frame
     arglist <- list(...)
-    if (length(arglist) == 0) arglist <- as.list(parent.frame(n = 2))
-
+    ## it's not SAFE
+    ## if (length(arglist) == 0){
+    ##     arglist <- as.list(parent.frame(n = 2))
+    ## }
+    
     ## template handling: extract tags, varnames and prepare sprintf string
     if (xchar){
         x <- gsub('\n', '', x)
@@ -78,20 +81,34 @@ cicero <- function (x = NULL, strict = FALSE, ...){
     }
 
     if (xfun){
-        varnames <- names(formals(x))
+        xargs <- formals(x)
+        varnames <- names(xargs)
+        ## function parameter with defaults
+        x_def_args <- Filter(function(arg) !is.symbol(arg), xargs)
+        ## dots in function definition
         has_dots <- "..." %in% varnames
         if (has_dots) varnames <- varnames %without% "..."
     }
 
-    ## check missing arguments
-    missing_args <- setdiff(varnames, names(arglist))
+    ## check missing arguments, not specified, not default (for function only)
+    missing_args <- setdiff(
+        varnames %without% {if (xfun) names(x_def_args) else NULL},
+        names(arglist))
     if (length(missing_args) > 0) {
         msg <- c('Missing arguments for the passed template/function: ',
                  paste(missing_args, collapse = ', '))
         stop(msg)
     }
-    ## put the passed arguments in the proper order
-    arglist_sel <- arglist[varnames]
+    ## select the available arguments passed at the command line
+    arglist_sel <- arglist[names(arglist) %in% varnames]
+
+    if (xfun){
+        ## add useful defaults from the function which are not
+        ## specified in call
+        useful_defaults <- names(x_def_args) %nin% names(arglist)
+        arglist_sel <- c(arglist_sel, x_def_args[useful_defaults])
+    }
+    
     ## if x it's a function and has dots put all the non
     ## matched arguments in ...
     if (xfun && has_dots){
@@ -109,67 +126,13 @@ cicero <- function (x = NULL, strict = FALSE, ...){
 
     if (xchar) {
         arglist_sel <- lapply(arglist_sel, as.character)
+        ## put in the proper order
+        arglist_sel <- arglist_sel[varnames]
         do.call(sprintf, c(list(sprintf_str), arglist_sel))
     } else if (xfun) {
         do.call(x, arglist_sel)
     }
 }
 
-
-## cicero: some similarities with moustache's idea but designed to
-## be LaTeX friendly and tiny
-##
-## @param tmpl template with \code{<<>>} as delimiters
-## @param strict data provided must have all the same length
-##     (otherwise recycling will act)
-## @param ... data (vectors) passed with the same name as the variable
-##     to be filled in tmpl. If missing lookup is made in the calling
-##     environment
-## @examples
-## 
-## tmp <- "Hi my name's  <<nome>> \textbf{<<cognome>>}.
-## Born on <<dat_nas>>. Heigth <<heigth>>, weight <<weight>>."
-## cicero(tmpl = tmp,
-##        nome = "mario",
-##        heigth = 1.78,
-##        cognome = "rossi",
-##        dat_nas = '2013-10-10',
-##        weight = 80)
-## 
-## nome <- "mario"
-## cognome <- c("rossi", "bianchi")
-## heigth <- 1.78
-## dat_nas <- '2013-10-10'
-## weight <- 80
-## cicero(tmp, strict = FALSE)
-## \dontrun{cicero(tmp, strict = TRUE)}
-## 
-## cicero_old <- function (tmpl = NULL, strict = FALSE, ...){
-##    ## template handling: extract tags, varnames and prepare sprintf string
-##    tmpl <- gsub('\n', '', tmpl)
-##    tags <- unlist(regmatches(tmpl, gregexpr("(<<.*?>>)", tmpl)))
-##    varnames <- rm_spaces(gsub("[<>]", "", tags))
-##    sprintf_str <- gsub('<<.*?>>', '%s', tmpl)
-##    ## data handling: if no data were specified on the command line
-##    ## take from the parent frame
-##    arglist <- list(...)
-##    if (length(arglist) == 0) arglist <- as.list(parent.frame(n = 2))
-##    ## check what is missing yet
-##    missing_args <- setdiff(varnames, names(arglist))
-##    if (length(missing_args) > 0) {
-##        msg <- c('Missing arguments for the current template: ',
-##                 paste(missing_args, collapse = ', '))
-##        stop(msg)
-##    }
-##    ## put the passed arguments in the proper order
-##    arglist <- arglist[varnames]
-##    ## check if data in ... or parent.frame have the same length
-##    arglength <- unlist(lapply(arglist, length))
-##    not_same_length <- ! all(arglength == arglength[1])
-##    if (strict && not_same_length)
-##        stop("Data have not the same length")
-##    arglist <- lapply(arglist, as.character)
-##    do.call(sprintf, c(list(sprintf_str), arglist))
-## }
 
 

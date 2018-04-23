@@ -34,14 +34,13 @@ cicero(x = tmp,
         surname = "rossi",
         birthdate = '2013-10-10',
         weight = 80)
-
-name <- "mario"
-surname <- c("rossi", "bianchi")
-heigth <- 1.78
-birthdate <- '2013-10-10'
-weight <- 80
-cicero(tmp, strict = FALSE)
-\dontrun{cicero(tmp, strict = TRUE)}
+cicero(x = tmp,
+       strict = TRUE
+        name = "mario",
+        heigth = c(1.78, 1.79),
+        surname = "rossi",
+        birthdate = '2013-10-10',
+        weight = 80)
 
 ## Example with function as x
 ## a possible application for function argument: choose the
