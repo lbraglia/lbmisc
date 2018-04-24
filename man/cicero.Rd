@@ -6,17 +6,17 @@
 LaTeX friendly, tiny and to allow mixing a bit of R code with templates
 (if x is a function)}
 \usage{
-cicero(x = NULL, strict = FALSE, ...)
+cicero(x, ...)
 }
 \arguments{
 \item{x}{template with \code{<<>>} as delimiters, or a function}
 
-\item{strict}{data provided must have all the same length
-(otherwise recycling will act)}
-
 \item{...}{data (vectors) passed with the same name as the variable
 to be filled in tmpl. If missing lookup is made in the calling
 environment}
+
+\item{strict}{data provided must have all the same length
+(otherwise recycling will act)}
 }
 \description{
 Cicero: some similarities with moustache's idea but designed to be
@@ -34,14 +34,15 @@ cicero(x = tmp,
         surname = "rossi",
         birthdate = '2013-10-10',
         weight = 80)
+\dontrun{
 cicero(x = tmp,
-       strict = TRUE
+       strict = TRUE,
         name = "mario",
         heigth = c(1.78, 1.79),
         surname = "rossi",
         birthdate = '2013-10-10',
         weight = 80)
-
+}
 ## Example with function as x
 ## a possible application for function argument: choose the
 ## template in runtime and fill it with proper data.

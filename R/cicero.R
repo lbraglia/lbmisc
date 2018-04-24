@@ -19,14 +19,15 @@
 #'         surname = "rossi",
 #'         birthdate = '2013-10-10',
 #'         weight = 80)
+#' \dontrun{
 #' cicero(x = tmp,
-#'        strict = TRUE
+#'        strict = TRUE,
 #'         name = "mario",
 #'         heigth = c(1.78, 1.79),
 #'         surname = "rossi",
 #'         birthdate = '2013-10-10',
 #'         weight = 80)
-#'
+#' }
 #' ## Example with function as x
 #' ## a possible application for function argument: choose the
 #' ## template in runtime and fill it with proper data.
@@ -58,81 +59,79 @@
 #' cicero(x = f_with_dots, namefirst = FALSE, name = "mario", surname = "rossi")
 #'
 #'@export
-cicero <- function (x = NULL, strict = FALSE, ...){
+cicero <- function(x, ...) UseMethod('cicero')
 
-    xchar <- is.character(x)
-    xfun  <- is.function(x)
-    if (! (xchar || xfun)) stop('x must be a character or a function')
+#'@export
+cicero.character <- function(x, strict = FALSE, ...){
 
-    ## data/parameters handling: if no data were specified on the
-    ## command line take from the parent frame
     arglist <- list(...)
-    ## it's not SAFE
-    ## if (length(arglist) == 0){
-    ##     arglist <- as.list(parent.frame(n = 2))
-    ## }
-    
-    ## template handling: extract tags, varnames and prepare sprintf string
-    if (xchar){
-        x <- gsub('\n', '', x)
-        tags <- unlist(regmatches(x, gregexpr("(<<.*?>>)", x)))
-        varnames <- rm_spaces(gsub("[<>]", "", tags))
-        sprintf_str <- gsub('<<.*?>>', '%s', x)
-    }
 
-    if (xfun){
-        xargs <- formals(x)
-        varnames <- names(xargs)
-        ## function parameter with defaults
-        x_def_args <- Filter(function(arg) !is.symbol(arg), xargs)
-        ## dots in function definition
-        has_dots <- "..." %in% varnames
-        if (has_dots) varnames <- varnames %without% "..."
-    }
+    ## extract info from the string passed
+    x <- gsub('\n', '', x)
+    tags <- unlist(regmatches(x, gregexpr("(<<.*?>>)", x)))
+    varnames <- rm_spaces(gsub("[<>]", "", tags))
+    sprintf_str <- gsub('<<.*?>>', '%s', x)
 
     ## check missing arguments, not specified, not default (for function only)
-    missing_args <- setdiff(
-        varnames %without% {if (xfun) names(x_def_args) else NULL},
-        names(arglist))
+    missing_args <- setdiff(varnames, names(arglist))
     if (length(missing_args) > 0) {
         msg <- c('Missing arguments for the passed template/function: ',
                  paste(missing_args, collapse = ', '))
         stop(msg)
     }
+
     ## select the available arguments passed at the command line
     arglist_sel <- arglist[names(arglist) %in% varnames]
 
-    if (xfun){
-        ## add useful defaults from the function which are not
-        ## specified in call
-        useful_defaults <- names(x_def_args) %nin% names(arglist)
-        arglist_sel <- c(arglist_sel, x_def_args[useful_defaults])
-    }
-    
-    ## if x it's a function and has dots put all the non
-    ## matched arguments in ...
-    if (xfun && has_dots){
-        dots <- arglist[setdiff(names(arglist), varnames)]
-        arglist_sel <- c(arglist_sel, dots)
-    }
-    
-    ## check if data in ... or parent.frame have the same length
-    if (xchar) {
-        arglength <- unlist(lapply(arglist_sel, length))
-        not_same_length <- ! all(arglength == arglength[1])
-        if (strict && not_same_length)
-            stop("Data have not the same length")
-    }
+    ## check arguments length and if not consistent (and it's strict) stop
+    arglength <- unlist(lapply(arglist_sel, length))
+    not_same_length <- ! all(arglength == arglength[1])
+    if (strict && not_same_length) stop("Data have not the same length")
 
-    if (xchar) {
-        arglist_sel <- lapply(arglist_sel, as.character)
-        ## put in the proper order
-        arglist_sel <- arglist_sel[varnames]
-        do.call(sprintf, c(list(sprintf_str), arglist_sel))
-    } else if (xfun) {
-        do.call(x, arglist_sel)
-    }
+    ## coerce, put in the proper order and sprintf
+    arglist_sel <- lapply(arglist_sel, as.character)
+    arglist_sel <- arglist_sel[varnames]
+    do.call(sprintf, c(list(sprintf_str), arglist_sel))
 }
 
 
+#'@export
+cicero.function <- function(x, ...){
 
+    arglist <- list(...)
+
+    ## check the function
+    xargs <- formals(x)
+    varnames <- names(xargs)
+    ## function parameter with defaults
+    x_def_args <- Filter(function(arg) !is.symbol(arg), xargs)
+    ## dots in function definition
+    has_dots <- "..." %in% varnames
+    if (has_dots) varnames <- varnames %without% "..."
+
+    ## check missing arguments, not specified, not default
+    missing_args <- setdiff(varnames %without% names(x_def_args),
+                            names(arglist))
+    if (length(missing_args) > 0) {
+        msg <- c('Missing arguments for the passed template/function: ',
+                 paste(missing_args, collapse = ', '))
+        stop(msg)
+    }
+
+    ## select the available arguments passed at the command line
+    arglist_sel <- arglist[names(arglist) %in% varnames]
+
+    ## add useful defaults from the function which are not
+    ## specified in call
+    useful_defaults <- names(x_def_args) %nin% names(arglist)
+    arglist_sel <- c(arglist_sel, x_def_args[useful_defaults])
+
+    ## if has dots put all the non matched arguments in ...
+    if (has_dots){
+        dots <- arglist[setdiff(names(arglist), varnames)]
+        arglist_sel <- c(arglist_sel, dots)
+    }
+
+    ## make the call
+    do.call(x, arglist_sel)
+}
