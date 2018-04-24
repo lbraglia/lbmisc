@@ -91,7 +91,8 @@ cicero.character <- function(x, strict = FALSE, ...){
     ## coerce, put in the proper order and sprintf
     arglist_sel <- lapply(arglist_sel, as.character)
     arglist_sel <- arglist_sel[varnames]
-    do.call(sprintf, c(list(sprintf_str), arglist_sel))
+    sprintf_params <- c(list(sprintf_str), arglist_sel)
+    do.call(sprintf, sprintf_params)
 }
 
 
