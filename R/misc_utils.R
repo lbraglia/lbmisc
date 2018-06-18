@@ -16,7 +16,7 @@ update_packages <- function(ask = FALSE) {
 #' read R news
 #' @param ... arguments passed to \code{\link{news}}
 #' @export
-rnews <- function(...) utils::page(utils::news(...), method = 'print')
+r_news <- function(...) utils::page(utils::news(...), method = 'print')
 
 #' handy R version
 #'
