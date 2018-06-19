@@ -76,6 +76,6 @@ latex_ci <- function(x,
         paste0(start_brack, est, ', ', conf_lev_string , 
                ' ', low_ci, ' - ', up_ci, end_brack)
     else if (style == 'est_brack_ci_brack') 
-        paste0(est, start_brack, conf_lev_string , 
+        paste0(est, ' ', start_brack, conf_lev_string , 
                ' ', low_ci, ' - ', up_ci, end_brack)
 }
