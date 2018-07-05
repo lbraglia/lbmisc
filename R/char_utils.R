@@ -55,11 +55,14 @@ rm_unprintable_chars <- function(string) gsub("[\001-\037]", "", string)
 
 #' Preprocess data.frame variable names
 #'
-#' Function to preprocess variable names useful for a data.frame.
-#' This function was created to make automatic variable name
-#' creation from Excel files obtained by others.
+#' Function to preprocess variable names useful for a data.frame.  If
+#' a char is given a char is correct char is given back, if a
+#' data.frame the same data.frame with corrected names.
 #'
-#' @param varnames names of a data.frame (or the data.frame itself)
+#' This function was created to make automatic variable name creation
+#' from Excel files obtained by others.
+#'
+#' @param x a data.frame or its (col)names
 #' @param trim character length of trimming. If \code{NULL} (default)
 #'     trimming is disabled.
 #' @param dump_rev print a matrix with the reverse renaming. It can be used
@@ -67,16 +70,16 @@ rm_unprintable_chars <- function(string) gsub("[\001-\037]", "", string)
 #'     \code{comment_df} (if original names are to be used as
 #'     comments)
 #' @export
-preprocess_varnames <- function(varnames = NULL, trim = NULL,
-                                dump_rev = FALSE
-                                ) {
+preprocess_varnames <- function(x = NULL,
+                                trim = NULL,
+                                dump_rev = FALSE)
+{
 
-    ## handling special cases
-    if (! (is.data.frame(varnames) || is.character(varnames)))
+    ## handling cases
+    if (! (is.data.frame(x) || is.character(x)))
         stop("varnames need to be a data.frame or character")
-    if (is.data.frame(varnames))
-        varnames <- names(varnames)
 
+    varnames <- if (is.data.frame(x)) names(x) else x
     original_v <- varnames
     
     ## tolower
@@ -162,9 +165,14 @@ preprocess_varnames <- function(varnames = NULL, trim = NULL,
             " dimnames = list(NULL, c('new', 'old')))\n\n",
             sep = '')
     }
-    
-    return(varnames)	
-}	
+
+    if (is.data.frame(x)) {
+        names(x) <- varnames
+        x
+    } else
+        varnames
+}
+
 #' Transform an integer vector to a character prefixed by an arbitrary
 #' number of 0 digits
 #' 

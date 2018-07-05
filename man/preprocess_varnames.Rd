@@ -4,10 +4,10 @@
 \alias{preprocess_varnames}
 \title{Preprocess data.frame variable names}
 \usage{
-preprocess_varnames(varnames = NULL, trim = NULL, dump_rev = FALSE)
+preprocess_varnames(x = NULL, trim = NULL, dump_rev = FALSE)
 }
 \arguments{
-\item{varnames}{names of a data.frame (or the data.frame itself)}
+\item{x}{a data.frame or its (col)names}
 
 \item{trim}{character length of trimming. If \code{NULL} (default)
 trimming is disabled.}
@@ -18,7 +18,11 @@ with \code{recode} (back to original names?) or
 comments)}
 }
 \description{
-Function to preprocess variable names useful for a data.frame.
-This function was created to make automatic variable name
-creation from Excel files obtained by others.
+Function to preprocess variable names useful for a data.frame.  If
+a char is given a char is correct char is given back, if a
+data.frame the same data.frame with corrected names.
+}
+\details{
+This function was created to make automatic variable name creation
+from Excel files obtained by others.
 }

@@ -100,3 +100,40 @@ read.xlsx_alls  <- function(f = NULL, ret = c('list', 'assign'), ...){
         invisible(NULL)
     } else stop("Only list or assign return")
 }
+
+#' Apply read.table to all the files with a given extension in a given
+#' directory
+#' 
+#' @param dir a directory file to be readed with read.table
+#' @param ext which file extension files have to have to be readed
+#' @param ret either assign or a list
+#' @param ... other options passed to read.table
+#' 
+#' @export
+read.table_dir <- function(dir = 'data/dataset/', 
+                           ext = "csv",
+                           ret = c('list','assign'),
+                           ...)
+{
+    ret <- match.arg(ret)
+    fnames <- list.files(path = dir, pattern = paste0('*.', ext))
+    fnames_spl <- strsplit(fnames, "_")
+    ## prendi dal terzo al terzultimo per il nome del dataset
+    db_names <- tolower(unlist(lapply(fnames_spl, function(x){
+        ## browser()
+        terzultimo <- length(x) - 3
+        paste(x[seq(3, max(3, terzultimo))], collapse = '_')
+    })))
+    csv_importer <- function(x, verbose = TRUE){
+        if (verbose) message("Importing ", x)
+        read.table(file = paste0(dir, x), ...)
+    }
+    rval <- lapply(fnames, csv_importer)
+    names(rval) <- db_names
+    if (ret == 'assign') {
+        list2env(rval, envir = parent.frame(n = 2))
+        invisible(NULL)
+    } else if (ret == 'list') {
+        rval
+    } else stop("Only list or assign return")
+}
