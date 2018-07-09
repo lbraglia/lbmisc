@@ -17,6 +17,33 @@ print_unique_values <- function(x) {
 }
 
 
+#' Make a factor from character removing all blanks "" values (setting to NA)
+#'
+#' @param x character
+#' 
+#' @export
+factor_blankNA <- function(x){
+    x <- rm_spaces(x)
+    x[x %in% ""] <- NA
+    factor(x)
+}
+
+#' Import an italian or english no/si-yes character variable and make
+#' a factor
+#' 
+#' @param x character the variable
+#' @param labels labels to be applied to the factor
+#' 
+#' @export
+nosi_import <- function(x, labels = c("No", "Yes")){
+    x <- tolower(x)
+    x <- rm_spaces(x)
+    x <- gsub("yes", "sì", x)
+    x <- gsub("ì", "i", x)
+    x[x %in% ''] <- NA
+    factor(x, levels = c('no', 'si'), labels = labels)
+}
+
 #' Group progressive id creator
 #'
 #' Starting from a vector of group id, this function creates a progressive

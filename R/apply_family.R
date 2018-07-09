@@ -9,7 +9,7 @@
 verbose_lapply <- function(x, FUN, ...){
     x_names <- names(x)
     rval <- Map(function(v, n) {
-        message("\n\nProcessing ", n, "\n")
+        cat("\n\nProcessing", n, "\n\n")
         FUN(v, ...)
     }, x, x_names)
     rval 
