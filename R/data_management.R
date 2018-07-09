@@ -1,3 +1,22 @@
+#' Print the names of x as list for easy paste/copy in excel
+#'
+#' @param x the object with names
+#' 
+#' @export
+names_list <- function(x) 
+    cat(paste(names(x), collapse = '\n'), '\n', sep = "")
+
+#' Print the unique values of the elements composing x 
+#'
+#' @param x the object (tipically data.frame or list)
+#' 
+#' @export
+print_unique_values <- function(x) {
+    print(lapply(x, unique))
+    invisible(NULL)
+}
+
+
 #' Group progressive id creator
 #'
 #' Starting from a vector of group id, this function creates a progressive

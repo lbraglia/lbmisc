@@ -181,3 +181,39 @@ day.POSIXct <- function(x) {
 day.POSIXlt <- function(x) {
     as.numeric(format(x, "%d"))
 }
+
+
+#' Quick alias for importing italian csv common date formats
+#' 
+#' @param x character with date
+#' @param fmt format given to as.Date
+#' @param ... other arguments passed to as.Date
+#' 
+#' @export
+dmy_import <- function(x, fmt = "%d/%m/%Y", ...){
+    as.Date(x, format = fmt, ...)
+}
+
+
+#' Quick alias for importing italian csv common datetime
+#' 
+#' @param x character with date
+#' @param fmt format given to as.Date
+#' @param output class name of the ouput
+#' @param ... other arguments passed to as.POSIXlt
+#' 
+#' @export
+datetime_import <- function(x, 
+                            fmt = "%d/%m/%Y %H.%M.%S",
+                            output = c("Date", "POSIXlt", "POSIXct"),
+                            ...)
+{
+    output <- match.arg(output)
+    posix_lt <- as.POSIXlt(x, format = fmt, ...)
+    if (output == 'Date') 
+        as.Date(posix_lt) 
+    else if (output == 'POSIXlt')
+        posix_lt
+    else
+        as.POSIXct(posix_lt)
+}
