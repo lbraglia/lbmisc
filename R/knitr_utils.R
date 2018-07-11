@@ -10,7 +10,8 @@
 #' 
 #' @export
 knitr_inline <- function(x){
-    if (is.double(x)) sprintf('%.2f',x)
+    if (inherits(x, "Date")) as.character(x)
+    else if (is.double(x)) sprintf('%.2f',x)
     else if (is.integer(x)) sprintf('%d',x)
     else if (is.character(x)) sprintf('%s',x)
 }

@@ -56,10 +56,11 @@ wb_to_xl <- function(wb, file = NULL){
 #' @param file path to the zip file to save, if missing a .zip
 #'     with the same name as the data.frame will be saved in the
 #'     current working directory
+#' @param xname name to be given to the dataset
 #' @export
-write_sas <- function(x = NULL, file = NULL){
+write_sas <- function(x = NULL, file = NULL, xname = NULL){
 
-    xname <- deparse(substitute(x))
+    if (is.null(xname)) xname <- deparse(substitute(x))
     if (!is.data.frame(x)) stop('x must be a data.frame.')
 
     csv_file <- paste0(xname, '.csv')

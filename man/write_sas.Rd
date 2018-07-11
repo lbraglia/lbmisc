@@ -4,7 +4,7 @@
 \alias{write_sas}
 \title{Create a .zip for SAS (data + sas file)}
 \usage{
-write_sas(x = NULL, file = NULL)
+write_sas(x = NULL, file = NULL, xname = NULL)
 }
 \arguments{
 \item{x}{a data.frame}
@@ -12,6 +12,8 @@ write_sas(x = NULL, file = NULL)
 \item{file}{path to the zip file to save, if missing a .zip
 with the same name as the data.frame will be saved in the
 current working directory}
+
+\item{xname}{name to be given to the dataset}
 }
 \description{
 Create a .zip for SAS (data + sas file)
