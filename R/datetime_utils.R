@@ -1,3 +1,11 @@
+#' test if a vector is a date
+#' 
+#' @param x a vector
+#' @export
+#' 
+is.Date <- function(x) inherits(x, 'Date')
+
+
 #' Create a \code{\link{Date}} from month, day and year.
 #' 
 #' Create a \code{\link{Date}} from month, day and year.
