@@ -84,57 +84,113 @@ write_sas <- function(x = NULL, file = NULL, xname = NULL){
 #' calling environment
 #'
 #' @param f xlsx file
-#' @param ret either list or assign
 #' @param ... other options passed to openxlsx::read.xlsx
 #'
 #' @export
-read.xlsx_alls  <- function(f = NULL, ret = c('list', 'assign'), ...){
-    ret <- match.arg(ret)
+read.xlsx_alls  <- function(f = NULL, ...){
     wb <- openxlsx::loadWorkbook(file = f)
     sheets <- names(wb)
     names(sheets) <- sheets
     res <- lapply(sheets, function(s) openxlsx::read.xlsx(f, sheet = s, ...))
-    if (ret == 'list') {
-        res
-    } else if (ret == 'assign') {
-        list2env(res, envir = parent.frame(n = 2))
-        invisible(NULL)
-    } else stop("Only list or assign return")
+    res
 }
 
 #' Apply read.table to all the files with a given extension in a given
 #' directory
 #' 
-#' @param dir a directory file to be readed with read.table
-#' @param ext which file extension files have to have to be readed
-#' @param ret either assign or a list
-#' @param ... other options passed to read.table
+#' @param d a directory file to be readed with read.table
+#' @param ... other options passed to read.tables
 #' 
 #' @export
-read.table_dir <- function(dir = 'data/dataset/', 
-                           ext = "csv",
-                           ret = c('list','assign'),
-                           ...)
+read.table_dir <- function(d, ...)
 {
-    ret <- match.arg(ret)
-    fnames <- list.files(path = dir, pattern = paste0('*.', ext))
-    fnames_spl <- strsplit(fnames, "_")
+    fs <- list.files(path = d)
+    rval <- read.tables(f = fs, ...)
+    rval
+}
+
+smarty_csv_name_gen <- function(f){
+
+    f_spl <- strsplit(f, "_")
     ## prendi dal terzo al terzultimo per il nome del dataset
-    db_names <- tolower(unlist(lapply(fnames_spl, function(x){
-        ## browser()
+    tolower(unlist(lapply(f_spl, function(x){
         terzultimo <- length(x) - 3
         paste(x[seq(3, max(3, terzultimo))], collapse = '_')
     })))
-    csv_importer <- function(x, verbose = TRUE){
-        if (verbose) message("Importing ", x)
-        read.table(file = paste0(dir, x), ...)
-    }
-    rval <- lapply(fnames, csv_importer)
-    names(rval) <- db_names
-    if (ret == 'assign') {
-        list2env(rval, envir = parent.frame(n = 2))
-        invisible(NULL)
-    } else if (ret == 'list') {
-        rval
-    } else stop("Only list or assign return")
 }
+
+#' Apply read.table to all the files given as parameter and return a
+#' list
+#' 
+#' @param ... options passed to read.table
+#' @param name_gen function that return data.frame name given the path
+#'     to his file
+#' @param verbose if TRUE (by default) print info about progression
+#'     (file imported)
+#' 
+read.tables <- function(f,
+                        name_gen = function(x) file_path_sans_ext(basename(x)),
+                        verbose = TRUE,
+                        ...){
+
+    table_importer <- function(x, verbose){
+        if (verbose) message("Importing ", x)
+        read.table(file = x, ...)
+    }
+    
+    rval <- lapply(f, table_importer, verbose = verbose)
+    names(rval) <- name_gen(f)
+    rval
+}
+
+
+#' Import massively all the data from a xlsx dataset or a directory of
+#' text file
+#'
+#' This is a dispatcher for read.tables, read.table_dir or
+#' read.xlsx_alls
+#' 
+#' @param p char with a path to multiple text data files, a directory
+#'     with text data file or a single .xlsx file
+#' @param xlsx_params parameters passed to read.xlsx_alls
+#' @param text_params arguments passed to read.tables or
+#'     read.table_dir
+#' 
+#' @export
+importer <- function(p,
+                     xlsx_params = list(),
+                     text_params = list(
+                         header = TRUE,
+                         stringsAsFactors = FALSE,
+                         sep = ';',
+                         dec = '.',
+                         quote = "\"",
+                         fill = TRUE))
+{
+    ext <- file_ext(p)
+    is_xlsx_file   <- (ext == "xlsx")
+    are_text_files <- all(ext %in% c('csv', 'tsv', 'tab'))
+    is_directory   <- (ext == "")
+
+    if (is_xlsx_file) {
+        params <- c(list(f = p), xlsx_params)
+        do.call(read.xlsx_alls, params)
+    } else if (are_text_files){
+        params <- c(list(f = p), text_params)
+        do.call(read.tables, params)
+    } else if (is_directory){
+        params <- c(list(dir = p), text_params)
+        do.call(read.table_dir, params)
+    } else stop("p must be a vector of paths to text (csv/tsv/tab) files, ",
+                "a single directory or a single xlsx file")
+}
+
+
+#' Export a list of dataset to an xlsx file
+#' 
+#' @param x openxlsx::write.xlsx x parameter
+#' @param f openxlsx::write.xlsx file parameter
+#' @param ... further arguments passed to openxlsx::write.xlsx
+#' 
+#' @export
+exporter <- function(x, f, ...) openxlsx::write.xlsx(x = x, file = f, ...)

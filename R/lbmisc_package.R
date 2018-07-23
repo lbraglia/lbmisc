@@ -27,6 +27,7 @@
 #' @importFrom openxlsx read.xlsx
 #' @importFrom openxlsx saveWorkbook
 #' @importFrom openxlsx writeData
+#' @importFrom openxlsx write.xlsx
 #' @importFrom stats model.matrix
 #' @importFrom stats na.omit
 #' @importFrom tools file_path_sans_ext
