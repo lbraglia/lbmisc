@@ -19,22 +19,32 @@ verbose_coerce <- function(x, coercer,
     if (is.null(xname)) xname <- gsub('^.+\\$', '', deparse(substitute(x)))
     if (varname_msg) cat(sprintf("Processing %s\n", xname))
 
-    xc <- tryCatch(coercer(x),
-                   ## verbose message handling
-                   warning = function(warn) {
-                       warning(warn)
-                       xcoerced <- suppressWarnings(coercer(x))
-                       rows <- !is.na(x) & is.na(xcoerced)
-                       if (any(rows)){
-                           cat('Unique differences: \n\n')
-                           df <- data.frame('original' = x, 
-                                            'coerced'  = xcoerced)
-                           print(unique(df[rows, , drop = FALSE]),
-                                 row.names = FALSE)
-                           cat("\n")
-                       }
-                       ## return value
-                       return(xcoerced)
-                   })
+    xc <- coercer(x)
+    problem <- (!is.na(x)) & is.na(xc)
+    if (any(problem)){
+        cat('Unique differences: \n\n')
+        df <- data.frame('original' = x, 'coerced'  = xc)
+        print(unique(df[problem, , drop = FALSE]), row.names = FALSE)
+        cat("\n")
+    }
+    
+    ## xc <- tryCatch(coercer(x),
+    ##                ## verbose message handling
+    ##                warning = function(warn) {
+    ##                    warning(warn)
+    ##                    xcoerced <- suppressWarnings(coercer(x))
+    ##                    rows <- !is.na(x) & is.na(xcoerced)
+    ##                    if (any(rows)){
+    ##                        cat('Unique differences: \n\n')
+    ##                        df <- data.frame('original' = x, 
+    ##                                         'coerced'  = xcoerced)
+    ##                        print(unique(df[rows, , drop = FALSE]),
+    ##                              row.names = FALSE)
+    ##                        cat("\n")
+    ##                    }
+    ##                    ## return value
+    ##                    return(xcoerced)
+    ##                })
+    
     xc
 }
