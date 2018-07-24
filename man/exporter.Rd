@@ -6,6 +6,13 @@
 \usage{
 exporter(x, f, ...)
 }
+\arguments{
+\item{x}{openxlsx::write.xlsx x parameter}
+
+\item{f}{openxlsx::write.xlsx file parameter}
+
+\item{...}{further arguments passed to openxlsx::write.xlsx}
+}
 \description{
 Export a list of dataset to an xlsx file
 }

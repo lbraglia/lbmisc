@@ -5,7 +5,7 @@
 \title{Import multiple dataset, remove PII and save anonymized}
 \usage{
 pii_cleaner(input = tcltk::tk_choose.files(caption =
-  "Select files to be anonymized"), outfile, ...)
+  "Select DATA FILES to be imported and anonymized"), outfile = NULL, ...)
 }
 \arguments{
 \item{input}{importer x param}

@@ -5,16 +5,19 @@
 \title{Import massively all the data from a xlsx dataset or a directory of
 text file}
 \usage{
-importer(x, xlsx_params = list(), dir_params = list(header = TRUE,
+importer(p, xlsx_params = list(), text_params = list(header = TRUE,
   stringsAsFactors = FALSE, sep = ";", dec = ".", quote = "\\"", fill = TRUE))
 }
 \arguments{
-\item{x}{char with a path to a directory or a xlsx}
+\item{p}{char with a path to multiple text data files, a directory
+with text data file or a single .xlsx file}
 
 \item{xlsx_params}{parameters passed to read.xlsx_alls}
 
-\item{dir_params}{further arguments passed to read.table_dir}
+\item{text_params}{arguments passed to read.tables or
+read.table_dir}
 }
 \description{
-This is a dispatcher for read.table_dir or read.xlsx_all
+This is a dispatcher for read.tables, read.table_dir or
+read.xlsx_alls
 }

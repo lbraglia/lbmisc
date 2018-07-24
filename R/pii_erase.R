@@ -65,8 +65,8 @@ pii_cleaner_output <- function(i){
 #' @param outfile exporter x param
 #' @export
 pii_cleaner <-
-    function(input = tcltk::tk_choose.files(caption = "Select files to be anonymized"),
-             outfile,
+    function(input = tcltk::tk_choose.files(caption = "Select DATA FILES to be imported and anonymized"),
+             outfile = NULL,
              ...)
 {
     dbs <- importer(input, ...)

@@ -31,9 +31,11 @@
 #' @importFrom stats model.matrix
 #' @importFrom stats na.omit
 #' @importFrom tools file_path_sans_ext
+#' @importFrom tools file_ext
 #' @importFrom utils news
 #' @importFrom utils page
 #' @importFrom utils update.packages
 #' @importFrom utils zip
+#' @importFrom tcltk tk_choose.files
 #' @useDynLib lbmisc
 NULL

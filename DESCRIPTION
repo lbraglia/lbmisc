@@ -5,7 +5,7 @@ Authors@R: person('Luca', 'Braglia', email = 'lbraglia@gmail.com', role = c('aut
 Description: Miscellaneous utility functions.
 Depends: R (>= 3.2.3)
 Imports: foreign, graphics, grid, grDevices, methods, lattice, knitr,
-	 openxlsx, stats, utils, tools
+	 openxlsx, stats, utils, tools, tcltk
 URL: http://github.com/lbraglia/lbmisc
 BugReports: http://github.com/lbraglia/lbmisc/issues
 License: GPL-3

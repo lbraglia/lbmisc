@@ -109,14 +109,10 @@ read.table_dir <- function(d, ...)
     rval
 }
 
-smarty_csv_name_gen <- function(f){
 
-    f_spl <- strsplit(f, "_")
-    ## prendi dal terzo al terzultimo per il nome del dataset
-    tolower(unlist(lapply(f_spl, function(x){
-        terzultimo <- length(x) - 3
-        paste(x[seq(3, max(3, terzultimo))], collapse = '_')
-    })))
+default_name_gen <- function(x){
+    rval <- file_path_sans_ext(tolower(basename(x)))
+    gsub(" ", "_", rval)
 }
 
 #' Apply read.table to all the files given as parameter and return a
@@ -129,9 +125,10 @@ smarty_csv_name_gen <- function(f){
 #'     (file imported)
 #' 
 read.tables <- function(f,
-                        name_gen = function(x) file_path_sans_ext(basename(x)),
+                        name_gen = default_name_gen,
                         verbose = TRUE,
-                        ...){
+                        ...)
+{
 
     table_importer <- function(x, verbose){
         if (verbose) message("Importing ", x)
@@ -167,18 +164,15 @@ importer <- function(p,
                          quote = "\"",
                          fill = TRUE))
 {
-    ext <- file_ext(p)
-    is_xlsx_file   <- (ext == "xlsx")
-    are_text_files <- all(ext %in% c('csv', 'tsv', 'tab'))
-    is_directory   <- (ext == "")
+    ext <- tools::file_ext(p)
 
-    if (is_xlsx_file) {
-        params <- c(list(f = p), xlsx_params)
-        do.call(read.xlsx_alls, params)
-    } else if (are_text_files){
+    if (all(ext %in% c('csv', 'tsv', 'tab'))){ ## multiple files
         params <- c(list(f = p), text_params)
         do.call(read.tables, params)
-    } else if (is_directory){
+    } else if (ext == "xlsx") { ## one xlsx
+        params <- c(list(f = p), xlsx_params)
+        do.call(read.xlsx_alls, params)
+    }  else if (ext == ""){ ## Full directory
         params <- c(list(dir = p), text_params)
         do.call(read.table_dir, params)
     } else stop("p must be a vector of paths to text (csv/tsv/tab) files, ",

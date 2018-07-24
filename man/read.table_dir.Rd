@@ -5,17 +5,12 @@
 \title{Apply read.table to all the files with a given extension in a given
 directory}
 \usage{
-read.table_dir(dir = "data/dataset/", ext = "csv", ret = c("list",
-  "assign"), ...)
+read.table_dir(d, ...)
 }
 \arguments{
-\item{dir}{a directory file to be readed with read.table}
+\item{d}{a directory file to be readed with read.table}
 
-\item{ext}{which file extension files have to have to be readed}
-
-\item{ret}{either assign or a list}
-
-\item{...}{other options passed to read.table}
+\item{...}{other options passed to read.tables}
 }
 \description{
 Apply read.table to all the files with a given extension in a given

@@ -4,12 +4,10 @@
 \alias{read.xlsx_alls}
 \title{Read all sheets from an xlsx}
 \usage{
-read.xlsx_alls(f = NULL, ret = c("list", "assign"), ...)
+read.xlsx_alls(f = NULL, ...)
 }
 \arguments{
 \item{f}{xlsx file}
-
-\item{ret}{either list or assign}
 
 \item{...}{other options passed to openxlsx::read.xlsx}
 }
