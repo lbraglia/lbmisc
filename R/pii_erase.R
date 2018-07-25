@@ -43,33 +43,10 @@ is_fiscal_code <- any_match("[A-Z]{6}\\d{2}[A-Z]{1}\\d{2}[A-Z]{1}\\d{3}[A-Z]{1}"
 ## is_phone       <- any_match("\\d{3}?[.-]? *\\d{3}[.-]? *[.-]?\\d{4}")
 ## is_mobile      <- any_match("TODO")
 
-
 ## Misc Utils
 low_no_spaces <- function(x) lbmisc::rm_spaces(tolower(x))
 varname_index <- function(x, varnames){
     nx  <- low_no_spaces(names(x))
     vn  <- low_no_spaces(varnames)
     nx %in% vn
-}
-
-
-pii_cleaner_output <- function(i){
-
-
-
-}
-
-#' Import multiple dataset, remove PII and save anonymized
-#'
-#' @param input importer x param
-#' @param outfile exporter x param
-#' @export
-pii_cleaner <-
-    function(input = tcltk::tk_choose.files(caption = "Select DATA FILES to be imported and anonymized"),
-             outfile = NULL,
-             ...)
-{
-    dbs <- importer(input, ...)
-    dbs <- verbose_lapply(dbs, pii_erase)
-    exporter(x = dbs, f = outfile)
 }

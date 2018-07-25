@@ -104,8 +104,9 @@ read.xlsx_alls  <- function(f = NULL, ...){
 #' @export
 read.table_dir <- function(d, ...)
 {
-    fs <- list.files(path = d)
-    rval <- read.tables(f = fs, ...)
+    f <- list.files(path = d)
+    paths <- paste(d, f, sep = '/')
+    rval <- read.tables(f = paths, ...)
     rval
 }
 
@@ -169,11 +170,18 @@ importer <- function(p,
     if (all(ext %in% c('csv', 'tsv', 'tab'))){ ## multiple files
         params <- c(list(f = p), text_params)
         do.call(read.tables, params)
+    } else if (ext == "zip") { ## unzip and use recursion on the directory
+        d <- tempdir()
+        unzip(p, exdir = d)
+        rval <- importer(p = d, xlsx_params = xlsx_params,
+                         text_params = text_params)
+        unlink(d, recursive = TRUE, force = TRUE)
+        rval
     } else if (ext == "xlsx") { ## one xlsx
         params <- c(list(f = p), xlsx_params)
         do.call(read.xlsx_alls, params)
     }  else if (ext == ""){ ## Full directory
-        params <- c(list(dir = p), text_params)
+        params <- c(list(d = p), text_params)
         do.call(read.table_dir, params)
     } else stop("p must be a vector of paths to text (csv/tsv/tab) files, ",
                 "a single directory or a single xlsx file")
