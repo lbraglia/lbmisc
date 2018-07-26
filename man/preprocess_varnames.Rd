@@ -4,7 +4,7 @@
 \alias{preprocess_varnames}
 \title{Preprocess data.frame variable names}
 \usage{
-preprocess_varnames(x = NULL, trim = NULL, dump_rev = FALSE)
+preprocess_varnames(x = NULL, trim = NULL, dump_rev = TRUE)
 }
 \arguments{
 \item{x}{a data.frame or its (col)names}

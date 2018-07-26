@@ -72,7 +72,7 @@ rm_unprintable_chars <- function(string) gsub("[\001-\037]", "", string)
 #' @export
 preprocess_varnames <- function(x = NULL,
                                 trim = NULL,
-                                dump_rev = FALSE)
+                                dump_rev = TRUE)
 {
 
     ## handling cases
