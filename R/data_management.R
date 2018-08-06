@@ -12,7 +12,7 @@ names_list <- function(x)
 #' 
 #' @export
 print_unique_values <- function(x) {
-    print(lapply(x, unique))
+    print(lapply(x, function(y) sort(unique(y), na.last = TRUE)))
     invisible(NULL)
 }
 

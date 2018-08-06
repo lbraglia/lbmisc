@@ -25,3 +25,14 @@ r_news <- function(...) utils::page(utils::news(...), method = 'print')
 #' r_version()
 #' @export
 r_version <- function() paste(R.version$major, R.version$minor, sep = '.')
+
+#' Save a named list (eg a list of data.frames from lbmisc::import) in 
+#' the global environment
+#' 
+#' @param x a named list passed to list2env
+#' @param ... other parameters passed to list2env
+#' @export
+list2globalenv <- function(x, ...) {
+    list2env(x, envir = globalenv(), ...)
+    invisible(NULL)
+}

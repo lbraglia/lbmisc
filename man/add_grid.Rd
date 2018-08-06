@@ -4,8 +4,8 @@
 \alias{add_grid}
 \title{Add grid to a plot}
 \usage{
-add_grid(at_x = NULL, at_y = NULL, col = "lightgray", lty = "dotted",
-  lwd = 1, ...)
+add_grid(at_x = NULL, at_y = NULL, col = "lightgray",
+  lty = "dotted", lwd = 1, ...)
 }
 \arguments{
 \item{at_x}{x axis grid values}

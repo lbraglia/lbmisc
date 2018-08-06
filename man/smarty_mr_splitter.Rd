@@ -4,7 +4,8 @@
 \alias{smarty_mr_splitter}
 \title{Smarty Multiple Response Splitter}
 \usage{
-smarty_mr_splitter(x, spl_char = "|", categs = NULL, add_count = FALSE)
+smarty_mr_splitter(x, spl_char = "|", categs = NULL,
+  add_count = FALSE)
 }
 \arguments{
 \item{x}{variable to be splitted}

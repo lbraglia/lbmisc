@@ -6,7 +6,8 @@
 text file}
 \usage{
 importer(p, xlsx_params = list(), text_params = list(header = TRUE,
-  stringsAsFactors = FALSE, sep = ";", dec = ".", quote = "\\"", fill = TRUE))
+  stringsAsFactors = FALSE, sep = ";", dec = ".", quote = "\\"", fill =
+  TRUE))
 }
 \arguments{
 \item{p}{char with a path to multiple text data files, a directory
