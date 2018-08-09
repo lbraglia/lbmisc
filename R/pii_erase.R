@@ -10,6 +10,7 @@ pii_erase <- function(x, quiet = FALSE)
     if (!is.data.frame(x)) stop("x must be a data.frame")
 
     surname     <- varname_index(x, c("cognome", "surname"))
+    surnamename <- varname_index(x, c("cognomenome", "surnamename"))
     name        <- varname_index(x, c("nome", "name"))
     mail        <- unlist(lapply(x, is_email))
     fiscal_code <- unlist(lapply(x, is_fiscal_code))
@@ -18,13 +19,14 @@ pii_erase <- function(x, quiet = FALSE)
     
     removed <-
         surname      |
+        surnamename  |
         name         |
         mail         |
         fiscal_code  ## |
         ## _phone        |
         ## _mobile
 
-    if (!quiet) {
+    if ((!quiet) && any(removed)) {
         rm_names <- names(x)[removed]
         message("Likely PII detected, removing:  \n- ",
                 paste(rm_names, collapse = "\n- "), "\n")
