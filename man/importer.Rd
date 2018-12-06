@@ -13,10 +13,11 @@ importer(p, xlsx_params = list(), text_params = list(header = TRUE,
 \item{p}{char with a path to multiple text data files, a directory
 with text data file or a single .xlsx file}
 
-\item{xlsx_params}{parameters passed to read.xlsx_alls}
+\item{xlsx_params}{parameters passed to read.xlsx_alls (they will
+be commonly applied to all xlsx)}
 
-\item{text_params}{arguments passed to read.tables or
-read.table_dir}
+\item{text_params}{arguments passed to read.table (they will be
+commonly applied to all text files)}
 }
 \description{
 This is a dispatcher for read.tables, read.table_dir or

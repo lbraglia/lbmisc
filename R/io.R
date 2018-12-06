@@ -95,53 +95,6 @@ read.xlsx_alls  <- function(f = NULL, ...){
     res
 }
 
-#' Apply read.table to all the files with a given extension in a given
-#' directory
-#' 
-#' @param d a directory file to be readed with read.table
-#' @param ... other options passed to read.tables
-#' 
-#' @export
-read.table_dir <- function(d, ...)
-{
-    f <- list.files(path = d)
-    paths <- paste(d, f, sep = '/')
-    rval <- read.tables(f = paths, ...)
-    rval
-}
-
-
-default_name_gen <- function(x){
-    rval <- file_path_sans_ext(tolower(basename(x)))
-    gsub(" ", "_", rval)
-}
-
-#' Apply read.table to all the files given as parameter and return a
-#' list
-#' 
-#' @param ... options passed to read.table
-#' @param name_gen function that return data.frame name given the path
-#'     to his file
-#' @param verbose if TRUE (by default) print info about progression
-#'     (file imported)
-#' 
-read.tables <- function(f,
-                        name_gen = default_name_gen,
-                        verbose = TRUE,
-                        ...)
-{
-
-    table_importer <- function(x, verbose){
-        if (verbose) message("Importing ", x)
-        read.table(file = x, ...)
-    }
-    
-    rval <- lapply(f, table_importer, verbose = verbose)
-    names(rval) <- name_gen(f)
-    rval
-}
-
-
 #' Import massively all the data from a xlsx dataset or a directory of
 #' text file
 #'
@@ -150,9 +103,10 @@ read.tables <- function(f,
 #' 
 #' @param p char with a path to multiple text data files, a directory
 #'     with text data file or a single .xlsx file
-#' @param xlsx_params parameters passed to read.xlsx_alls
-#' @param text_params arguments passed to read.tables or
-#'     read.table_dir
+#' @param xlsx_params parameters passed to read.xlsx_alls (they will
+#'     be commonly applied to all xlsx)
+#' @param text_params arguments passed to read.table (they will be
+#'     commonly applied to all text files)
 #' 
 #' @export
 importer <- function(p,
@@ -167,25 +121,52 @@ importer <- function(p,
 {
     ext <- tools::file_ext(p)
 
-    if (all(ext %in% c('csv', 'tsv', 'tab'))){ ## multiple files
-        params <- c(list(f = p), text_params)
-        do.call(read.tables, params)
-    } else if (ext == "zip") { ## unzip and use recursion on the directory
+    if (all(ext %in% c('csv', 'tsv', 'tab', 'xlsx'))){
+        ## multiple single files: copy them in a temporary dir
+        ## and start directory importer
         d <- tempdir()
+        on.exit(unlink(d, recursive = TRUE, force = TRUE))
+        file.copy(p, to = d)
+        importer(p = d, xlsx_params = xlsx_params, text_params = text_params)
+    } else if (ext == "zip") {
+        ## unzip in a directory and start directory importer (recursion)
+        d <- tempdir()
+        on.exit(unlink(d, recursive = TRUE, force = TRUE))
         unzip(p, exdir = d)
-        rval <- importer(p = d, xlsx_params = xlsx_params,
-                         text_params = text_params)
-        unlink(d, recursive = TRUE, force = TRUE)
+        importer(p = d, xlsx_params = xlsx_params, text_params = text_params)
+    }  else if (ext == ""){
+        ## Directory case
+        ## obtain single file infos
+        files <- list.files(path = p)
+        filepaths <- paste(p, files, sep = '/')
+        names(filepaths) <- file_path_sans_ext(files)
+        ## do proper functions call based on file extension
+        rval <- lapply(filepaths, function(fp) {
+            ext <- tools::file_ext(fp)
+            if (ext %in% c('csv', 'tsv', 'tab')){
+                do.call(read.table, c(list('file' = fp), text_params))
+            } else if (ext %in% 'xlsx') {
+                do.call(read.xlsx_alls, c(list('f' = fp), xlsx_params))
+            } else stop ("All files must be a csv, tsv, tab or xlsx")
+        })
+        ## uniform to a single list of data.frames with sensible naming
+        uniform <- function(x, n) {
+            if (is.data.frame(x)) {
+                setNames(list(x), n)
+            } else setNames(x, paste(n, names(x), sep = "_"))
+        }
+        rval <- Map(uniform, rval, as.list(names(rval)))
+        rval <- Reduce(c, x = rval, init = list())
+        names(rval) <- gsub(" ", "_", names(rval))
         rval
-    } else if (ext == "xlsx") { ## one xlsx
-        params <- c(list(f = p), xlsx_params)
-        do.call(read.xlsx_alls, params)
-    }  else if (ext == ""){ ## Full directory
-        params <- c(list(d = p), text_params)
-        do.call(read.table_dir, params)
-    } else stop("p must be a vector of paths to text (csv/tsv/tab) files, ",
-                "a single directory or a single xlsx file")
+        
+    } else {
+        msg <- paste0("p must be a vector of paths csv/tsv/tab/xlsx files, ",
+                      "a zip file or a directory containing the same formats")
+        stop(msg)
+    }
 }
+
 
 
 #' Export a list of dataset to an xlsx file
