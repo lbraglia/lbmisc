@@ -1,3 +1,16 @@
+#' Handle other specify questions in a sensible way
+#' 
+#' @param x a character vector
+#' 
+#' @export
+altro_specificare <- function(x) {
+    tmp <- rm_spaces(tolower(x))
+    levs <- names(sort(table(tmp), decreasing = TRUE))
+    ## order descendingly according to total counts
+    factor(tmp, levels = levs)
+}
+
+
 #' Print the names of x as list for easy paste/copy in excel
 #'
 #' @param x the object with names
