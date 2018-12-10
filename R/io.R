@@ -121,50 +121,59 @@ importer <- function(p,
 {
     ext <- tools::file_ext(p)
 
-    if (all(ext %in% c('csv', 'tsv', 'tab', 'xlsx'))){
-        ## multiple single files: copy them in a temporary dir
-        ## and start directory importer
-        d <- tempdir()
-        on.exit(unlink(d, recursive = TRUE, force = TRUE))
-        file.copy(p, to = d)
-        importer(p = d, xlsx_params = xlsx_params, text_params = text_params)
-    } else if (ext == "zip") {
-        ## unzip in a directory and start directory importer (recursion)
-        d <- tempdir()
-        on.exit(unlink(d, recursive = TRUE, force = TRUE))
-        unzip(p, exdir = d)
-        importer(p = d, xlsx_params = xlsx_params, text_params = text_params)
-    }  else if (ext == ""){
-        ## Directory case
-        ## obtain single file infos
-        files <- list.files(path = p)
-        filepaths <- paste(p, files, sep = '/')
-        names(filepaths) <- file_path_sans_ext(files)
-        ## do proper functions call based on file extension
-        rval <- lapply(filepaths, function(fp) {
-            ext <- tools::file_ext(fp)
-            if (ext %in% c('csv', 'tsv', 'tab')){
-                do.call(read.table, c(list('file' = fp), text_params))
-            } else if (ext %in% 'xlsx') {
-                do.call(read.xlsx_alls, c(list('f' = fp), xlsx_params))
-            } else stop ("All files must be a csv, tsv, tab or xlsx")
-        })
-        ## uniform to a single list of data.frames with sensible naming
-        uniform <- function(x, n) {
-            if (is.data.frame(x)) {
-                setNames(list(x), n)
-            } else setNames(x, paste(n, names(x), sep = "_"))
-        }
-        rval <- Map(uniform, rval, as.list(names(rval)))
-        rval <- Reduce(c, x = rval, init = list())
-        names(rval) <- gsub(" ", "_", names(rval))
-        rval
-        
-    } else {
-        msg <- paste0("p must be a vector of paths csv/tsv/tab/xlsx files, ",
-                      "a zip file or a directory containing the same formats")
-        stop(msg)
+    ## now ext can be one of csv/tsv/tab, xlsx, zip or "" (for a
+    ## directory)
+
+    ## for each zip, unzip it in tempdir and add tempdir to p
+    zip_format <- c('zip', 'ZIP')
+    if (any(zip_format %in% ext)) {
+        zipfiles <- p[ext %in% zip_format]
+        td <- tempdir(check = TRUE)
+        on.exit(unlink(paste0(td, "/*"), recursive = TRUE, force = TRUE))
+        lapply(zipfiles, function(z) unzip(z, exdir = td))
+        p <- c(p, td) %without% zipfiles
+        ext <- tools::file_ext(p)
     }
+    
+    ## let's normalize the directory modifying p and ext
+    ## to point to the file there available
+    if ('' %in% ext) {
+        p <- unlist(lapply(p, function(x) {
+            if (tools::file_ext(x) == "") {
+                paste(x, list.files(path = x), sep = '/')
+            } else x
+        }))
+        ext <- tools::file_ext(p)
+    }
+    
+    ## now they should all be c('csv', 'tsv', 'tab', 'xlsx')
+    filepaths        <- p
+    names(filepaths) <- file_path_sans_ext(basename(filepaths))
+    ## do proper functions call based on file extension
+    rval <- lapply(filepaths, function(fp) {
+        message("Processing ", fp)
+        ext <- tools::file_ext(fp)
+        if (ext %in% c('csv', 'tsv', 'tab')){
+            do.call(read.table, c(list('file' = fp), text_params))
+        } else if (ext %in% 'xlsx') {
+            do.call(read.xlsx_alls, c(list('f' = fp), xlsx_params))
+        } else message("Skipping", fp, ": not a csv, tsv, tab or xlsx")
+    })
+
+    ## now we could have a list of list of data.frame (if we imported
+    ## multiple sheets xlsx files): flatten to uniform to a single list
+    ## of data.frames. Handle naming sensibly
+    
+    uniform <- function(x, n) {
+        if (is.data.frame(x)) {
+            setNames(list(x), n)
+        } else setNames(x, paste(n, names(x), sep = "_"))
+    }
+    rval <- Map(uniform, rval, as.list(names(rval)))
+    rval <- Reduce(c, x = rval, init = list())
+    names(rval) <- gsub(" ", "_", names(rval))
+    rval
+
 }
 
 
