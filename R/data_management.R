@@ -5,6 +5,7 @@
 #' @export
 altro_specificare <- function(x) {
     tmp <- rm_spaces(tolower(x))
+    tmp[tmp %in% ""] <- NA
     levs <- names(sort(table(tmp), decreasing = TRUE))
     ## order descendingly according to total counts
     factor(tmp, levels = levs)
