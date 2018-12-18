@@ -104,8 +104,9 @@ preprocess_varnames <- function(x = NULL,
     varnames <- gsub("<","_lt_", varnames)
     varnames <- gsub(">","_gt_", varnames)
     
-    ## other math related things
+    ## other math/logic related things
     varnames <- gsub("\\%","_perc_", varnames)
+    varnames <- gsub("\\&","_and_", varnames)
 
     ## R language specificities
     varnames <- gsub(":", "_", varnames)
