@@ -227,3 +227,61 @@ plot_fun <- function(f = function(x) x + 1,
                          col = cartesian_plane_col)
     graphics::lines(x = x, y = y, col = col)
 }
+
+
+#' Plot a parametric mathematical function
+#' 
+#' Plot a 2d or 3d parametric mathematical function f(t) = (x(t), y(t), z(t))
+#' 
+#' @param f a named list of function
+#' @param from domain (plotting) starting point
+#' @param to domain (plotting) ending point
+#' @param points number of points
+#' @param col the function color
+#' @param cartesian_plane wheter to add a cartesian plane ...
+#' @param cartesian_plane_col ... and its color
+#' @param grid_at_x at_x param for add_grid
+#' @param grid_at_y at_y param for add_grid
+#' @param add if TRUE the function is added within an existing graph
+#' @param ... other params given to plot
+#' @return Nothing. As a side effect the plot of \code{pch}.
+#' @examples
+#' pfun <- list(x = function(t) 2 * cos(t), y = function(t) 3 * sin(t))
+#' plot_pfun(pfun, from = 0, to = pi)
+#' plot_pfun(pfun, from = 0, to = 2*pi)
+#' 
+#' pfun2 <- list(x = function(t) 1 * cos(t),
+#'               y = function(t) 1 * sin(t),
+#'               z = function(t) 1 * t)
+#' plot_pfun(pfun2, from = 0, to = 100, points = 1000)
+#' 
+#' @export
+plot_pfun <- function (f = NULL,
+                       from = NULL, to = NULL,
+                       points = 100,
+                       col = "black", 
+                       cartesian_plane = TRUE,
+                       cartesian_plane_col = "black",
+                       grid_at_x = NULL, 
+                       grid_at_y = NULL,
+                       add = FALSE, ...) 
+{
+    f <- f[names(f) %in% c('x', 'y', 'z')]
+    t <- seq(from = from, to = to, length.out = points)
+    R3 <- 'z' %in% names(f)
+    x <- f$x(t)
+    y <- f$y(t)
+    if (R3) z <- f$z(t)
+    ## plotting
+    if (!R3){# it's R^2
+        if (!add) 
+            plot(x = x, y = y, pch = NA, ...)
+        if (!(is.null(grid_at_x) && is.null(grid_at_y))) 
+            add_grid(at_x = grid_at_x, at_y = grid_at_y)
+        if (cartesian_plane) 
+            graphics::abline(v = 0, h = 0, col = cartesian_plane_col)
+        graphics::lines(x = x, y = y, col = col)
+    } else {# R^3 case
+        lattice::cloud(z ~ x * y, type = 'l', ...)
+    }
+}
