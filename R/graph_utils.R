@@ -285,3 +285,37 @@ plot_pfun <- function (f = NULL,
         lattice::cloud(z ~ x * y, type = 'l', ...)
     }
 }
+
+#' Plot a z = f(x,y) function
+#' 
+#' Plot a z = f(x,y) function
+#' 
+#' @param f a f(x,y) function
+#' @param xrange x domain
+#' @param yrange y domain
+#' @param points number of points
+#' @param contour if TRUE make a contour plot instead of 3d plot
+#' 
+#' @examples
+#' fun <- function(x, y) x^2 + y^2
+#' par(mfrow = c(1,2))
+#' plot_3d(fun)
+#' plot_3d(fun, contour = TRUE)
+#' 
+#' @export
+plot_3d <- function(f = NULL,
+                    xrange = c(-1, 1),
+                    yrange = c(-1, 1),
+                    points = 50,
+                    contour = FALSE, 
+                    ...){
+    x <- seq(from = xrange[1], to = xrange[2], len = points)
+    y <- seq(from = yrange[1], to = yrange[2], len = points)
+    z <- outer(x, y, f)
+    if (contour) contour(x = x, y = y, z = z, ...)
+    else persp(x = x, y = y, z = z, ...)
+}
+
+
+
+
