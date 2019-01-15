@@ -12,14 +12,19 @@ col2hex <- function(col, alpha = 1L){
     stopifnot(alpha >= 0L,
               alpha <= 1L)
 
-    if (col %in% grDevices::colors())
-        grDevices::rgb(t(grDevices::col2rgb(col)),
-                       maxColorValue = 255,
-                       alpha = alpha * 255)
-    else {
-        warning("col is not in grDevices::colors; returning it unchanged.")
-        col
+    worker <- function(x){
+        if (x %in% grDevices::colors())
+            grDevices::rgb(t(grDevices::col2rgb(x)),
+                           maxColorValue = 255,
+                           alpha = alpha * 255)
+        else {
+            warning(x, " is not in grDevices::colors; returning it unchanged.")
+            x
+        }
     }
+    
+    unlist(lapply(col, worker))
+    
 }
 
 
