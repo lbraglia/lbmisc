@@ -52,11 +52,14 @@ factor_blankNA <- function(x){
 nosi_import <- function(x, labels = c("No", "Yes")){
     x <- tolower(x)
     x <- rm_spaces(x)
-    x <- gsub("yes", "sì", x)
-    x <- gsub("ì", "i", x)
-    x[x %in% ''] <- NA
-    factor(x, levels = c('no', 'si'), labels = labels)
+    ## keep only the first lowerized letter that should be n, y or s
+    first <- substr(x, 1, 1)
+    ## make it all english
+    first <- gsub("s", "y", x)
+    first[first %in% ''] <- NA
+    factor(first, levels = c('n', 'y'), labels = labels)
 }
+
 
 #' Group progressive id creator
 #'
