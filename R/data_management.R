@@ -45,19 +45,24 @@ factor_blankNA <- function(x){
 #' Import an italian or english no/si-yes character variable and make
 #' a factor
 #' 
-#' @param x character the variable
+#' @param x character (or 0-1 numeric) the variable
 #' @param labels labels to be applied to the factor
 #' 
 #' @export
 nosi_import <- function(x, labels = c("No", "Yes")){
-    x <- tolower(x)
-    x <- rm_spaces(x)
-    ## keep only the first lowerized letter that should be n, y or s
-    first <- substr(x, 1, 1)
-    ## make it all english
-    first <- gsub("s", "y", x)
-    first[first %in% ''] <- NA
-    factor(first, levels = c('n', 'y'), labels = labels)
+    if (is.numeric(x)){
+        if (! all(x %in% c(0,1,NA))) stop("x must be a 0-1 variable") 
+        factor(x, levels = c(0, 1), labels = labels)
+    } else if (is.character(x) {
+        x <- tolower(x)
+        x <- rm_spaces(x)
+        ## keep only the first lowerized letter that should be n, y or s
+        first <- substr(x, 1, 1)
+        ## make it all english
+        first <- gsub("s", "y", x)
+        first[first %in% ''] <- NA
+        factor(first, levels = c('n', 'y'), labels = labels)
+    } else stop("x must be numeric 0-1 or character")
 }
 
 
