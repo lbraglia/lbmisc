@@ -53,7 +53,7 @@ nosi_import <- function(x, labels = c("No", "Yes")){
     if (is.numeric(x)){
         if (! all(x %in% c(0,1,NA))) stop("x must be a 0-1 variable") 
         factor(x, levels = c(0, 1), labels = labels)
-    } else if (is.character(x) {
+    } else if (is.character(x)) {
         x <- tolower(x)
         x <- rm_spaces(x)
         ## keep only the first lowerized letter that should be n, y or s

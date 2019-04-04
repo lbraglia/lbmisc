@@ -8,7 +8,7 @@ a factor}
 nosi_import(x, labels = c("No", "Yes"))
 }
 \arguments{
-\item{x}{character the variable}
+\item{x}{character (or 0-1 numeric) the variable}
 
 \item{labels}{labels to be applied to the factor}
 }
