@@ -59,7 +59,7 @@ nosi_import <- function(x, labels = c("No", "Yes")){
         ## keep only the first lowerized letter that should be n, y or s
         first <- substr(x, 1, 1)
         ## make it all english
-        first <- gsub("s", "y", x)
+        first <- gsub("s", "y", first)
         first[first %in% ''] <- NA
         factor(first, levels = c('n', 'y'), labels = labels)
     } else stop("x must be numeric 0-1 or character")

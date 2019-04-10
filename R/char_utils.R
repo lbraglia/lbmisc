@@ -124,6 +124,7 @@ preprocess_varnames <- function(x = NULL,
     varnames <- rm_unprintable_chars(varnames)
     
     ## rm other annoying chars
+    varnames <- gsub("\\?","", varnames)
     varnames <- gsub("'", "", varnames)
     varnames <- gsub("\U00B0", "", varnames)
 
