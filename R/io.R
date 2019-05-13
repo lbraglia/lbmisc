@@ -128,7 +128,8 @@ importer <- function(p,
     zip_format <- c('zip', 'ZIP')
     if (any(zip_format %in% ext)) {
         zipfiles <- p[ext %in% zip_format]
-        td <- tempdir(check = TRUE)
+        ## td <- tempdir(check = TRUE)
+        td <- tempdir()
         on.exit(unlink(paste0(td, "/*"), recursive = TRUE, force = TRUE))
         lapply(zipfiles, function(z) unzip(z, exdir = td))
         p <- c(p, td) %without% zipfiles
