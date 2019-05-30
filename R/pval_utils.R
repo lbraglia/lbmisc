@@ -39,6 +39,11 @@ pretty_pval <- function(pvalue, digits = 3L, space = FALSE, equal = FALSE) {
         } else if (x < 1) {
             fmt <- sprintf('%%.%df', digits)
             char <- sprintf(fmt, x)
+            ## sui casi borderline puo` servire più precisione automatica
+            while (char %in% c("0.05", "0.050", "0.0500")) {
+                fmt <- sprintf('%%.%df', digits + 1)
+                char <- sprintf(fmt, x)
+            }
             return(paste0(
                 if (equal) '=' else '',
                 if (space) ' ' else '',
