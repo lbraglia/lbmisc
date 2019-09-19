@@ -4,10 +4,13 @@
 \alias{rm_spaces}
 \title{Remove spaces from a character vector}
 \usage{
-rm_spaces(string)
+rm_spaces(string, all = FALSE)
 }
 \arguments{
 \item{string}{a character vector}
+
+\item{all}{logical, if TRUE remove all blank spaces, otherwise rm only
+duplicated and leading/trailing ones.}
 }
 \description{
 This function removes spaces (all leading and trailing ones,

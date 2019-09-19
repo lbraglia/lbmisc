@@ -32,18 +32,25 @@ rm_accents <- function(string) {
 #' This function removes spaces (all leading and trailing ones,
 #' and unique in-between) from a character vector.
 #'
-#' @param string a character vector 
+#' @param string a character vector
+#' @param all logical, if TRUE remove all blank spaces, otherwise rm only
+#' duplicated and leading/trailing ones.
 #' @export
 #' @examples
 #' test <- c("  test ", "  mediterranean  sea  ")
 #' rm_spaces(test)
-rm_spaces <- function(string) {
-    ## Starting " "
-    string <- gsub("[[:space:]]*$", "", string, perl = TRUE)
-    ## Ending " "
-    string <- gsub("^[[:space:]]*", "", string, perl = TRUE)
-    ## 
-    gsub("[[:space:]]+", " ", string, perl = TRUE)
+rm_spaces <- function(string, all = FALSE) {
+    if (all){
+        gsub("[[:space:]]", "", string, perl = TRUE)
+    }
+    else {
+        ## Starting " "
+        string <- gsub("[[:space:]]*$", "", string, perl = TRUE)
+        ## Ending " "
+        string <- gsub("^[[:space:]]*", "", string, perl = TRUE)
+        ## Doubled to 
+        gsub("[[:space:]]+", " ", string, perl = TRUE)
+    }
 }
 
 #' Remove unprintable chars
