@@ -26,6 +26,42 @@ add_to_wb <- function(wb = NULL, sheet = NULL, x = NULL, ...) {
                         ...)
 }
 
+#' print as xtable and add to workbook
+#' 
+#' print as xtable and add to workbook
+#' 
+#' @param x the object
+#' @param wb add_to_wb workbook name
+#' @param sheet add_to_wb sheet name
+#' @param label xtable::xtable label
+#' @param caption xtable::xtable caption
+#' @param xtable_par xtable::xtable further parameters
+#' @param print_xtable_par xtable::print.xtable further parameters
+#' @param add_to_wb_par add_to_wb further parameters
+#' 
+#' @examples \dontrun{
+#' xtp_atwb(Indometh,
+#'          wb = wb, sheet = 'Indometh', label = 'tab:indometh',
+#'          caption = 'Indometh dataset')
+#' }
+#' @export
+xtp_atwb <- function(x, wb = NULL, sheet = '', label = '', caption = '',
+                    xtable_par = list(),
+                    print_xtable_par = list(include.rownames = FALSE),
+                    add_to_wb_par = list()
+                    ){
+    xtable_par <- c(list(x = x, caption = caption, label = label), xtable_par)
+    xt <- do.call(xtable::xtable, xtable_par)
+    print_xtable_par <- c(list(x = xt), print_xtable_par)
+    do.call(xtable::print.xtable, print_xtable_par)
+    add_to_wb_par <- c(list(wb = wb, sheet = sheet, x = x), add_to_wb_par)
+    do.call(add_to_wb, add_to_wb_par)
+    invisible(NULL)
+}
+
+
+
+
 #' Save an openxlsx workbook in an excel format quickly
 #'
 #' @param wb openxlsx workbook

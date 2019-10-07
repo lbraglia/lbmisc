@@ -37,5 +37,7 @@
 #' @importFrom utils update.packages
 #' @importFrom utils zip
 #' @importFrom tcltk tk_choose.files
+#' @importFrom xtable xtable
+#' @importFrom xtable print.xtable
 #' @useDynLib lbmisc
 NULL
