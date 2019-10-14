@@ -1,6 +1,8 @@
 language: r
 warnings_are_errors: true
 sudo: required
-# questo di sotto è per non crollare tutto servendo TK e senza server grafico
+# Questo di sotto è perchè non crolli, servendo TK e in assenza di grafico
+# https://stackoverflow.com/questions/1710853
+# https://towardsdatascience.com/travis-ci-for-r-advanced-guide-719cb2d9e0e5
 addons: apt: packages: - xvfb
 script: - xvfb-run R CMD check *tar.gz --as-cran
