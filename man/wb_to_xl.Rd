@@ -15,8 +15,9 @@ wb_to_xl(wb, file = NULL)
 Save an openxlsx workbook in an excel format quickly
 }
 \examples{
+\dontrun{
 wb = openxlsx::createWorkbook()
 add_to_wb(wb = wb, sheet = 'Indometh', x = Indometh)
 wb_to_xl(wb = wb, file = '/tmp/wb_to_xl.xls')
-wb_to_xl(wb = wb, file = '/tmp/wb_to_xl.xlsx')
+}
 }

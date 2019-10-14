@@ -312,3 +312,34 @@ validate_recode_directives <- function(x){
         stop("No univocal recoding directives")
     x
 }
+
+#' test equality of two vectors without leaving NA
+#'
+#' test equality of two vectors without leaving NA as output (aka
+#' considering NA = NA are equal, so TRUE, and value = NA are diverse,
+#' so FALSE)
+#' 
+#' @param x first vector
+#' @param y second vector
+#' @param one_NA what to output if only one of the two provided is NA
+#'     (default = TRUE, aka value are diverse)
+#' @param both_NA what to output if only one of the two provided is NA
+#'     (default = TRUE, aka value are diverse)
+#' @examples
+#' a <- c(NA, NA, 1, 2)
+#' b <- c(1,  NA, 2, 2)
+#' equal(a, b)
+#' 
+#' @export
+equal <- function(x, y, one_NA = FALSE, both_NA = TRUE) {
+    ## base comparison
+    res <- x == y
+    ## if one NA and the other not NA set equal to FALSE
+    only_one_NA <- xor(is.na(x), is.na(y))
+    res[only_one_NA] <- one_NA
+    ## if both are NA set equal to TRUE
+    both_are_NA <- is.na(x) & is.na(y)
+    res[both_are_NA] <- both_NA
+    res
+}
+

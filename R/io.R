@@ -67,10 +67,11 @@ xtp_atwb <- function(x, wb = NULL, sheet = '', label = '', caption = '',
 #' @param wb openxlsx workbook
 #' @param file xls destination file
 #' @examples
+#' \dontrun{
 #' wb = openxlsx::createWorkbook()
 #' add_to_wb(wb = wb, sheet = 'Indometh', x = Indometh)
 #' wb_to_xl(wb = wb, file = '/tmp/wb_to_xl.xls')
-#' wb_to_xl(wb = wb, file = '/tmp/wb_to_xl.xlsx')
+#' }
 #' @export
 wb_to_xl <- function(wb, file = NULL){
     if (!methods::is(wb, "Workbook")) stop("wb must be a Workbook")
