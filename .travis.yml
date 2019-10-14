@@ -1,3 +1,6 @@
 language: r
-warnings_are_errors: false
+warnings_are_errors: true
 sudo: required
+# questo di sotto è per non crollare tutto servendo TK e senza server grafico
+addons: apt: packages: - xvfb
+script: - xvfb-run R CMD check *tar.gz --as-cran
