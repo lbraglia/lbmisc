@@ -1,3 +1,21 @@
+#' Months in italian, the easy way
+#'
+#' Months in italian, the easy way
+#' 
+#' @export
+mesi <- c('Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+          'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre',
+          'Dicembre')
+
+#' Abbreviated months in italian, the easy way
+#'
+#' Abbreviated months in italian, the easy way
+#' 
+#' @export
+mesi.abb <- c('Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu',
+              'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic')
+
+
 #' test if a vector is a date
 #' 
 #' @param x a vector
