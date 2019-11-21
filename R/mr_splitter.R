@@ -1,8 +1,7 @@
-#' Smarty Multiple Response Splitter
+#' Multiple Response Splitter
 #'
-#' This function split a variable containing Smarty's output for
-#' a multiple response question in a dummy data.frame, to be
-#' used with \code{\link{cbind}}.
+#' This function splits a variable containing multiple response in a
+#' dummy data.frame, to be used with \code{\link{cbind}}.
 #'
 #' @param x variable to be splitted
 #' @param spl_char splitting character
@@ -13,10 +12,10 @@
 #'     considered and/or they order; if \code{NULL} (default) all
 #'     categories given in x will be used (in alphabetic order)
 #' @export
-smarty_mr_splitter <- function(x,
-                               spl_char = "|",
-                               categs = NULL,
-                               add_count = FALSE)
+mr_splitter <- function(x,
+                        spl_char = "|",
+                        categs = NULL,
+                        add_count = FALSE)
 {
 
     if (is.data.frame(x)){
