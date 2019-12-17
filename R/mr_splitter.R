@@ -57,8 +57,8 @@ replace_mr_with_dummies <- function(x = NULL, variables = NULL, drop = FALSE){
     for (variable in variables){
         if (variable %in% names(x)){
             location <- which(names(x) %in% variable)
-            tmp <- smarty_mr_splitter(x = x[, variable, drop = FALSE],
-                                      add_count = FALSE)
+            tmp <- mr_splitter(x = x[, variable, drop = FALSE],
+                               add_count = FALSE)
             x <- as.data.frame(append(x = x, values = tmp, after = location))
             if (drop) x[, variable] <- NULL
         }

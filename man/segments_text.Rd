@@ -4,8 +4,14 @@
 \alias{segments_text}
 \title{Display a line with text above in a figure}
 \usage{
-segments_text(text, pos = c("above", "below"), x0 = 1, x1 = 2, y,
-  lty = "dotted")
+segments_text(
+  text,
+  pos = c("above", "below"),
+  x0 = 1,
+  x1 = 2,
+  y,
+  lty = "dotted"
+)
 }
 \arguments{
 \item{text}{text displayed}

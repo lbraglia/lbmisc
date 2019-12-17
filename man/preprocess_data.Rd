@@ -4,8 +4,7 @@
 \alias{preprocess_data}
 \title{preprocess data}
 \usage{
-preprocess_data(x, preprocessors, mr_name = "mr",
-  mr_fun = smarty_mr_splitter, ...)
+preprocess_data(x, preprocessors, mr_name = "mr", mr_fun = mr_splitter, ...)
 }
 \arguments{
 \item{x}{the data.frame}

@@ -4,8 +4,14 @@
 \alias{plot_3d}
 \title{Plot a z = f(x,y) function}
 \usage{
-plot_3d(f = NULL, xrange = c(-1, 1), yrange = c(-1, 1),
-  points = 50, contour = FALSE, ...)
+plot_3d(
+  f = NULL,
+  xrange = c(-1, 1),
+  yrange = c(-1, 1),
+  points = 50,
+  contour = FALSE,
+  ...
+)
 }
 \arguments{
 \item{f}{a f(x,y) function}

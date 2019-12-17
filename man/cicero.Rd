@@ -26,7 +26,7 @@ LaTeX friendly, tiny and to allow mixing a bit of R code with templates
 \examples{
 
 ## Example with character template
-tmp <- "Hi my name's  <<name>> \\textbf{<<surname>>}.
+tmp <- "Hi my name's  <<name>> \textbf{<<surname>>}.
 Born on <<birthdate>>. Heigth <<heigth>>, weight <<weight>>."
 cicero(x = tmp,
         name = "mario",

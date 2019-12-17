@@ -4,8 +4,13 @@
 \alias{show_pch}
 \title{Show \code{pch}}
 \usage{
-show_pch(extras = c("*", ".", "0", "+", "#"), cex = 3, col = "red3",
-  bg = "gold", cextext = 1.2)
+show_pch(
+  extras = c("*", ".", "0", "+", "#"),
+  cex = 3,
+  col = "red3",
+  bg = "gold",
+  cextext = 1.2
+)
 }
 \arguments{
 \item{extras}{charachter. Further symbols to be plotted}

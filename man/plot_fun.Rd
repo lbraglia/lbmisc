@@ -4,9 +4,18 @@
 \alias{plot_fun}
 \title{Plot a mathematical function (enhanced version of curve)}
 \usage{
-plot_fun(f = function(x) x + 1, from = 0, to = 5, col = "black",
-  cartesian_plane = TRUE, cartesian_plane_col = "black",
-  grid_at_x = NULL, grid_at_y = NULL, add = FALSE, ...)
+plot_fun(
+  f = function(x) x + 1,
+  from = 0,
+  to = 5,
+  col = "black",
+  cartesian_plane = TRUE,
+  cartesian_plane_col = "black",
+  grid_at_x = NULL,
+  grid_at_y = NULL,
+  add = FALSE,
+  ...
+)
 }
 \arguments{
 \item{f}{a function}

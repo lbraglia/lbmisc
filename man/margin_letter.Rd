@@ -4,8 +4,14 @@
 \alias{margin_letter}
 \title{Function to draw a letter in a figure angle, after having plotted the figure}
 \usage{
-margin_letter(l = NULL, pos = c("topleft", "topright", "bottomleft",
-  "bottomright"), cex = par("cex") * 2, xdr = 1/10, ydr = 1/10, ...)
+margin_letter(
+  l = NULL,
+  pos = c("topleft", "topright", "bottomleft", "bottomright"),
+  cex = par("cex") * 2,
+  xdr = 1/10,
+  ydr = 1/10,
+  ...
+)
 }
 \arguments{
 \item{l}{text}

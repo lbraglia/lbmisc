@@ -3,7 +3,6 @@
 \docType{package}
 \name{lbmisc}
 \alias{lbmisc}
-\alias{lbmisc-package}
 \title{Yet another package of miscellaneous functions}
 \description{
 An R package with maily personal, miscellaneous, functions.

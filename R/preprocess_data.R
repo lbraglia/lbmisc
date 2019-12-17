@@ -33,7 +33,7 @@
 #' @export
 preprocess_data <- function(x, preprocessors, 
                             mr_name = 'mr',
-                            mr_fun = smarty_mr_splitter,
+                            mr_fun = mr_splitter,
                             ...)
 {
 

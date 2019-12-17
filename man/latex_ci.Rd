@@ -4,10 +4,15 @@
 \alias{latex_ci}
 \title{pretty print confidence interval from a vector}
 \usage{
-latex_ci(x, type = c("num", "int", "perc"), measurement_unit = "",
-  digits = 1, conf_lev_string = "95\\\\\% CI",
+latex_ci(
+  x,
+  type = c("num", "int", "perc"),
+  measurement_unit = "",
+  digits = 1,
+  conf_lev_string = "95\\\\\% CI",
   style = c("brack_est_ci_brack", "est_brack_ci_brack"),
-  display_brackets = TRUE)
+  display_brackets = TRUE
+)
 }
 \arguments{
 \item{x}{the length-3 vector}

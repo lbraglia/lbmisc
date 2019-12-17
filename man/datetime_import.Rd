@@ -4,8 +4,12 @@
 \alias{datetime_import}
 \title{Quick alias for importing italian csv common datetime}
 \usage{
-datetime_import(x, fmt = "\%d/\%m/\%Y \%H.\%M.\%S", output = c("Date",
-  "POSIXlt", "POSIXct"), ...)
+datetime_import(
+  x,
+  fmt = "\%d/\%m/\%Y \%H.\%M.\%S",
+  output = c("Date", "POSIXlt", "POSIXct"),
+  ...
+)
 }
 \arguments{
 \item{x}{character with date}

@@ -4,10 +4,19 @@
 \alias{plot_pfun}
 \title{Plot a parametric mathematical function}
 \usage{
-plot_pfun(f = NULL, from = NULL, to = NULL, points = 100,
-  col = "black", cartesian_plane = TRUE,
-  cartesian_plane_col = "black", grid_at_x = NULL, grid_at_y = NULL,
-  add = FALSE, ...)
+plot_pfun(
+  f = NULL,
+  from = NULL,
+  to = NULL,
+  points = 100,
+  col = "black",
+  cartesian_plane = TRUE,
+  cartesian_plane_col = "black",
+  grid_at_x = NULL,
+  grid_at_y = NULL,
+  add = FALSE,
+  ...
+)
 }
 \arguments{
 \item{f}{a named list of function}

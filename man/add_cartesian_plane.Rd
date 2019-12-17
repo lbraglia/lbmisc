@@ -4,8 +4,14 @@
 \alias{add_cartesian_plane}
 \title{Add cartesian system to a plot}
 \usage{
-add_cartesian_plane(at_y = 0, at_x = 0, col = "black",
-  lty = "solid", lwd = 1, ...)
+add_cartesian_plane(
+  at_y = 0,
+  at_x = 0,
+  col = "black",
+  lty = "solid",
+  lwd = 1,
+  ...
+)
 }
 \arguments{
 \item{at_y}{y centre of the system}
