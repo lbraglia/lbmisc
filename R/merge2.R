@@ -17,6 +17,10 @@ merge2.default <- function(x, y, ...)
 
 #' @param x same as in \code{merge}
 #' @param y same as in merge
+#' @param id_dupl character, warning if duplicated id are found for
+#'     the selected data.frame
+#' @param id_not_found message if some A id are not found in B (eg
+#'     x_nin_y or y_nin_x)
 #' @param by same as in merge
 #' @param by.x same as in merge
 #' @param by.y same as in merge
@@ -30,6 +34,8 @@ merge2.default <- function(x, y, ...)
 #' @param ... same as in merge
 #' @export merge2.data.frame
 merge2.data.frame <- function(x, y,
+                              id_dupl = c('x','y'),
+                              id_not_found = c('y_nin_x'),
                               by = intersect(names(x), names(y)),
                               by.x = by,
                               by.y = by,
@@ -48,42 +54,25 @@ merge2.data.frame <- function(x, y,
     ## --------------------------
     ## warning for duplicated IDS
     ## --------------------------
-    dupl_x <- x_ids[duplicated(x_ids), , drop = FALSE]
-    dupl_y <- y_ids[duplicated(y_ids), , drop = FALSE]
-
-    rownames(dupl_x) <- NULL
-    rownames(dupl_y) <- NULL
     
-    dupl_ids <- function(z, who){
-        if (nrow(z) > 0L){
-            cat("\n=============================================\n")
-            warning('Duplicates ids in ', who)
-            cat("=============================================\n")
-            print(unique(z))
-            cat("=========================================\n")
-        } else invisible(NULL)
+    if ('x' %in% id_dupl){
+        dupl_x <- x_ids[duplicated(x_ids), , drop = FALSE]
+        rownames(dupl_x) <- NULL
+        dupl_ids(dupl_x, 'x')
     }
 
-    dupl_ids(dupl_x, 'x')
-    dupl_ids(dupl_y, 'y')
+    if ('y' %in% id_dupl){
+        dupl_y <- y_ids[duplicated(y_ids), , drop = FALSE]
+        rownames(dupl_y) <- NULL
+        dupl_ids(dupl_y, 'y')
+    }
 
     ## ----------------------------------------------
     ## message for IDS not found in the other dataset
     ## ----------------------------------------------
-    a_rows_not_in_b <- function(a, b, aname, bname) {
-        res <- a[do.call(paste0, a) %nin% do.call(paste0, b), , drop = FALSE]
-        if (nrow(res) > 0L){
-            cat("\n=========================================\n")
-            message(aname, "'s ids not available in ", bname)
-            cat("=========================================\n")
-            print(res)
-            cat("=========================================\n")
-        }
-    }
-   
-    ## x_ids %nin% y_ids
-    a_rows_not_in_b(x_ids, y_ids, 'x', 'y')
-    a_rows_not_in_b(y_ids, x_ids, 'y', 'x')
+
+    if ('x_nin_y' %in% id_not_found) a_rows_not_in_b(x_ids, y_ids, 'x', 'y')
+    if ('y_nin_x' %in% id_not_found) a_rows_not_in_b(y_ids, x_ids, 'y', 'x')
     
     ## ----------------------
     ## standard merge
@@ -103,4 +92,27 @@ merge2.data.frame <- function(x, y,
                      incomparables = incomparables,
                      ...)
                      
+}
+
+## helper functions
+dupl_ids <- function(z, who){
+    if (nrow(z) > 0L){
+        cat("\n=============================================\n")
+        warning('Duplicates ids in ', who)
+        cat("=============================================\n")
+        print(unique(z))
+        cat("=========================================\n")
+    } else invisible(NULL)
+}
+
+
+a_rows_not_in_b <- function(a, b, aname, bname) {
+    res <- a[do.call(paste0, a) %nin% do.call(paste0, b), , drop = FALSE]
+    if (nrow(res) > 0L){
+        cat("\n=========================================\n")
+        message(aname, "'s ids not available in ", bname)
+        cat("=========================================\n")
+        print(res)
+        cat("=========================================\n")
+    }
 }
