@@ -73,10 +73,17 @@ merge2.data.frame <- function(x, y,
 
     if ('x_nin_y' %in% id_not_found) a_rows_not_in_b(x_ids, y_ids, 'x', 'y')
     if ('y_nin_x' %in% id_not_found) a_rows_not_in_b(y_ids, x_ids, 'y', 'x')
+
+    ## -----------------------------------------------------------
+    ## message for same names (other than IDS) in the two datasets
+    ## -----------------------------------------------------------
+    x_not_ids <- names(x) %without% by.x
+    y_not_ids <- names(y) %without% by.y
+    message_dupl_varnames(x_not_ids, y_not_ids)
     
-    ## ----------------------
-    ## standard merge
-    ## ----------------------
+    ## ----------------------------------
+    ## otherwise it's a standard merge...
+    ## ----------------------------------
     
     merge.data.frame(x = x,
                      y = y,
@@ -105,7 +112,6 @@ dupl_ids <- function(z, who){
     } else invisible(NULL)
 }
 
-
 a_rows_not_in_b <- function(a, b, aname, bname) {
     res <- a[do.call(paste0, a) %nin% do.call(paste0, b), , drop = FALSE]
     if (nrow(res) > 0L){
@@ -114,5 +120,16 @@ a_rows_not_in_b <- function(a, b, aname, bname) {
         cat("=========================================\n")
         print(res)
         cat("=========================================\n")
+    }
+}
+
+message_dupl_varnames <- function(nx, ny) {
+    dupl <- intersect(nx, ny)
+    if (length(dupl) > 0L) {
+        cat("\n=============================================\n")
+        message('Variable (other than IDS) with the same name')
+        cat("=============================================\n")
+        cat(paste(dupl, collapse = ', '))
+        cat("\n=============================================\n")
     }
 }
