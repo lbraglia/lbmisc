@@ -4,7 +4,9 @@
 \name{mesi}
 \alias{mesi}
 \title{Months in italian, the easy way}
-\format{An object of class \code{character} of length 12.}
+\format{
+An object of class \code{character} of length 12.
+}
 \usage{
 mesi
 }

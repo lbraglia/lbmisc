@@ -4,7 +4,7 @@
 \alias{group_prog_id}
 \title{Group progressive id creator}
 \usage{
-group_prog_id(group, first_id = 1L)
+group_prog_id(group)
 }
 \arguments{
 \item{group}{a group vector}
@@ -19,8 +19,6 @@ set.seed(1)
 ## One factor id
 x <- sample(c(rep("A",5), rep("C",3), rep("B",2), rep(NA,2)))
 data.frame(group = x, id = group_prog_id(x) )
-## sometimes ids have to start from 0
-data.frame(group = x, id = group_prog_id(x, first_id = 0L) )
 
 ## Two factors id
 y <- sample(gl(2,6, labels = c("C","D")))

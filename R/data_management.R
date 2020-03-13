@@ -78,8 +78,6 @@ nosi_import <- function(x, labels = c("No", "Yes")){
 #' ## One factor id
 #' x <- sample(c(rep("A",5), rep("C",3), rep("B",2), rep(NA,2)))
 #' data.frame(group = x, id = group_prog_id(x) )
-#' ## sometimes ids have to start from 0
-#' data.frame(group = x, id = group_prog_id(x, first_id = 0L) )
 #' 
 #' ## Two factors id
 #' y <- sample(gl(2,6, labels = c("C","D")))
@@ -90,7 +88,7 @@ nosi_import <- function(x, labels = c("No", "Yes")){
 #' db <- db[order( - as.integer(db$group), db$b),]
 #' data.frame(db, id = group_prog_id(db$group))
 #' @export
-group_prog_id <- function(group, first_id = 1L) {
+group_prog_id <- function(group) {
 
     ## make NA as a valid level for low-level operations
     group2 <- as.integer(factor(group, exclude = NULL))
@@ -100,8 +98,7 @@ group_prog_id <- function(group, first_id = 1L) {
                  package = "lbmisc")
     ## handling NA
     res[is.na(group)] <- NA
-    ## return results moved to first id (C function returns by default = 1)
-    as.integer(res) - 1L + as.integer(first_id)
+    as.integer(res)
 }
 
 
