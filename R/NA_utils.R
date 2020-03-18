@@ -2,7 +2,8 @@
 #'
 #' Report NA variables per case
 #' @param x data.frame to be analyzed
-#' @param id_var variable to be used as id
+#' @param id_var variables to be used as id (characters from
+#' name(data.farme)
 #' @examples
 #' test <- data.frame(
 #'  name =  c("john","mary","gregor"),
@@ -21,35 +22,36 @@
 #' @export
 NA_report <- function(x, id_var = NULL)
 {
-  ## input checking
-  if (!is.data.frame(x))
-    stop("x must be a data.frame")
-  if (! (is.character(id_var) & length(id_var)>0L) )
-    stop("id_var must be a positive length character vector")
-  if (anyDuplicated(x[,id_var]))
-    stop("'id_var' must identify rows uniquely")
-  ## multiple ids handling
-  if (length(id_var) == 1L)
-    ID <-  x[,id_var]
-  else {
-    ID <- do.call("paste", c(x[,id_var], sep = "\r"))
-    idDF <- cbind(x[,id_var], ID)
-  }
-  ## splitting per id (one line per list element)
-  splitted <- split(x[, !(names(x) %in% id_var)], f = factor(ID))
-  ## Missing variable per units
-  nas <- lapply(splitted, function(x) names(x)[is.na(x)])
-  ## Creating a similar data structure for id
-  ids <- mapply(FUN = rep, names(nas), lapply(nas, length))
-  ## putting all together
-  res <- as.data.frame(do.call("rbind", mapply(cbind, ids, nas)))
-  ## back to original id (not pasted one) for multiple id columns data.frame
-  if (length(id_var) > 1L){
-    res <- merge(idDF, res, all.x = TRUE, by.x = "ID", by.y = "V1")
-    res$ID <- NULL
-  }
-  names(res) <- c(id_var, "variable")
-  return(res)
+    ## input checking
+    if (!is.data.frame(x))
+        stop("x must be a data.frame")
+    if (! (is.character(id_var) & length(id_var)>0L) )
+        stop("id_var must be a positive length character vector")
+    if (anyDuplicated(x[, id_var]))
+        stop("'id_var' must identify rows uniquely")
+    ## multiple ids handling
+    if (length(id_var) == 1L)
+        ID <-  x[, id_var]
+    else {
+        ID <- do.call("paste", c(x[, id_var], sep = "\r"))
+        idDF <- cbind(x[, id_var], ID)
+    }
+    ## splitting per id (list of one-liners)
+    splitted <- split(x[, names(x) %without% id_var], f = factor(ID))
+    ## Missing variable per units
+    nas <- lapply(splitted, function(x) names(x)[is.na(x)])
+    ## Creating a similar data structure for id
+    ids <- mapply(FUN = rep, names(nas), lapply(nas, length))
+    ## putting all together
+    res <- as.data.frame(do.call("rbind", mapply(cbind, ids, nas)))
+    ## back to original id (not pasted one) for multiple id columns
+    ## data.frame
+    if (length(id_var) > 1L){
+        res <- merge(idDF, res, by.x = "ID", by.y = "V1")
+        res$ID <- NULL
+    }
+    names(res) <- c(id_var, "variable")
+    return(res)
 }
 
 #' remove NA and make a message with number of units deleted
