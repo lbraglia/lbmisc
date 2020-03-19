@@ -9,7 +9,8 @@ NA_report(x, id_var = NULL)
 \arguments{
 \item{x}{data.frame to be analyzed}
 
-\item{id_var}{variable to be used as id}
+\item{id_var}{variables to be used as id (characters from
+name(data.farme)}
 }
 \description{
 Report NA variables per case
