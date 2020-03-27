@@ -224,3 +224,15 @@ importer <- function(p,
 #' 
 #' @export
 exporter <- function(x, f, ...) openxlsx::write.xlsx(x = x, file = f, ...)
+
+#' Download docs from google docs easily
+#'
+#' Download docs from google docs easily  (given file_id and destfile)
+#' @param file_id google file id (see the url)
+#' @param destfile destination file
+#' @export
+gdocs_download <- function(file_id,  destfile){
+    url <- paste0("https://docs.google.com/uc?export=download&id=", file_id)
+    download.file(url = url, destfile = destfile)
+    invisible(NULL)
+}
