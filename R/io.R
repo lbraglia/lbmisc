@@ -139,7 +139,8 @@ read.xlsx_alls  <- function(f = NULL, ...){
 #' read.xlsx_alls
 #' 
 #' @param p char with a path to multiple text data files, a directory
-#'     with text data file or a single .xlsx file
+#'     with text data file, a single .xlsx file or a zip (of csv, tsv,
+#'     tab or xlsx, contained in the root directory)
 #' @param xlsx_params parameters passed to read.xlsx_alls (they will
 #'     be commonly applied to all xlsx)
 #' @param text_params arguments passed to read.table (they will be
@@ -185,7 +186,17 @@ importer <- function(p,
     }
     
     ## now they should all be c('csv', 'tsv', 'tab', 'xlsx')
-    filepaths        <- p
+    ## but since sometimes this is not the case (weird unzipping)
+    ## let us be on the safe side and filter on the name
+    allowed_exts <- c('csv', 'tsv', 'tab', 'xlsx')
+    allowed <- Filter(function(path){
+        tools::file_ext(path) %in% allowed_exts
+    }, p)
+    ignored <- p %without% allowed
+    lapply(ignored, function(i)
+        message('Ignoring', i, ": not a csv, tsv, tab or xlsx"))
+    
+    filepaths        <- allowed
     names(filepaths) <- file_path_sans_ext(basename(filepaths))
     ## do proper functions call based on file extension
     rval <- lapply(filepaths, function(fp) {
@@ -195,7 +206,7 @@ importer <- function(p,
             do.call(read.table, c(list('file' = fp), text_params))
         } else if (ext %in% 'xlsx') {
             do.call(read.xlsx_alls, c(list('f' = fp), xlsx_params))
-        } else message("Skipping", fp, ": not a csv, tsv, tab or xlsx")
+        } else stop("What's the problem with", fp, "?")
     })
 
     ## now we could have a list of list of data.frame (if we imported

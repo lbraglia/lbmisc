@@ -14,7 +14,8 @@ importer(
 }
 \arguments{
 \item{p}{char with a path to multiple text data files, a directory
-with text data file or a single .xlsx file}
+with text data file, a single .xlsx file or a zip (of csv, tsv,
+tab or xlsx, contained in the root directory)}
 
 \item{xlsx_params}{parameters passed to read.xlsx_alls (they will
 be commonly applied to all xlsx)}
