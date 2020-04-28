@@ -99,7 +99,7 @@ preprocess_varnames <- function(x = NULL,
     varnames <- gsub('[\\(\\)]', '', varnames)
 
     ## Multiple spaces (eg Excel-from) to unique underscore
-    varnames <- gsub(" +","_", varnames)
+    varnames <- gsub("[[:space:]]+","_", varnames)
 
     ## change some math operators to equivalent words ("-" excluded)
     varnames <- gsub("-","_", varnames)

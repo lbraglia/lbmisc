@@ -65,6 +65,23 @@ nosi_import <- function(x, labels = c("No", "Yes")){
     } else stop("x must be numeric 0-1 or character")
 }
 
+#' Import an italian or english male/female character variable and
+#' make a factor
+#' 
+#' @param x character the variable containing gender information (M/F)
+#' @param labels labels to be applied to the factor
+#' 
+#' @export
+gender_import <- function(x, labels = c("M", "F")){
+    if (is.character(x)) {
+        x <- tolower(x)
+        x <- rm_spaces(x)
+        ## keep only the first lowerized letter that should be m or f
+        first <- substr(x, 1, 1)
+        factor(first, levels = c('m', 'f'), labels = labels)
+    } else stop("x must be character")
+}
+
 
 #' Group progressive id creator
 #'
