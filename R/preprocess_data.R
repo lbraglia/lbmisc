@@ -3,12 +3,16 @@
 #' preprocess data according to variable name - function couple directives
 #' 
 #' @param x the data.frame
-#' @param preprocessors a named list: names = function names to be applied, 
-#'  content is variable to be treated with the function
-#' @param mr_name name of preprocessors associated used for multiple response
-#' @param mr_fun function used for multiple response which creates a data.frame
-#'   of dummies given a single vector of multiple responses (eg 
-#'   separated by "|")
+#' @param preprocessors a named list: names = function names to be
+#'     applied, content is variable to be treated with the function
+#' @param mr_name name of preprocessors associated used for multiple
+#'     response
+#' @param mr_fun function used for multiple response which creates a
+#'     data.frame of dummies given a single vector of multiple
+#'     responses (eg separated by "|")
+#' @param row_id vector or data.frame used to identify the rows (used
+#'     by verbose_coerce for reporting purposes in case of issues in
+#'     data preprocessing)
 #' @param ... argument passed to mr_fun
 #' @examples
 #' data_char <- function(d) as.Date(d, format = '%d/%m/%Y')
@@ -34,6 +38,7 @@
 preprocess_data <- function(x, preprocessors, 
                             mr_name = 'mr',
                             mr_fun = mr_splitter,
+                            row_id = NULL,
                             ...)
 {
 
@@ -81,7 +86,8 @@ preprocess_data <- function(x, preprocessors,
         x[, var_names] <- Map(verbose_coerce, 
                               x = sel, 
                               coercer = fs_rep,
-                              xname = names(sel))
+                              xname = names(sel),
+                              row_id = list(row_id))
         
         ## ------------------
         ## multiple responses

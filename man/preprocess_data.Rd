@@ -4,19 +4,31 @@
 \alias{preprocess_data}
 \title{preprocess data}
 \usage{
-preprocess_data(x, preprocessors, mr_name = "mr", mr_fun = mr_splitter, ...)
+preprocess_data(
+  x,
+  preprocessors,
+  mr_name = "mr",
+  mr_fun = mr_splitter,
+  row_id = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{the data.frame}
 
-\item{preprocessors}{a named list: names = function names to be applied, 
-content is variable to be treated with the function}
+\item{preprocessors}{a named list: names = function names to be
+applied, content is variable to be treated with the function}
 
-\item{mr_name}{name of preprocessors associated used for multiple response}
+\item{mr_name}{name of preprocessors associated used for multiple
+response}
 
-\item{mr_fun}{function used for multiple response which creates a data.frame
-of dummies given a single vector of multiple responses (eg 
-separated by "|")}
+\item{mr_fun}{function used for multiple response which creates a
+data.frame of dummies given a single vector of multiple
+responses (eg separated by "|")}
+
+\item{row_id}{vector or data.frame used to identify the rows (used
+by verbose_coerce for reporting purposes in case of issues in
+data preprocessing)}
 
 \item{...}{argument passed to mr_fun}
 }
