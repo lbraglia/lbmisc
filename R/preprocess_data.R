@@ -13,6 +13,7 @@
 #' @param row_id vector or data.frame used to identify the rows (used
 #'     by verbose_coerce for reporting purposes in case of issues in
 #'     data preprocessing)
+#' @param x_name name of the data.frame processed (for reporting purposes)
 #' @param ... argument passed to mr_fun
 #' @examples
 #' data_char <- function(d) as.Date(d, format = '%d/%m/%Y')
@@ -39,10 +40,12 @@ preprocess_data <- function(x, preprocessors,
                             mr_name = 'mr',
                             mr_fun = mr_splitter,
                             row_id = NULL,
+                            x_name = NULL,
                             ...)
 {
 
     if (anyDuplicated(names(x))) stop("duplicated names in x, fix it")
+    if (is.null(x_name)) x_name <- deparse(substitute(x))
     
     ## -------------------
     ## validate preprocessors list
@@ -87,7 +90,8 @@ preprocess_data <- function(x, preprocessors,
                               x = sel, 
                               coercer = fs_rep,
                               xname = names(sel),
-                              row_id = list(row_id))
+                              row_id = list(row_id),
+                              df_name = list(x_name))
         
         ## ------------------
         ## multiple responses

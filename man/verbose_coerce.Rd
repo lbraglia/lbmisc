@@ -4,7 +4,14 @@
 \alias{verbose_coerce}
 \title{Coerce/convert data verbosely if NA is introduced by coercion}
 \usage{
-verbose_coerce(x, coercer, xname = NULL, varname_msg = TRUE, row_id = NULL)
+verbose_coerce(
+  x,
+  coercer,
+  xname = NULL,
+  varname_msg = TRUE,
+  row_id = NULL,
+  df_name = ""
+)
 }
 \arguments{
 \item{x}{vector to be converted}
@@ -13,10 +20,14 @@ verbose_coerce(x, coercer, xname = NULL, varname_msg = TRUE, row_id = NULL)
 
 \item{xname}{string used for progress (varname) printing}
 
-\item{varname_msg}{logical: print progress (varname)?}
+\item{varname_msg}{logical: print progress (varname and optionally
+source)?}
 
 \item{row_id}{vector or data.frame used to identify the coerced
 rows (for reporting purposes in case of issues)}
+
+\item{df_name}{character with data.frame name for reporting
+purposes (where does the variable come from?)}
 }
 \description{
 Coerce/convert a given x using the coercer function; if a warning

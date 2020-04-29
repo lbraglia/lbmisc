@@ -10,6 +10,7 @@ preprocess_data(
   mr_name = "mr",
   mr_fun = mr_splitter,
   row_id = NULL,
+  x_name = NULL,
   ...
 )
 }
@@ -29,6 +30,8 @@ responses (eg separated by "|")}
 \item{row_id}{vector or data.frame used to identify the rows (used
 by verbose_coerce for reporting purposes in case of issues in
 data preprocessing)}
+
+\item{x_name}{name of the data.frame processed (for reporting purposes)}
 
 \item{...}{argument passed to mr_fun}
 }
