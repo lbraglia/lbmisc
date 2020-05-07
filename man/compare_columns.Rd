@@ -4,7 +4,12 @@
 \alias{compare_columns}
 \title{Compare columns progressively}
 \usage{
-compare_columns(db, operator = "<", row_id = NULL)
+compare_columns(
+  db = NULL,
+  operator = "<",
+  row_id = seq_len(nrow(db)),
+  extended = TRUE
+)
 }
 \arguments{
 \item{db}{a data.frame with ordered columns}
@@ -12,14 +17,17 @@ compare_columns(db, operator = "<", row_id = NULL)
 \item{operator}{comparison operator}
 
 \item{row_id}{an optional row id}
+
+\item{extended}{logical if TRUE}
 }
 \value{
-a data.frame with non-passed checks
+a list of checks with values or (if extended = FALSE) a
+    compact data.frame with non-passed checks and variable mentioning
 }
 \description{
-Compare columns progressively in a dataset using a specified operator,
-that tells how columns should be ordered (eg by default columns should
-be increasing)
+Compare columns progressively in a dataset using a specified
+operator, that tells how columns should be ordered (eg by default
+columns should be increasing)
 }
 \examples{
 
@@ -27,5 +35,6 @@ be increasing)
 compare_columns(data[, -1], operator= '<')
 compare_columns(data[, -1], operator= '>')
 compare_columns(data[, -1], operator= '<', row_id = data$id)
+compare_columns(data[, -1], operator= '<', row_id = data$id, extended = FALSE)
 
 }

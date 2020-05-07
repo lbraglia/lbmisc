@@ -146,37 +146,38 @@ duplicated2 <- function(x, all = TRUE, ...)
 
 #' Compare columns progressively
 #'
-#' Compare columns progressively in a dataset using a specified operator,
-#' that tells how columns should be ordered (eg by default columns should
-#' be increasing)
+#' Compare columns progressively in a dataset using a specified
+#' operator, that tells how columns should be ordered (eg by default
+#' columns should be increasing)
 #' @param db a data.frame with ordered columns
 #' @param operator comparison operator
 #' @param row_id an optional row id
-#' @return a data.frame with non-passed checks
+#' @param extended logical if TRUE
+#' @return a list of checks with values or (if extended = FALSE) a
+#'     compact data.frame with non-passed checks and variable mentioning
 #' @examples
 #'
 #' (data <- data.frame(id = letters[1:4],  x = c(1,2,3,4), y = c(0,1,3,NA), z = rep(0, 4)))
 #' compare_columns(data[, -1], operator= '<')
 #' compare_columns(data[, -1], operator= '>')
 #' compare_columns(data[, -1], operator= '<', row_id = data$id)
+#' compare_columns(data[, -1], operator= '<', row_id = data$id, extended = FALSE)
 #' 
 #' @export
-compare_columns <- function(db,
+compare_columns <- function(db = NULL,
                             operator = "<",
-                            row_id = NULL)
+                            row_id = seq_len(nrow(db)),
+                            extended = TRUE)
 {
-
     ## data should be a data.frame with no characters
-    stopifnot(is.data.frame(db))
-
-    if (any(unlist(lapply(db, is.character))))
-        warning('There are characters in db.')
-
+    if (!is.data.frame(db)) stop("db must be a data.frame")
+    if (anyDuplicated(row_id)) stop("row_id can't contains duplicated")
+    if (length(row_id) != nrow(db)) stop("row_id must be have the same length of dim(db)")
+    if (any(unlist(lapply(db, is.character)))) warning('There are characters in db.')
+    ## for referencing in test_row
     db_names <- names(db)
-    flag1 <- "AT MOST ONE NON-MISSING VALUE"
-    flag2 <- "ROW ORDER IS OK"
-    
-    test_row <- function(x){
+    ## main worker, applied to each row
+    test_row <- function(x, id){
         not_NA_vars <- !is.na(x)
         if (sum(not_NA_vars) > 1L){
             # select only not NA values 
@@ -185,29 +186,43 @@ compare_columns <- function(db,
             ## operands
             first <- not_NA_values[- length(not_NA_values)]
             second <- not_NA_values[- 1]
-            comparison <- Reduce(operator, list(first, second ))
-            names(comparison) <- sprintf("'%s' vs '%s'", names(first), names(second))
-            wrong <- names(comparison)[comparison %in% FALSE]
-            if (length(wrong) >= 1) wrong else flag2
-        } else flag1
+            nf <- names(first)
+            ns <- names(second)
+            ok <- Reduce(operator, list(first, second))
+            res <- data.frame('first' = nf, 'second' = ns)
+        } else {
+            ok <- TRUE
+            res <- data.frame('first' = NA, 'second' = NA)
+        }
+        res[, 'id'] <- id
+        ## output only non passed checks
+        res[ok %in% FALSE, c('id', 'first', 'second'), drop = FALSE]
     }
-
-    ## list of checks
-    check_list <- as.list(apply(db, 1, test_row)) # as.list to be confident of having a list
-    names(check_list) <- if(!is.null(row_id)) row_id else as.character(seq_along(check_list))
-    useful <- unlist(lapply(check_list, function(x) x[1] %nin% c(flag1, flag2)))
-    check_list <- check_list[useful]
-
-    if (length(check_list) > 0){
-        ## return data.frame of checks
-        check_df <- Map(function(data, rows_id) data.frame('record' = rows_id, 'issue' = data),
-                        check_list, names(check_list))
-        check_df <- do.call(rbind, check_df)
-        rownames(check_df) <- NULL
-        names(check_df)[1] <- if (!is.null(row_id)) 'id' else 'record'
-        check_df
+    ## apply the row_checker to all rows
+    db_spl <- split(db, row_id)
+    checks_list <- Map(test_row, db_spl, as.list(row_id))
+    checks <- na.omit(do.call(rbind, checks_list))
+    rownames(checks) <- NULL
+    ## extended list
+    checks_spl <- split(checks, f = with(checks, list(first, second)), sep = ' vs ')
+    retriever <- function(check){
+        ## variabili tenute del merge
+        uvars <- unique(check[, c('first', 'second')])
+        selected_vars <- c('id', unlist(uvars))
+        res <- merge(x = check, y = cbind(data.frame('id' = row_id), db),
+                     by = 'id', all.x = TRUE)[, selected_vars]
+        ## return ordered data.frame (if the merge is ok) or null if there are
+        ## no problems
+        if (is.data.frame(res))
+            res[order(res$id), ]
+        else NULL
+    }
+    extended_list <- lapply(checks_spl, retriever)
+    extended_list <- Filter(function(x) !is.null(x), extended_list)
+    ## return
+    if (nrow(checks) > 0) {
+        if (extended) extended_list else checks
     } else {
-        # return nothing
         invisible(NULL)
     }
 }
