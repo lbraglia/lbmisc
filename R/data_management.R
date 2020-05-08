@@ -194,9 +194,9 @@ compare_columns <- function(db = NULL,
             ok <- TRUE
             res <- data.frame('first' = NA, 'second' = NA)
         }
-        res[, 'id'] <- id
+        res[, 'compare_columns_id'] <- id
         ## output only non passed checks
-        res[ok %in% FALSE, c('id', 'first', 'second'), drop = FALSE]
+        res[ok %in% FALSE, c('compare_columns_id', 'first', 'second'), drop = FALSE]
     }
     ## apply the row_checker to all rows
     db_spl <- split(db, row_id)
@@ -208,13 +208,15 @@ compare_columns <- function(db = NULL,
     retriever <- function(check){
         ## variabili tenute del merge
         uvars <- unique(check[, c('first', 'second')])
-        selected_vars <- c('id', unlist(uvars))
-        res <- merge(x = check, y = cbind(data.frame('id' = row_id), db),
-                     by = 'id', all.x = TRUE)[, selected_vars]
+        selected_vars <- c('compare_columns_id', unlist(uvars))
+        res <- merge(x = check, y = cbind(data.frame('compare_columns_id' = row_id), db),
+                     by = 'compare_columns_id', all.x = TRUE)[, selected_vars]
         ## return ordered data.frame (if the merge is ok) or null if there are
         ## no problems
-        if (is.data.frame(res))
+        if (is.data.frame(res)) {
+            names(res)[1] <- 'id'
             res[order(res$id), ]
+        }
         else NULL
     }
     extended_list <- lapply(checks_spl, retriever)
