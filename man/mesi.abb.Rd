@@ -4,9 +4,7 @@
 \name{mesi.abb}
 \alias{mesi.abb}
 \title{Abbreviated months in italian, the easy way}
-\format{
-An object of class \code{character} of length 12.
-}
+\format{An object of class \code{character} of length 12.}
 \usage{
 mesi.abb
 }
