@@ -209,14 +209,25 @@ day.POSIXlt <- function(x) {
 }
 
 
-#' Quick alias for importing italian csv common date formats
+#' Quick alias for importing italian csv common date formats (dd/mm/yy)
 #' 
 #' @param x character with date
 #' @param fmt format given to as.Date
 #' @param ... other arguments passed to as.Date
 #' 
 #' @export
-dmy_import <- function(x, fmt = "%d/%m/%Y", ...){
+dmy_import <- function(x, fmt = "%d/%m/%y", ...){
+    as.Date(x, format = fmt, ...)
+}
+
+#' Quick alias for importing italian csv common date formats  (dd/mm/yyyy)
+#' 
+#' @param x character with date
+#' @param fmt format given to as.Date
+#' @param ... other arguments passed to as.Date
+#' 
+#' @export
+dmY_import <- function(x, fmt = "%d/%m/%Y", ...){
     as.Date(x, format = fmt, ...)
 }
 
