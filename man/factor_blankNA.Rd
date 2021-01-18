@@ -4,10 +4,12 @@
 \alias{factor_blankNA}
 \title{Make a factor from character removing all blanks "" values (setting to NA)}
 \usage{
-factor_blankNA(x)
+factor_blankNA(x, lowcase = TRUE)
 }
 \arguments{
 \item{x}{character}
+
+\item{lowcase}{apply tolower?}
 }
 \description{
 Make a factor from character removing all blanks "" values (setting to NA)

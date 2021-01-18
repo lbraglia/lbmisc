@@ -34,10 +34,12 @@ print_unique_values <- function(x) {
 #' Make a factor from character removing all blanks "" values (setting to NA)
 #'
 #' @param x character
+#' @param lowcase apply tolower?
 #' 
 #' @export
-factor_blankNA <- function(x){
+factor_blankNA <- function(x, lowcase = TRUE){
     x <- rm_spaces(x)
+    if (lowcase) x <- tolower(x)
     x[x %in% ""] <- NA
     factor(x)
 }
