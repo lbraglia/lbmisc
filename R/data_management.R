@@ -62,6 +62,10 @@ nosi_import <- function(x, labels = c("No", "Yes")){
         first <- substr(x, 1, 1)
         ## make it all english
         first <- gsub("s", "y", first)
+        ## handle characters "0" and "1"
+        first <- gsub("1", "y", first)
+        first <- gsub("0", "n", first)
+        ## NA to blanks
         first[first %in% ''] <- NA
         factor(first, levels = c('n', 'y'), labels = labels)
     } else stop("x must be numeric 0-1 or character")
