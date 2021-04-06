@@ -250,3 +250,15 @@ gdrive_download <- function(file_id,  destfile){
     download.file(url = url, destfile = destfile)
     invisible(NULL)
 }
+
+
+#' Write lines to a text file, the quick way
+#' @param x lines (characters)
+#' @param f path to the file
+#' 
+#'@export 
+write_lines <- function(x, f){
+    con <- file(description = f, open = 'w')
+    on.exit(close(con))
+    writeLines(x, con = con)
+}
