@@ -9,7 +9,7 @@ menu2(
   choices,
   title = NULL,
   multiple = FALSE,
-  return = c("value", "index"),
+  return = c("values", "indexes"),
   strict = FALSE
 )
 }

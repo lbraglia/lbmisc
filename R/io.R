@@ -47,8 +47,8 @@ add_to_wb <- function(wb = NULL, sheet = NULL, x = NULL, ...) {
 #' @export
 xtp_atwb <- function(x, wb = NULL, sheet = '', label = '', caption = '',
                     xtable_par = list(digits = 3),
-                    print_xtable_par = list(include.rownames = TRUE),
-                    add_to_wb_par = list(rowNames = TRUE)
+                    print_xtable_par = list(include.rownames = FALSE),
+                    add_to_wb_par = list(rowNames = FALSE)
                     ){
     xtable_par <- c(list(x = x, caption = caption, label = label), xtable_par)
     xt <- do.call(xtable::xtable, xtable_par)
