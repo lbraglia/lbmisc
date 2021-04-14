@@ -19,13 +19,13 @@ menu2(
 \item{multiple}{can more than one item be selected?}
 
 \item{return}{what to return values (selected choiches given, by
-default), or indexes}
+default), or indexes. If only 0 is selected (to exit), NA is
+returned}
 
 \item{strict}{allow only selectable index to be choosen}
 
 \item{choiches}{vector of possible choiches}
 }
 \description{
-menu-like function for interactive or non-interactive sections
-which allows multiple choices as well
+return NA if the user inserted the usual 0 to exit
 }
