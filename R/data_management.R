@@ -383,3 +383,12 @@ equal <- function(x, y, one_NA = FALSE, both_NA = TRUE) {
     res
 }
 
+
+#' coerce a character numeric with , to numeric
+#'
+#' @param x character numeric with , to numeric
+#' 
+#' @export
+comma_char_to_numeric <- function(x){
+    as.numeric(gsub(",", ".", x))
+}
