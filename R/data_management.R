@@ -392,3 +392,13 @@ equal <- function(x, y, one_NA = FALSE, both_NA = TRUE) {
 comma_char_to_numeric <- function(x){
     as.numeric(gsub(",", ".", x))
 }
+
+#' convert a logical to a factor
+#'
+#' @param x logical vector (FALSE -> NO, TRUE -> Yes)
+#' @export
+ft2ny <- function(x) factor(x,
+                            levels = c(FALSE, TRUE),
+                            labels = c("No", 'Yes'))
+
+
