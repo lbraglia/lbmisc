@@ -348,8 +348,12 @@ validate_recode_directives <- function(x){
 
     ## Checking for recoding directives uniqueness
     x <- unique(x)
-    if(anyDuplicated(x[, 1]))
-        stop("No univocal recoding directives")
+    if(anyDuplicated(x[, 1])){
+        dups <- unique(x[, 1][duplicated(x[, 1])])
+        stop("No univocal recoding directives for: ",
+             paste(dups, collapse = ", "),
+             ".")
+    }
     x
 }
 
