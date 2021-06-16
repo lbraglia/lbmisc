@@ -35,8 +35,10 @@ add_to_wb <- function(wb = NULL, sheet = NULL, x = NULL, ...) {
 #' @param sheet add_to_wb sheet name
 #' @param label xtable::xtable label
 #' @param caption xtable::xtable caption
-#' @param xtable_par xtable::xtable further parameters
+#' @param xtable_par xtable::xtable further parameters (currently
+#'     include rownames only for non data.frame x)
 #' @param print_xtable_par xtable::print.xtable further parameters
+#'     (currently include rownames only for non data.frame x)
 #' @param add_to_wb_par add_to_wb further parameters
 #' 
 #' @examples \dontrun{
@@ -47,8 +49,9 @@ add_to_wb <- function(wb = NULL, sheet = NULL, x = NULL, ...) {
 #' @export
 xtp_atwb <- function(x, wb = NULL, sheet = '', label = '', caption = '',
                     xtable_par = list(digits = 3),
-                    print_xtable_par = list(include.rownames = FALSE),
-                    add_to_wb_par = list(rowNames = FALSE)
+                    print_xtable_par = list(include.rownames =
+                                                !is.data.frame(x)),
+                    add_to_wb_par = list(rowNames = !is.data.frame(x))
                     ){
     xtable_par <- c(list(x = x, caption = caption, label = label), xtable_par)
     xt <- do.call(xtable::xtable, xtable_par)

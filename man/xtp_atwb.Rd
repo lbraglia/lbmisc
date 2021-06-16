@@ -11,8 +11,8 @@ xtp_atwb(
   label = "",
   caption = "",
   xtable_par = list(digits = 3),
-  print_xtable_par = list(include.rownames = FALSE),
-  add_to_wb_par = list(rowNames = FALSE)
+  print_xtable_par = list(include.rownames = !is.data.frame(x)),
+  add_to_wb_par = list(rowNames = !is.data.frame(x))
 )
 }
 \arguments{
@@ -26,9 +26,11 @@ xtp_atwb(
 
 \item{caption}{xtable::xtable caption}
 
-\item{xtable_par}{xtable::xtable further parameters}
+\item{xtable_par}{xtable::xtable further parameters (currently
+include rownames only for non data.frame x)}
 
-\item{print_xtable_par}{xtable::print.xtable further parameters}
+\item{print_xtable_par}{xtable::print.xtable further parameters
+(currently include rownames only for non data.frame x)}
 
 \item{add_to_wb_par}{add_to_wb further parameters}
 }
