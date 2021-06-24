@@ -4,7 +4,7 @@
 \alias{argparse}
 \title{Simple command line argument parser}
 \usage{
-argparse(opts = NULL)
+argparse(line = commandArgs(trailingOnly = TRUE), opts = NULL)
 }
 \arguments{
 \item{opts}{a list of lists, each of one has tree argument: 'name'

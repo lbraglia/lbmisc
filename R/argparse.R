@@ -29,9 +29,8 @@
 #' ## rscript --a_character --a_logical FALSE --an_integer 2 --a_numeric
 #' 
 #' @export
-argparse <- function(opts = NULL){
-    
-    line <- commandArgs(trailingOnly = TRUE)
+argparse <- function(line = commandArgs(trailingOnly = TRUE),
+                     opts = NULL){
     ## nome argomenti
     arg_pos <- grepl('^--', line) | grepl('^-', line)
     arg_names <- gsub("^-+", "", line[arg_pos])
