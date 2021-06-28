@@ -7,8 +7,8 @@ input <- function(msg){
         rval <- readline(msg)
     } else {
         con <- file('stdin')
-        cat(msg, '\n')
-        cat("Insert the line, then [ENTER][Ctrl+D]: ")
+        cat("Insert the line, then [ENTER][Ctrl+D]\n")
+        cat(msg)
         rval <- readLines(con = con, n = 1)
     }
     rval
