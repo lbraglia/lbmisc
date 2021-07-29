@@ -47,12 +47,22 @@ add_to_wb <- function(wb = NULL, sheet = NULL, x = NULL, ...) {
 #'          caption = 'Indometh dataset')
 #' }
 #' @export
-xtp_atwb <- function(x, wb = NULL, sheet = '', label = '', caption = '',
-                    xtable_par = list(digits = 3),
-                    print_xtable_par = list(include.rownames =
-                                                !is.data.frame(x)),
-                    add_to_wb_par = list(rowNames = !is.data.frame(x))
-                    ){
+xtp_atwb <- function(x,
+                     wb = NULL,
+                     sheet = '',
+                     label = '',
+                     caption = '',
+                     xtable_par = list(
+                         digits = 3,
+                         align = NULL
+                     ),
+                     print_xtable_par = list(
+                         include.rownames = !is.data.frame(x),
+                         hline.after = c(-1, 0, nrow(x))
+                     ),
+                     add_to_wb_par = list(
+                         rowNames = !is.data.frame(x)
+                     )){
     xtable_par <- c(list(x = x, caption = caption, label = label), xtable_par)
     xt <- do.call(xtable::xtable, xtable_par)
     print_xtable_par <- c(list(x = xt), print_xtable_par)
