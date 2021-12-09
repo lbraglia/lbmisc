@@ -6,15 +6,23 @@
 #' @param y second element
 #' @param ... further arguments passed to methods
 #' 
-#' @export merge2
+#' @export
 merge2 <- function(x, y, ...) {
     UseMethod("merge2")
 }
 
-#' @export merge2.default
+#' A verbose merge
+#' 
+#' A verbose merge
+#' 
+#' @export
 merge2.default <- function(x, y, ...) 
     merge2(as.data.frame(x), as.data.frame(y), ...)
 
+#' A verbose merge
+#' 
+#' A verbose merge
+#' 
 #' @param x same as in \code{merge}
 #' @param y same as in merge
 #' @param id_dupl character, warning if duplicated id are found for
@@ -32,7 +40,7 @@ merge2.default <- function(x, y, ...)
 #' @param no.dups same as in merge
 #' @param incomparables same as in merge
 #' @param ... same as in merge
-#' @export merge2.data.frame
+#' @export
 merge2.data.frame <- function(x, y,
                               id_dupl = c('x','y'),
                               id_not_found = c('y_nin_x'),
