@@ -117,6 +117,7 @@ preprocess_varnames <- function(x = NULL,
 
     ## R language specificities
     varnames <- gsub(":", "_", varnames)
+    varnames <- gsub(";", "_", varnames)
         
     ## dot to underscore
     varnames <- gsub("\\.","_", varnames)
