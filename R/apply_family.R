@@ -14,3 +14,27 @@ verbose_lapply <- function(x, FUN, ...){
     }, x, x_names)
     rval 
 }
+
+
+#' apply a function by group and return results of the same length to
+#' the data
+#' @param x same as tapply
+#' @param group a factor
+#' @param f function to be applied
+#' @param ... optional arguments passed to the function
+#' 
+#' @examples
+#' set.seed(123)
+#' data <- data.frame(y = 1:10, g = gl(2,5, labels = c("1-5", "6-10")))
+#' data <- data[sample(nrow(data)), ]
+#' data$mean  <- with(data, group_f(y, g, mean))
+#' data$min  <- with(data, group_f(y, g, min))
+#' data$max  <- with(data, group_f(y, g, max))
+#'
+#' @export
+group_f <- function(x, group, f, ...){
+    if (!is.factor(group)) stop("group must be a factor")
+    res <- tapply(x, group, f, ...)
+    res[as.character(group)]
+}
+

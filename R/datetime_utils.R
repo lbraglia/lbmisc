@@ -217,7 +217,7 @@ day.POSIXlt <- function(x) {
 #' 
 #' @export
 dmy_import <- function(x, fmt = "%d/%m/%y", ...){
-    as.Date(x, format = fmt, ...)
+    as.Date(substr(x, 1, 8), format = fmt, ...)
 }
 
 #' Quick alias for importing italian csv common date formats  (dd/mm/yyyy)
@@ -228,7 +228,7 @@ dmy_import <- function(x, fmt = "%d/%m/%y", ...){
 #' 
 #' @export
 dmY_import <- function(x, fmt = "%d/%m/%Y", ...){
-    as.Date(x, format = fmt, ...)
+    as.Date(substr(x, 1, 10), format = fmt, ...)
 }
 
 
