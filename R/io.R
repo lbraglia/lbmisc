@@ -58,7 +58,8 @@ xtp_atwb <- function(x,
                      ),
                      print_xtable_par = list(
                          include.rownames = !is.data.frame(x),
-                         hline.after = c(-1, 0, nrow(x))
+                         hline.after = c(-1, 0, nrow(x)),
+                         caption.placement = "top"
                      ),
                      add_to_wb_par = list(
                          rowNames = !is.data.frame(x)

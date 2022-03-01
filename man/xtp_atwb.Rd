@@ -12,7 +12,7 @@ xtp_atwb(
   caption = "",
   xtable_par = list(digits = 3, align = NULL),
   print_xtable_par = list(include.rownames = !is.data.frame(x), hline.after = c(-1, 0,
-    nrow(x))),
+    nrow(x)), caption.placement = "top"),
   add_to_wb_par = list(rowNames = !is.data.frame(x))
 )
 }
