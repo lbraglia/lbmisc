@@ -1,0 +1,70 @@
+#!/usr/bin/Rscript --vanilla --quiet
+
+## ------
+## CUSTOM
+## ------
+usage <- function(pkg) cat("\nusage:\n\n  pake i[nstall] lbmisc\n\n")
+create <- function(pkg) {
+    usethis::create_package(path = pkg)
+    usethis::proj_activate(path = pkg)
+    usethis::use_package_doc()
+    usethis::use_gpl_license()
+    usethis::use_readme_md()
+    usethis::use_test("function")
+    ## usethis::use_git()
+    git <- list(
+        'git init',
+        'git add .',
+        'git commit -m "first commit"',
+        'git branch -M main',
+        sprintf('git remote add origin https://lbraglia@github.com/lbraglia/%s.git', pkg))
+    lapply(git, function(x) system(command = x))
+    invisible(NULL)
+}
+check <- function(pkg) devtools::check(pkg = pkg)
+build <- function(pkg) devtools::build(pkg = pkg)
+document <- function(pkg) devtools::document(pkg = pkg)
+install <- function(pkg) devtools::install(pkg = pkg, dependencies = FALSE)
+install_scripts <- function(pkg)
+    lbmisc::install_scripts(package = pkg, overwrite = TRUE)
+
+do <- function(pkg) {
+    document(pkg = pkg)
+    install(pkg = pkg)
+    install_scripts(pkg = pkg)
+}
+release <- function(pkg){
+    devtools::release(pkg = pkg, check = TRUE)
+}
+test <- function(pkg){
+    devtools::test(pkg = pkg)
+}
+
+## -------------
+## MAIN SELECTOR
+## -------------
+main_f <- list('help'     = usage,
+               'create'   = create,
+               'check'    = check,
+               'test'     = test,
+               'build'    = build,
+               'document' = document, 
+               'install'  = install,
+               'do'       = do,
+               'release'  = release)
+
+norm_main <- function(x = names(main_f)) match.arg(x)
+
+## --------------------
+## Command line parsing
+## --------------------
+line    <- commandArgs(trailingOnly = TRUE)
+main    <- norm_main(line[1])
+pkg     <- line[2]
+
+## --------------------
+## cmd execution
+## --------------------
+f       <- main_f[[main]]
+args <- list('pkg' = pkg)
+do.call(f, args)
