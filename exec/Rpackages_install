@@ -1,0 +1,11 @@
+#!/usr/bin/Rscript --vanilla --quiet
+
+# usage: Rpackages_install pkg1 pkg2 ..
+
+pkgs <- commandArgs(trailingOnly = TRUE)
+R_vrs <- with(R.Version(), strtrim(paste(major, minor, sep = '.'), 3))
+R_userdir <- paste('~/R/x86_64-pc-linux-gnu-library', R_vrs, '', sep = '/')
+install.packages(pkgs = pkgs,
+                 ## repos = 'http://cran.rstudio.com',
+                 repos = 'http://cloud.r-project.org',
+                 lib = R_userdir)

@@ -26,6 +26,5 @@ install_scripts(
 Install scripts from a package creating symlinks
 }
 \examples{
-## debug(lbmisc::install_scripts)
 ## lbmisc::install_scripts(package = 'speeches')
 }
