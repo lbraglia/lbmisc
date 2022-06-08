@@ -406,3 +406,16 @@ ft2ny <- function(x) factor(x,
                             labels = c("No", 'Yes'))
 
 
+#' ease recist codes import
+#'
+#' @param x character recist code such as CR, CP etc
+#' 
+#' @export
+recist_import <- function(x){
+    ## uniform italian to english
+    ft <- c("RC", "CR", 
+            "RP", "PR")
+    ## and make a factor
+    factor(lbmisc::recode(x, from_to = ft),
+           c("CR", "PR", "SD", "PD"))
+}

@@ -10,6 +10,6 @@ URL: http://github.com/lbraglia/lbmisc
 BugReports: http://github.com/lbraglia/lbmisc/issues
 License: GPL-3
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Suggests: testthat
 Encoding: UTF-8
