@@ -29,8 +29,7 @@ install <- function(pkg) devtools::install(pkg = pkg, dependencies = FALSE)
 do <- function(pkg) {
     document(pkg = pkg)
     install(pkg = pkg)
-    # install_scripts è definita in lbmisc
-    install_scripts(package = pkg, overwrite = TRUE) 
+    lbmisc::install_scripts(package = pkg, overwrite = TRUE) 
 }
 release <- function(pkg){
     devtools::release(pkg = pkg, check = TRUE)

@@ -4,7 +4,8 @@
 #' @param into destination directory of the created symlinks
 #' @param location where to search the installed package is
 #' @source code from
-#'     \url{https://stackoverflow.com/questions/44566100}
+#'     \url{https://stackoverflow.com/questions/44566100} with minor
+#' modifications
 #' @examples
 #' ## lbmisc::install_scripts(package = 'speeches')
 #' @export
@@ -21,11 +22,16 @@ install_scripts <- function(package = NULL,
         stop(package, " is not installed in ", location, ". Aborting")
     exec_path <- file.path(from_path, 'exec')
     scripts <- dir(exec_path, full.names = TRUE)
+
+    ## No scripts to be linked
     if (length(scripts) == 0) {
-        # exit but do not raise anything (in order not to stop pake/make)
-        message("No scripts to be linked in ", exec_path, " . Bypassing")
-        invisible(NULL)
+        ## exit but do not raise anything (in order not to stop pake/make)
+        ## be quiet
+        message("No scripts to be linked in ", exec_path, ". Bypassing.")
+        return(invisible(NULL))
     }
+
+    ## Otherwise there are scripts to be linked
     if (!dir.exists(into)) dir.create(into)
     into <- normalizePath(into)
     dests <- file.path(normalizePath(into), basename(scripts))

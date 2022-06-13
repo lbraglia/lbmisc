@@ -8,6 +8,7 @@
 #' @param freezePane apply freezePane at 'A2', for each sheet?
 #' @param autoColWidth apply auto column widths to all sheets?
 #' @examples \dontrun{
+#' 
 #' view(Indometh, iris)
 #' }
 #' @export
@@ -36,5 +37,8 @@ view <- function(... , freezePane = TRUE, autoColWidth = TRUE )  {
            cols = ncols, 
            MoreArgs = list(wb = wb, widths = "auto"))
   }
+  ## fix java stuff
+  Sys.setenv(LD_LIBRARY_PATH = "/usr/lib/libreoffice/program/")
+  ## open
   openxlsx::openXL(wb)
 }

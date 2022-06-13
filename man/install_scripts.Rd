@@ -5,7 +5,8 @@
 \title{Install scripts from a package creating symlinks}
 \source{
 code from
-    \url{https://stackoverflow.com/questions/44566100}
+    \url{https://stackoverflow.com/questions/44566100} with minor
+modifications
 }
 \usage{
 install_scripts(

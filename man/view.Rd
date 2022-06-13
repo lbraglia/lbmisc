@@ -19,6 +19,7 @@ openxlsx's \code{\link{writeData}} handled objects.
 }
 \examples{
 \dontrun{
+
 view(Indometh, iris)
 }
 }
