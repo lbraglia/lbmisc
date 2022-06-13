@@ -33,6 +33,7 @@
 #' @importFrom openxlsx freezePane
 #' @importFrom openxlsx setColWidths
 #' @importFrom stats model.matrix
+#' @importFrom stats model.matrix.lm
 #' @importFrom stats na.omit
 #' @importFrom tools file_path_sans_ext
 #' @importFrom tools file_ext

@@ -11,7 +11,7 @@
 #' dummify(rep(1:3, 4))
 #'
 #' @export
-dummify <- function(x, prefix = ""){
+dummify <- function(x, prefix = "", keep_NA = TRUE){
     if ((xclass <- class(x)) %nin% c("integer", "factor", "ordered"))
         stop("only integer, factor or ordered vectors")
     
@@ -22,7 +22,13 @@ dummify <- function(x, prefix = ""){
         x <- factor(x)
     
     xlevels <- gsub(" ", "_", levels(x))
-    res <- as.data.frame(stats::model.matrix(~ x - 1))
+    res <- if (keep_NA){
+               # https://stackoverflow.com/questions/5616210
+               stats::model.matrix.lm(~ x - 1, na.action = 'na.pass')
+           } else {
+               stats::model.matrix(~ x - 1)
+           }
+    res <- as.data.frame(res)
     names(res) <- paste0(prefix, xlevels)
     res
 }

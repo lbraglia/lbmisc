@@ -4,7 +4,7 @@
 \alias{dummify}
 \title{Generate a data.frame of dummy variables given a vector}
 \usage{
-dummify(x, prefix = "")
+dummify(x, prefix = "", keep_NA = TRUE)
 }
 \arguments{
 \item{x}{a vector}

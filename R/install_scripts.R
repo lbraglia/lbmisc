@@ -34,7 +34,9 @@ install_scripts <- function(package = NULL,
     if (any(already_exist <- file.exists(dests))) {
         if (overwrite) {
             to_del <- dests[already_exist]
-            cat("Deleting existing file: ", to_del)
+            cat("Deleting existing file: \n\n")
+            cat(to_del, sep = "\n")
+            cat("\n")
             unlink(to_del)
         } else {
             msg <- sprintf("Skipping '%s': a file by that name already exists",
@@ -48,8 +50,10 @@ install_scripts <- function(package = NULL,
     # link creation
     if (length(scripts)) {
         file.symlink(scripts, dests)
-        cat("Created symlinks:")
-        cat(dests, " ->\n    ", scripts, bullet_col = "green")
+        cat("Created the following symlinks:\n\n")
+        sl <- paste0(dests, ' -> ', scripts)  
+        cat(sl, sep = "\n")
+        cat("\n")
     } else
         cat("Nothing installed")
 
