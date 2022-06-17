@@ -3,10 +3,12 @@
 #' Useful for multi-graph figures (eg with mfrow)
 #' 
 #' @param l text
-#' @param pos location of the letter
+#' @param pos location of the letter, use 'coords' for custom non
+#'    automatic placement
 #' @param cex cex parameter
 #' @param xdr distance from the angle (x coordinates) as percentage of x range
 #' @param ydr distance from the angle (y coordinates) as percentage of x range
+#' @param coords c(x, y) vector of coordinates
 #' @param ... further parameters passed to
 #'
 #' @examples
@@ -18,10 +20,11 @@
 #' @export
 margin_letter <- function(l = NULL,
                           pos = c('topleft', 'topright',
-                                  'bottomleft','bottomright'),
+                                  'bottomleft','bottomright', 'coords'),
                           cex = par('cex') * 2,
                           xdr = 1/10, 
                           ydr = 1/10,
+                          coords = c(0, 0),
                           ...) 
 {
     ## https://stackoverflow.com/questions/42034786/
@@ -50,8 +53,11 @@ margin_letter <- function(l = NULL,
     } else if (pos == 'bottomright') {
         x <- x2 + xrange * xdr
         y <- y1 - yrange * ydr
+    } else if (pos == 'coords') {
+        x <- coords[1]
+        y <- coords[2]
     } else stop("pos must be one of topleft, topright, ",
-                "bottomleft, or bottomright")
+                "bottomleft, bottomright, or coords")
     graphics::text(x = x, y = y, labels = l, cex = cex, ...)
     invisible(NULL)
 }

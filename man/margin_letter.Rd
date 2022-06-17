@@ -6,23 +6,27 @@
 \usage{
 margin_letter(
   l = NULL,
-  pos = c("topleft", "topright", "bottomleft", "bottomright"),
+  pos = c("topleft", "topright", "bottomleft", "bottomright", "coords"),
   cex = par("cex") * 2,
   xdr = 1/10,
   ydr = 1/10,
+  coords = c(0, 0),
   ...
 )
 }
 \arguments{
 \item{l}{text}
 
-\item{pos}{location of the letter}
+\item{pos}{location of the letter, use 'coords' for custom non
+automatic placement}
 
 \item{cex}{cex parameter}
 
 \item{xdr}{distance from the angle (x coordinates) as percentage of x range}
 
 \item{ydr}{distance from the angle (y coordinates) as percentage of x range}
+
+\item{coords}{c(x, y) vector of coordinates}
 
 \item{...}{further parameters passed to}
 }
