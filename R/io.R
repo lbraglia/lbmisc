@@ -248,7 +248,10 @@ importer <- function(p,
 #' @param ... further arguments passed to openxlsx::write.xlsx
 #' 
 #' @export
-exporter <- function(x, f, ...) openxlsx::write.xlsx(x = x, file = f, ...)
+exporter <- function(x, f, ...) {
+    names(x) <- strtrim(names(x), 31)
+    openxlsx::write.xlsx(x = x, file = f, ...)
+}
 
 #' Download docs from Google Drive easily
 #'

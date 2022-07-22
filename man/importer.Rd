@@ -8,8 +8,8 @@ text file}
 importer(
   p,
   xlsx_params = list(),
-  text_params = list(header = TRUE, stringsAsFactors = FALSE, sep = ";", dec = ".",
-    quote = "\\"", fill = TRUE)
+  text_params = list(header = TRUE, stringsAsFactors = FALSE, sep = ";", dec = ".", quote
+    = "\\"", fill = TRUE)
 )
 }
 \arguments{
