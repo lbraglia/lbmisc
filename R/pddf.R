@@ -1,9 +1,9 @@
 out_int <- function(n, x)
-    sprintf("'%s': [%s],\n", n, paste(x, collapse = ", "))
+    sprintf('"%s": [%s],\n', n, paste(x, collapse = ", "))
 out_num <- function(n, x)
-    sprintf("'%s': [%s],\n", n, paste(format(x, digits = 10), collapse = ", "))
+    sprintf('"%s": [%s],\n', n, paste(format(x, digits = 10), collapse = ", "))
 out_char <- function(n, x)
-    sprintf("'%s': [%s],\n", n, paste(sprintf("'%s'", x), collapse = ", "))
+    sprintf('"%s": [%s],\n', n, paste(sprintf('"%s"', x), collapse = ", "))
 out_factor <- function(n, x){}
 
 #' Generate an ascii representation of a dataframe suitable for pandas
