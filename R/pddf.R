@@ -8,9 +8,7 @@ out_factor <- function(n, x){}
 
 #' Generate an ascii representation of a dataframe suitable for pandas
 #' 
-#' 
 #' It's a dput for python pandas dataframe
-#' 
 #' 
 #' @param df a data.frame
 #' @examples
@@ -32,9 +30,7 @@ pddf <- function(df){
             # pass
         }
     }
-    cat("\npd.DataFrame({\n")
+    cat("\ndf = pd.DataFrame({\n")
     Map(dispatch, as.list(df), as.list(names(df)))
     cat("})\n")
 }
-
-
