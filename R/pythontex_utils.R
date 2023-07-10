@@ -3,7 +3,7 @@
 #' print the figure/includegraphics Latex code for
 #' an image produced in R in pythontex
 #' 
-#' @param path_sans_ext path to the pdf file without extension (".pdf")
+#' @param path path to the pdf file
 #' @param label label of the latex figure
 #' @param caption caption of the latex figure
 #' @param scale used for re-dimensioning (defaul = 1)
@@ -14,9 +14,10 @@
 #'              caption = 'test R figure')
 #'
 #' @export
-latex_figure <- function(path_sans_ext, label, caption, scale = 1){
+latex_figure <- function(path, label, caption, scale = 1){
+    path_clean <- gsub(".pdf", "", path)
     include_line <- sprintf(
-        "\\includegraphics[scale=%.2f]{%s}", scale, path_sans_ext
+        "\\includegraphics[scale=%.2f]{%s}", scale, path_clean
     )
     label_line <-  sprintf("\\label{fig:%s}", label)
     caption_line <- sprintf("\\caption{%s}",caption)
@@ -29,3 +30,4 @@ latex_figure <- function(path_sans_ext, label, caption, scale = 1){
         "\\end{figure}")
     cat(lines, sep = "\n")
 }
+

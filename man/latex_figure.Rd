@@ -4,10 +4,10 @@
 \alias{latex_figure}
 \title{print the figure/includegraphics Latex code}
 \usage{
-latex_figure(path_sans_ext, label, caption, scale = 1)
+latex_figure(path, label, caption, scale = 1)
 }
 \arguments{
-\item{path_sans_ext}{path to the pdf file without extension (".pdf")}
+\item{path}{path to the pdf file}
 
 \item{label}{label of the latex figure}
 
@@ -16,13 +16,13 @@ latex_figure(path_sans_ext, label, caption, scale = 1)
 \item{scale}{used for re-dimensioning (defaul = 1)}
 }
 \description{
-print the figure includegraphics Latex code for
+print the figure/includegraphics Latex code for
 an image produced in R in pythontex
 }
 \examples{
 
-latex_figure(file_sans_ext = "/tmp/test",
-            label = "test_r",
-            caption = 'test R include')
+latex_figure(path_sans_ext = "/tmp/test",
+             label = "test_r",
+             caption = 'test R figure')
 
 }
