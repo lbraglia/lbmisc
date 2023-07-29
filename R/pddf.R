@@ -11,12 +11,15 @@ out_factor <- function(n, x){}
 #' It's a dput for python pandas dataframe
 #' 
 #' @param df a data.frame
+#' @param outfile a .py file path or the dataframe will be printed on
+#'     stdout
+#' @param dfname name given to the pd.DataFrame
 #' @examples
 #' pddf(Indometh)
 #' pddf(data.frame("a" = pi))
 #' 
 #' @export
-pddf <- function(df){
+pddf <- function(df, outfile = '', dfname="df"){
     dispatch <- function(x, n){
         if (is.integer(x)) {
             cat(out_int(n, x))
@@ -30,7 +33,12 @@ pddf <- function(df){
             # pass
         }
     }
-    cat("\ndf = pd.DataFrame({\n")
+
+    header <- sprintf("\n%s = pd.DataFrame({\n", dfname)
+    footer <- "})\n"
+    if (outfile != "") sink(outfile)
+    cat(header)
     Map(dispatch, as.list(df), as.list(names(df)))
-    cat("})\n")
+    cat(footer)
+    if (outfile != "") sink()
 }
