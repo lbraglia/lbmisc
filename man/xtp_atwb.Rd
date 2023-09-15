@@ -27,11 +27,9 @@ xtp_atwb(
 
 \item{caption}{xtable::xtable caption}
 
-\item{xtable_par}{xtable::xtable further parameters (currently
-include rownames only for non data.frame x)}
+\item{xtable_par}{xtable::xtable further parameters}
 
-\item{print_xtable_par}{xtable::print.xtable further parameters
-(currently include rownames only for non data.frame x)}
+\item{print_xtable_par}{xtable::print.xtable further parameters}
 
 \item{add_to_wb_par}{add_to_wb further parameters}
 }

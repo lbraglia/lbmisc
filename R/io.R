@@ -35,10 +35,8 @@ add_to_wb <- function(wb = NULL, sheet = NULL, x = NULL, ...) {
 #' @param sheet add_to_wb sheet name
 #' @param label xtable::xtable label
 #' @param caption xtable::xtable caption
-#' @param xtable_par xtable::xtable further parameters (currently
-#'     include rownames only for non data.frame x)
+#' @param xtable_par xtable::xtable further parameters
 #' @param print_xtable_par xtable::print.xtable further parameters
-#'     (currently include rownames only for non data.frame x)
 #' @param add_to_wb_par add_to_wb further parameters
 #' 
 #' @examples \dontrun{
@@ -72,6 +70,30 @@ xtp_atwb <- function(x,
     do.call(add_to_wb, add_to_wb_par)
     invisible(NULL)
 }
+
+
+#' add rownames as first colum of a dataframe
+#'
+#' add rownames as first colum of a dataframe: useful for xtp_atwb where rownames
+#' are to be saved
+#'
+#' @param x data.frame
+#' @param nm name to give to the first columnù
+#' @examples \dontrun{
+#' xtp_atwb(rownames2col1(Indometh),
+#'          wb = wb, sheet = 'Indometh', label = 'tab:indometh',
+#'          caption = 'Indometh dataset')
+#' }
+#'
+#' @export
+rownames2col1 <- function(x, nm = 'x'){
+    rn <- setNames(data.frame(rownames(x)), nm)
+    tmp <- cbind(rn, x)
+    rownames(tmp) <- NULL
+    tmp
+}
+
+
 
 
 

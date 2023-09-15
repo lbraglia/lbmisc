@@ -4,10 +4,15 @@
 \alias{pddf}
 \title{Generate an ascii representation of a dataframe suitable for pandas}
 \usage{
-pddf(df)
+pddf(df, outfile = "", dfname = "df")
 }
 \arguments{
 \item{df}{a data.frame}
+
+\item{outfile}{a .py file path or the dataframe will be printed on
+stdout}
+
+\item{dfname}{name given to the pd.DataFrame}
 }
 \description{
 It's a dput for python pandas dataframe
