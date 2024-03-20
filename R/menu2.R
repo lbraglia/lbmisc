@@ -55,7 +55,7 @@ menu2 <- function(choices, title = NULL, multiple = FALSE,
             ind <- if (multiple) ind else ind[1]
         }
     } else {
-        ## non ciclare ma tieni comunque quello che c'è di tenibile
+        ## non ciclare ma tieni comunque quello che c'e` di tenibile
         ## indici positivi o nulli nel range
         allowed <- ind %in% avail_with_0
         any_nin_avail <- any(! allowed)

@@ -3,7 +3,6 @@
 #' An R package with maily personal, miscellaneous, functions.
 #'
 #' @name lbmisc
-#' @docType package
 #' @importFrom foreign write.foreign
 #' @importFrom grDevices col2rgb
 #' @importFrom grDevices colors

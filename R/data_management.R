@@ -336,7 +336,7 @@ validate_recode_directives <- function(x){
               !is.null(x))
 
     if (is.null(dim(x))){
-        ## x è un vettore
+        ## x e` un vettore
         if (length(x) %% 2 != 0)
             stop('x must be a even length vector')
         x <- matrix(x, ncol = 2, byrow = TRUE)
