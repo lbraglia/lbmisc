@@ -1,2 +1,2 @@
 #!/bin/bash
-touch ~/test.R && emacs ~/test.R
+touch ~/src/tests/r/test.R && emacs ~/src/tests/r/test.R &
