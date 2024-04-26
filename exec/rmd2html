@@ -1,6 +1,5 @@
 #!/usr/bin/Rscript --vanilla --quiet
 
-# usage: rnw2r file.r file2.r ..
+# usage: rmd2html file.Rmd file2.Rmd ..
 files <- commandArgs(trailingOnly = TRUE)
-## lapply(files, knitr::spin)
 lapply(files, rmarkdown::render)
