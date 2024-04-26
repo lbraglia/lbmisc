@@ -1,0 +1,9 @@
+#!/usr/bin/Rscript --vanilla --quiet
+
+rmd2md               <- new.env()
+rmd2md$rmd_file      <- commandArgs(trailingOnly = TRUE)[1]
+attach(rmd2md)
+rm(rmd2md)
+
+## knitr
+rmarkdown::render(input = rmd_file)

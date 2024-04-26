@@ -1,0 +1,5 @@
+#!/usr/bin/Rscript --vanilla --quiet
+
+# usage: rnw2r file.r file2.r ..
+files <- commandArgs(trailingOnly = TRUE)
+lapply(files, knitr::spin)
