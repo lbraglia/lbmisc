@@ -197,6 +197,7 @@ show_pch <-  function(extras = c("*",".","0","+","#"),
 #' @param f a function
 #' @param from domain (plotting) starting point
 #' @param to domain (plotting) ending point
+#' @param points number of points
 #' @param col the function color
 #' @param cartesian_plane wheter to add a cartesian plane ...
 #' @param cartesian_plane_col ... and its color
@@ -213,6 +214,7 @@ show_pch <-  function(extras = c("*",".","0","+","#"),
 plot_fun <- function(f = function(x) x + 1,
                      from = 0,
                      to = 5,
+                     points = 100,
                      col = 'black',
                      cartesian_plane = TRUE,
                      cartesian_plane_col = 'black',
@@ -221,7 +223,7 @@ plot_fun <- function(f = function(x) x + 1,
                      add = FALSE,
                      ...)
 {
-    x <- seq(from = from, to = to, length.out = 100)
+    x <- seq(from = from, to = to, length.out = points)
     y <- f(x)
     if (!add) plot(x = x, y = y, pch = NA, ...)
     if (! (is.null(grid_at_x) && is.null(grid_at_y)))
