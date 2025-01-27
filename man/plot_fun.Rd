@@ -8,6 +8,7 @@ plot_fun(
   f = function(x) x + 1,
   from = 0,
   to = 5,
+  points = 100,
   col = "black",
   cartesian_plane = TRUE,
   cartesian_plane_col = "black",
@@ -23,6 +24,8 @@ plot_fun(
 \item{from}{domain (plotting) starting point}
 
 \item{to}{domain (plotting) ending point}
+
+\item{points}{number of points}
 
 \item{col}{the function color}
 
