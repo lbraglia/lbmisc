@@ -1,5 +1,0 @@
-#!/usr/bin/Rscript --vanilla --quiet
-
-# usage: rnw2r file.Rnw file2.Rnw ..
-files <- commandArgs(trailingOnly = TRUE)
-lapply(files, knitr::purl)

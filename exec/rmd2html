@@ -1,5 +1,0 @@
-#!/usr/bin/Rscript --vanilla --quiet
-
-# usage: rmd2html file.Rmd file2.Rmd ..
-files <- commandArgs(trailingOnly = TRUE)
-lapply(files, rmarkdown::render)

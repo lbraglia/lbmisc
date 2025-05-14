@@ -1,2 +1,0 @@
-#!/bin/bash
-touch ~/src/tests/r/test.R && emacs ~/src/tests/r/test.R &
