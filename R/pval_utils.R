@@ -16,10 +16,10 @@
 #' @export
 pretty_pval <- function(pvalue, digits = 3L, space = FALSE, equal = FALSE) {
 
-    old.scipen <- options('scipen')
+    old.scipen <- getOption("scipen")
     on.exit(options('scipen' = old.scipen))
-    options('scipen' = 999) 
-    
+    options('scipen' = 999)
+
     ## Pretty printing for p-value 
     if (any(wrong <- (pvalue> 1 | pvalue <0), na.rm = TRUE)) {
         warning('Not all p-values in [0,1], ')
