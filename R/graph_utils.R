@@ -216,6 +216,7 @@ plot_fun <- function(f = function(x) x + 1,
                      to = 5,
                      points = 100,
                      col = 'black',
+                     lty = 'solid',
                      cartesian_plane = TRUE,
                      cartesian_plane_col = 'black',
                      grid_at_x = NULL,
@@ -232,7 +233,7 @@ plot_fun <- function(f = function(x) x + 1,
         graphics::abline(v = 0,
                          h = 0,
                          col = cartesian_plane_col)
-    graphics::lines(x = x, y = y, col = col)
+    graphics::lines(x = x, y = y, col = col, lty = lty)
 }
 
 

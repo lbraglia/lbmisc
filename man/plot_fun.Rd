@@ -10,6 +10,7 @@ plot_fun(
   to = 5,
   points = 100,
   col = "black",
+  lty = "solid",
   cartesian_plane = TRUE,
   cartesian_plane_col = "black",
   grid_at_x = NULL,
