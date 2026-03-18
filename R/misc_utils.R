@@ -1,16 +1,16 @@
-#' update package shortcut
-#'
-#' update package shortcut with my defaults
-#' @param ask same as \code{\link{update.packages}}
-#' @export 
-update_packages <- function(ask = FALSE) {
+## #' update package shortcut
+## #'
+## #' update package shortcut with my defaults
+## #' @param ask same as \code{\link{update.packages}}
+## #' @export 
+## update_packages <- function(ask = FALSE) {
 
-  personal_library <- grep(path.expand("~/R"), .libPaths(), value = TRUE)
-  utils::update.packages(lib.loc = personal_library ,
-                         ## repos = "http://cran.rstudio.com",
-                         repos = 'http://cloud.r-project.org',
-                         ask = ask)
-}
+##   personal_library <- grep(path.expand("~/R"), .libPaths(), value = TRUE)
+##   utils::update.packages(lib.loc = personal_library ,
+##                          ## repos = "http://cran.rstudio.com",
+##                          repos = 'http://cloud.r-project.org',
+##                          ask = ask)
+## }
 
 #' read R news
 #'
