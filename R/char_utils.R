@@ -212,3 +212,24 @@ to_00_char <- function(x, clen = NULL){
     rval <- paste(zeros, x, sep = "")
     rval
 }
+
+
+upcase_first_letter <- function(x){
+  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+  x
+}
+
+#' Prepare a dataframe variable names for printing
+#'
+#' eg remove _
+#' 
+#' @param x a data.frame
+#' @export
+pretty_text <- function(x,
+                        what = c("rm_", "upcase_first")){
+  
+  if ("rm_" %in% what) x <- gsub("_", " ", x)
+  if ("upcase_first" %in% what) x <- sapply(x, upcase_first_letter)
+  x
+}
+
