@@ -8,11 +8,22 @@ out_int <- function(n, x){
 
 out_num <- function(n, x){
   x_na <- sapply(x, standard_na_handler)
-  sprintf('"%s": [%s],\n', n, paste(format(x_na, digits = 10), collapse = ", "))
+  sprintf('"%s": [%s],\n', n, paste(x_na, collapse = ", "))
 }
 
+## Original
+## --------
+## out_char <- function(n, x){
+##   x_na <- sapply(x, char_na_handler)
+##   sprintf('"%s": [%s],\n', n, paste(x_na, collapse = ", "))
+## }
+
+# if a string contains quotes or a column name has special characters, the
+# output breaks
 out_char <- function(n, x){
-  x_na <- sapply(x, char_na_handler)
+  x_na <- sapply(x, function(val) {
+    if (is.na(val)) "None" else sprintf('"%s"', gsub('"', '\\"', val))
+  })
   sprintf('"%s": [%s],\n', n, paste(x_na, collapse = ", "))
 }
 
@@ -88,6 +99,10 @@ pldf <- function(df, outfile = ""){
       }
     }
 
+    if (!is.data.frame(df)) stop("Input must be a data.frame")
+    if (nrow(df) == 0) warning("Empty dataframe")
+    if (any(duplicated(names(df)))) stop("Duplicate column names")
+
     if (outfile != "") {
       path_components <- strsplit(tools::file_path_sans_ext(outfile), "/")[[1]]
       dfname <- path_components[length(path_components)]
@@ -112,7 +127,7 @@ test_df <- data.frame(
   # Integer
   id = c(1L, 2L, 3L, 4L, NA),
   # Numeric (double)
-  score = c(9.5, 8.2, NA, 7.1, 6.9),
+  score = c(9.5, 8.2, NA, 7.1, pi),
   # Character
   name = c("Alice", NA, "Charlie", "Diana", "Eve"),
   # Logical
