@@ -2,22 +2,21 @@
 % Please edit documentation in R/pldf.R
 \name{pldf}
 \alias{pldf}
-\title{Generate an ascii representation of a dataframe suitable for pandas}
+\title{Generate an ascii representation of a dataframe suitable for polars}
 \usage{
-pldf(df, outfile = "df.py")
+pldf(df, outfile = "")
 }
 \arguments{
 \item{df}{a data.frame}
 
-\item{outfile}{a .py file path or the dataframe will be printed on
-stdout}
-
-\item{dfname}{name given to the pl.DataFrame}
+\item{outfile}{a .py file path or the dataframe will be printed on stdout}
 }
 \description{
-It's a dput for python pandas dataframe
+It's a dput for python polars dataframe (use lb.io.import_data to import them)
 }
 \examples{
-pddf(Indometh)
-pddf(data.frame("a" = pi))
+
+pldf(Indometh)
+pldf(data.frame("a" = pi))
+
 }
