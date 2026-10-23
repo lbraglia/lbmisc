@@ -1,4 +1,4 @@
-standard_na_handler <- function(x) if (is.na(x)) "None" else x
+standard_na_handler <- function(x) if (is.na(x)) "None" else format(x, nsmall=1)
 char_na_handler <- function(x) if (is.na(x)) "None" else sprintf('"%s"', x)
 
 out_int <- function(n, x){
