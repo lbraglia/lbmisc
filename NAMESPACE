@@ -128,59 +128,43 @@ export(xtile)
 export(xtp_atwb)
 export(year)
 importFrom(foreign,write.foreign)
-importFrom(grDevices,
-  col2rgb,
-  colors,
-  gray,
-  rgb
-)
-importFrom(graphics,
-  abline,
-  lines,
-  par,
-  plot,
-  points,
-  text
-)
-importFrom(grid,
-  gpar,
-  grid.newpage,
-  grid.rect,
-  grid.text,
-  viewport
-)
+importFrom(grDevices,col2rgb)
+importFrom(grDevices,colors)
+importFrom(grDevices,gray)
+importFrom(grDevices,rgb)
+importFrom(graphics,abline)
+importFrom(graphics,lines)
+importFrom(graphics,par)
+importFrom(graphics,plot)
+importFrom(graphics,points)
+importFrom(graphics,text)
+importFrom(grid,gpar)
+importFrom(grid,grid.newpage)
+importFrom(grid,grid.rect)
+importFrom(grid,grid.text)
+importFrom(grid,viewport)
 importFrom(knitr,engine_output)
 importFrom(lattice,levelplot)
 importFrom(methods,is)
-importFrom(openxlsx,
-  addWorksheet,
-  createWorkbook,
-  freezePane,
-  loadWorkbook,
-  read.xlsx,
-  saveWorkbook,
-  setColWidths,
-  write.xlsx,
-  writeData
-)
-importFrom(stats,
-  model.matrix,
-  model.matrix.lm,
-  na.omit
-)
+importFrom(openxlsx,addWorksheet)
+importFrom(openxlsx,createWorkbook)
+importFrom(openxlsx,freezePane)
+importFrom(openxlsx,loadWorkbook)
+importFrom(openxlsx,read.xlsx)
+importFrom(openxlsx,saveWorkbook)
+importFrom(openxlsx,setColWidths)
+importFrom(openxlsx,write.xlsx)
+importFrom(openxlsx,writeData)
+importFrom(stats,model.matrix)
+importFrom(stats,model.matrix.lm)
+importFrom(stats,na.omit)
 importFrom(tcltk,tk_choose.files)
-importFrom(tools,
-  file_ext,
-  file_path_sans_ext
-)
-importFrom(utils,
-  news,
-  page,
-  update.packages,
-  zip
-)
-importFrom(xtable,
-  print.xtable,
-  xtable
-)
+importFrom(tools,file_ext)
+importFrom(tools,file_path_sans_ext)
+importFrom(utils,news)
+importFrom(utils,page)
+importFrom(utils,update.packages)
+importFrom(utils,zip)
+importFrom(xtable,print.xtable)
+importFrom(xtable,xtable)
 useDynLib(lbmisc)
